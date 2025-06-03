@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Car Listings - Car Showroom</title>
+    <link rel="stylesheet" href="carlisting.css">
+    <script src="../cart/cart.js"></script>
+    <script src="carlisting.js"></script>
+</head>
+<body>
+    <nav>
+        <div class="navbar">
+            <div class="logo">
+                <h2>Car Showroom</h2>
+            </div>
+            <ul>
+                <li><a href="../home page/homepage.html">Home</a></li>
+                <li><a href="/car listing1/carllisting.html" class="active">Car Listings</a></li>
+                <li><a href="../Dashboard/Dashboard.html">Dashboard</a></li>
+                <li><a href="../contactus/Contact.html">Contact</a></li>
+                <li><a href="../login/login.html">Sign Up/Login</a></li>
+            </ul>
+            <div class="cart-container">
+                <a href="../cart/cart.html">Cart <span class="count">0</span></a>
+            </div>
+        </div>
+    </nav>
+    
+    <div class="filter-bar">
+        <select id="categoryFilter" class="filter-dropdown">
+            <option value="all">All Categories</option>
+            <option value="Electric">Electric Car</option>
+            <option value="Gas">Gas</option>
+            <option value="Hybrid">Hybrid</option>
+        </select>
+        
+        <select id="priceFilter" class="filter-dropdown">
+            <option value="all">All Prices</option>
+            <option value="low">$100,000 - $200,000</option>
+            <option value="medium">$200,000 - $300,000</option>
+            <option value="high">$300,000+</option>
+        </select>
+        
+        <select id="brandFilter" class="filter-dropdown">
+            <option value="all">All brands</option>
+            <option value="Lamborghini">Lamborghini</option>
+            <option value="Ferrari">Ferrari</option>
+            <option value="McLaren">McLaren</option>
+            <option value="Porsche">Porsche</option>
+        </select>
+        
+        <button id="resetFilters" class="filter-dropdown">Reset Filters</button>
+    </div>
+    
+    <div class="flex-container">
+        <!-- Porsche 911 Turbo -->
+        <div class="car-card" data-category="Gas" data-price="$400,000" data-brand="Porsche">
+            <span class="category-badge">Gas</span>
+            <img src="porsche 911 turbo gas.png" alt="Porsche 911 Turbo" class="car-image">
+            <div class="car-details">
+                <h3 class="car-name">Porsche 911 Turbo Gas</h3>
+                <div class="car-info">
+                    <p><strong>Price:</strong> $400,000</p>
+                    <p><strong>Engine:</strong> V12</p>
+                    <p><strong>Brand:</strong> Porsche</p>
+                </div>
+                <button class="add-to-cart" 
+                    data-price="400000" 
+                    data-name="Porsche 911 Turbo Gas"
+                    data-brand="Porsche"
+                    data-id="porsche-911-turbo">
+                    Add to Cart
+                </button>
+            </div>
+        </div>
+        
+        <!-- Porsche Panamera -->
+        <div class="car-card" data-category="Hybrid" data-price="$350,000" data-brand="Porsche">
+            <span class="category-badge">Hybrid</span>
+            <img src="car2.png" alt="Porsche Panamera Hybrid" class="car-image">
+            <div class="car-details">
+                <h3 class="car-name">Porsche Panamera Hybrid</h3>
+                <div class="car-info">
+                    <p><strong>Price:</strong> $350,000</p>
+                    <p><strong>Engine:</strong> V8</p>
+                    <p><strong>Brand:</strong> Porsche</p>
+                </div>
+                <button class="add-to-cart" 
+                    data-price="350000" 
+                    data-name="Porsche Panamera Hybrid"
+                    data-brand="Porsche"
+                    data-id="porsche-panamera-hybrid">
+                    Add to Cart
+                </button>
+            </div>
+        </div>
+        
+        <!-- Porsche 911 Targa -->
+        <div class="car-card" data-category="Electric" data-price="$180,000" data-brand="Porsche">
+            <span class="category-badge">Electric</span>
+            <img src="car14.png" alt="Porsche 911 Targa Electric" class="car-image">
+            <div class="car-details">
+                <h3 class="car-name">Porsche 911 Targa Electric</h3>
+                <div class="car-info">
+                    <p><strong>Price:</strong> $180,000</p>
+                    <p><strong>Engine:</strong> Flat-6</p>
+                    <p><strong>Brand:</strong> Porsche</p>
+                </div>
+                <button class="add-to-cart" 
+                    data-price="180000" 
+                    data-name="Porsche 911 Targa Electric"
+                    data-brand="Porsche"
+                    data-id="porsche-911-targa-electric">
+                    Add to Cart
+                </button>
+            </div>
+        </div>
+        
+        <!-- McLaren 720S -->
+        <div class="car-card" data-category="Gas" data-price="$200,000" data-brand="McLaren">
+            <span class="category-badge">Gas</span>
+            <img src="car11.png" alt="McLaren 720S Gas" class="car-image">
+            <div class="car-details">
+                <h3 class="car-name">McLaren 720S Gas</h3>
+                <div class="car-info">
+                    <p><strong>Price:</strong> $200,000</p>
+                    <p><strong>Engine:</strong> V8 Twin-Turbo</p>
+                    <p><strong>Brand:</strong> McLaren</p>
+                </div>
+                <button class="add-to-cart" 
+                    data-price="200000" 
+                    data-name="McLaren 720S Gas"
+                    data-brand="McLaren"
+                    data-id="mclaren-720s-gas">
+                    Add to Cart
+                </button>
+            </div>
+        </div>
+        <div class="car-card" data-category="Hybrid" data-price="$250,000" data-brand="McLaren">
+            <span class="category-badge">Hybrid</span>
+            <img src="car11.png" alt="McLaren W1 Hybrid" class="car-image">
+            <div class="car-details">
+                <h3 class="car-name">McLaren W1 Hybrid</h3>
+                <div class="car-info">
+                    <p><strong>Price:</strong> $250,000</p>
+                    <p><strong>Engine:</strong> V8 Twin-Turbo</p>
+                    <p><strong>Brand:</strong> McLaren</p>
+                </div>
+                <button class="add-to-cart" 
+                    data-price="250000" 
+                    data-name="McLaren W1 Hybrid"
+                    data-brand="McLaren"
+                    data-id="McLaren W1 Hybrid">
+                    Add to Cart
+                </button>
+            </div>
+        </div>
+        
+        <!-- Add more cars following the same pattern -->
+        
+    </div>
+
+    <script>
+        // Initialize cart count on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            updateCartCount();
+            
+            // Add cart functionality to all buttons
+            document.querySelectorAll('.add-to-cart').forEach(button => {
+                button.addEventListener('click', function() {
+                    const product = {
+                        id: this.dataset.id,
+                        name: this.dataset.name,
+                        price: parseFloat(this.dataset.price),
+                        brand: this.dataset.brand
+                    };
+                    
+                    // Call addToCart function from cart.js
+                    addToCart(product);
+                    
+                    // Visual feedback
+                    this.classList.add('added-to-cart');
+                    this.textContent = 'Added to Cart!';
+                    
+                    // Reset after delay
+                    setTimeout(() => {
+                        this.classList.remove('added-to-cart');
+                        this.textContent = 'Add to Cart';
+                    }, 1500);
+                    
+                    // Show notification
+                    showNotification(product.name + ' added to cart!');
+                });
+            });
+            
+            // Function to update cart count
+            function updateCartCount() {
+                const cart = JSON.parse(localStorage.getItem('cart')) || [];
+                const totalItems = cart.reduce((sum, item) => sum + (item.quantity || 1), 0);
+                document.querySelectorAll('.count').forEach(el => {
+                    el.textContent = totalItems;
+                });
+            }
+            
+            // Function to show notification
+            function showNotification(message) {
+                const notification = document.createElement('div');
+                notification.className = 'cart-notification';
+                notification.textContent = message;
+                document.body.appendChild(notification);
+                
+                // Remove notification after delay
+                setTimeout(() => {
+                    notification.remove();
+                }, 3000);
+            }
+        });
+    </script>
+</body>
+</html>

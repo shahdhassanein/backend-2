@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopping Cart</title>
+    <link rel="stylesheet" href="cart.css">
+</head>
+<body>
+    <div class="background-image"></div>
+
+    <nav>
+        <div class="navbar">
+            <div class="logo">
+                <h2 style="margin-left: 16px;">Car Showroom</h2> 
+            </div>
+            <ul>
+                <li><a href="../home page/homepage.html">Home</a></li>
+                <li><a href="../car listing/carlisting.html">Car Listings</a></li>
+                <li><a href="../Dashboard/Dashboard.html">Dashboard</a></li>
+                <li><a href="../contactus/Contact.html">Contact</a></li>
+                <li><a href="../login/login.html">Sign Up/Login</a></li>
+            </ul>
+            <div class="cart-container">
+                <a href="../cart/cart.html" class="cart-text-button">
+                    Cart <span class="count">0</span>
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <a href="../home page/homepage.html" class="back-button">⬅ Back</a>
+
+    <div class="container">
+        <div class="cart-header">
+            <h1>Shopping Cart</h1>
+            <a href="../car listing/carlisting.html">Continue Shopping</a>
+        </div>
+
+        <div class="cart-items" id="cart-items-container">
+            <div class="empty-cart-message">Your cart is empty</div>
+        </div>
+
+        <div class="cart-summary">
+            <h2>Order Summary</h2>
+            <div class="summary-details">
+                <p>Subtotal</p>
+                <p class="subtotal-amount">$0</p>
+            </div>
+            <hr>
+            <div class="summary-details">
+                <p>Total</p>
+                <p class="total-amount">$0</p>
+            </div>
+            <a href="checkout.html" class="checkout-btn">Proceed to Checkout</a>
+        </div>
+    </div>
+
+    <script src="cart.js"></script>
+</body>
+</html>

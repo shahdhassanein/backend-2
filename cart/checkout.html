@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Checkout</title>
+    <link rel="stylesheet" href="checkout.css">
+</head>
+<body>
+
+    <nav>
+        <div class="navbar">
+            <div class="logo">
+                <h2 style="margin-left: 16px;">Car Showroom</h2> 
+            </div>
+            <ul>
+                <li><a href="../home page/homepage.html">Home</a></li>
+                <li><a href="../car listing1/carllisting.html">Car Listings</a></li>
+                <li><a href="../Dashboard/Dashboard.html">Dashboard</a></li>
+                <li><a href="../contactus/Contact.html" >Contact</a></li>
+                <li><a href="../login/login.html">Sign Up/Login</a></li>
+            </ul>
+            <div class="cart-container">
+                <button class="cart-button">
+                    <i class="fas fa-shopping-cart"></i>
+                </button>
+                <button class="cart-text-button">Cart</button>
+            </div>
+        </div>
+    </nav>
+    
+    <a href="cart.html" class="back-button">⬅ Back</a>
+    
+    <div class="container">
+        <h1>Checkout</h1>
+        <form>
+            <div class="form-group">
+                <label>Full Name</label>
+                <input type="text" placeholder="Your name" required>
+            </div>
+            <div class="form-group">
+                <label>Address</label>
+                <input type="text" placeholder="Your address" required>
+            </div>
+            <div class="form-group">
+                <label>Phone</label>
+                <input type="text" placeholder="Your phone" required>
+            </div>
+            <div class="form-group">
+                <label>Payment Method</label>
+                <select id="payment-method" required>
+                    <option value="">Select</option>
+                    <option value="visa">Visa</option>
+                    <option value="credit-card">Credit Card</option>
+                </select>
+            </div>
+            
+            <div id="card-fields" class="hidden">
+                <div class="form-group">
+                    <label>Card Holder</label>
+                    <input type="text" placeholder="Name on card" required>
+                </div>
+                <div class="form-group">
+                    <label>Card Number</label>
+                    <input type="text" placeholder="Card number" required>
+                </div>
+                <div class="form-group">
+                    <label>Expiry Date</label>
+                    <input type="text" placeholder="MM/YY" required>
+                </div>
+                <div class="form-group">
+                    <label>CVV</label>
+                    <input type="text" placeholder="CVV" required>
+                </div>
+            </div>
+
+            <button type="submit" class="btn">Pay</button>
+        </form>
+    </div>
+
+    <script src="checkout.js"></script>
+</body>
+</html>
