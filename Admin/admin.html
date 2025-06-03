@@ -1,0 +1,887 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Car Showroom</title>
+    <link rel="stylesheet" href="admin.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <div class="admin-container">
+        <!-- Sidebar Navigation -->
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <h2>Car Showroom</h2>
+                <p>Admin Dashboard</p>
+            </div>
+            
+            <div class="admin-profile">
+                <img src="admin-avatar.png" alt="Admin Avatar" class="admin-avatar">
+                <div class="admin-info">
+                    <h3>Admin User</h3>
+                    <p>Super Admin</p>
+                </div>
+            </div>
+            
+            <nav class="admin-nav">
+                <ul>
+                    <li class="active" data-tab="dashboard">
+                        <i class="fas fa-tachometer-alt"></i>
+                        <span>Dashboard</span>
+                    </li>
+                    <li data-tab="inventory">
+                        <i class="fas fa-car"></i>
+                        <span>Inventory</span>
+                    </li>
+                    <li data-tab="orders">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span>Orders</span>
+                    </li>
+                    <li data-tab="customers">
+                        <i class="fas fa-users"></i>
+                        <span>Customers</span>
+                    </li>
+                    <li data-tab="analytics">
+                        <i class="fas fa-chart-bar"></i>
+                        <span>Analytics</span>
+                    </li>
+                    <li data-tab="settings">
+                        <i class="fas fa-cog"></i>
+                        <span>Settings</span>
+                    </li>
+                    <li class="logout">
+                        <i class="fas fa-sign-out-alt"></i>
+                        <span>Logout</span>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+        
+        <!-- Main Content Area -->
+        <div class="main-content">
+            <!-- Top Header -->
+            <header class="admin-header">
+                <div class="search-bar">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="Search...">
+                </div>
+                
+                <div class="header-controls">
+                    <div class="notification">
+                        <i class="fas fa-bell"></i>
+                        <span class="badge">5</span>
+                    </div>
+                    <div class="message">
+                        <i class="fas fa-envelope"></i>
+                        <span class="badge">3</span>
+                    </div>
+                    <div class="admin-dropdown">
+                        <img src="admin-avatar.png" alt="Admin Avatar" class="admin-avatar-small">
+                        <span>Admin User</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </div>
+                </div>
+            </header>
+            
+            <!-- Dashboard Section -->
+            <section id="dashboard" class="content-section active">
+                <div class="section-header">
+                    <h2>Dashboard Overview</h2>
+                    <p>Welcome back, Admin User</p>
+                </div>
+                
+                <div class="stats-cards">
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background-color: #4e73df;">
+                            <i class="fas fa-car"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3>Total Cars</h3>
+                            <p class="stat-value">145</p>
+                            <p class="stat-change positive">+12% from last month</p>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background-color: #1cc88a;">
+                            <i class="fas fa-dollar-sign"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3>Revenue</h3>
+                            <p class="stat-value">$2.4M</p>
+                            <p class="stat-change positive">+8% from last month</p>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background-color: #f6c23e;">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3>Customers</h3>
+                            <p class="stat-value">1,024</p>
+                            <p class="stat-change positive">+5% from last month</p>
+                        </div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-icon" style="background-color: #e74a3b;">
+                            <i class="fas fa-shopping-cart"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3>Orders</h3>
+                            <p class="stat-value">75</p>
+                            <p class="stat-change negative">-3% from last month</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="dashboard-row">
+                    <div class="chart-container">
+                        <div class="chart-header">
+                            <h3>Sales Overview</h3>
+                            <div class="chart-controls">
+                                <select>
+                                    <option>Last 7 Days</option>
+                                    <option>Last 30 Days</option>
+                                    <option>Last 90 Days</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="chart">
+                            <!-- Chart will be rendered by JS here -->
+                            <div class="chart-placeholder">
+                                <div class="chart-bar" style="height: 30%;"></div>
+                                <div class="chart-bar" style="height: 50%;"></div>
+                                <div class="chart-bar" style="height: 70%;"></div>
+                                <div class="chart-bar" style="height: 60%;"></div>
+                                <div class="chart-bar" style="height: 80%;"></div>
+                                <div class="chart-bar" style="height: 75%;"></div>
+                                <div class="chart-bar" style="height: 65%;"></div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="quick-stats">
+                        <div class="quick-stat-header">
+                            <h3>Top Selling Models</h3>
+                        </div>
+                        <div class="quick-stat-item">
+                            <div class="model-info">
+                                <img src="car1.png" alt="Porsche 911">
+                                <div>
+                                    <h4>Porsche 911 Turbo Gas</h4>
+                                    <p>15 sold this month</p>
+                                </div>
+                            </div>
+                            <div class="model-price">
+                                <span>$400,000</span>
+                            </div>
+                        </div>
+                        <div class="quick-stat-item">
+                            <div class="model-info">
+                                <img src="car2.png" alt="Porsche Panamera">
+                                <div>
+                                    <h4>Porsche Panamera Hybrid</h4>
+                                    <p>12 sold this month</p>
+                                </div>
+                            </div>
+                            <div class="model-price">
+                                <span>$350,000</span>
+                            </div>
+                        </div>
+                        <div class="quick-stat-item">
+                            <div class="model-info">
+                                <img src="car11.png" alt="McLaren 720S">
+                                <div>
+                                    <h4>McLaren 720S Gas</h4>
+                                    <p>10 sold this month</p>
+                                </div>
+                            </div>
+                            <div class="model-price">
+                                <span>$200,000</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="recent-activities">
+                    <div class="activity-header">
+                        <h3>Recent Activities</h3>
+                        <a href="#">View All</a>
+                    </div>
+                    <div class="activity-list">
+                        <div class="activity-item">
+                            <div class="activity-icon order">
+                                <i class="fas fa-shopping-cart"></i>
+                            </div>
+                            <div class="activity-details">
+                                <h4>New Order #2345</h4>
+                                <p>John Doe purchased Porsche 911 Turbo</p>
+                                <span class="activity-time">2 hours ago</span>
+                            </div>
+                        </div>
+                        <div class="activity-item">
+                            <div class="activity-icon user">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <div class="activity-details">
+                                <h4>New User Registered</h4>
+                                <p>Sarah Williams created an account</p>
+                                <span class="activity-time">5 hours ago</span>
+                            </div>
+                        </div>
+                        <div class="activity-item">
+                            <div class="activity-icon alert">
+                                <i class="fas fa-exclamation-triangle"></i>
+                            </div>
+                            <div class="activity-details">
+                                <h4>Low Stock Alert</h4>
+                                <p>McLaren 720S inventory below threshold</p>
+                                <span class="activity-time">1 day ago</span>
+                            </div>
+                        </div>
+                        <div class="activity-item">
+                            <div class="activity-icon payment">
+                                <i class="fas fa-credit-card"></i>
+                            </div>
+                            <div class="activity-details">
+                                <h4>Payment Received</h4>
+                                <p>Payment for order #2341 received</p>
+                                <span class="activity-time">1 day ago</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- Inventory Section -->
+            <section id="inventory" class="content-section">
+                <div class="section-header">
+                    <h2>Car Inventory</h2>
+                    <button class="add-car-btn">
+                        <i class="fas fa-plus"></i> Add New Car
+                    </button>
+                </div>
+                
+                <div class="inventory-controls">
+                    <div class="search-filter">
+                        <input type="text" placeholder="Search cars...">
+                        <select>
+                            <option>All Categories</option>
+                            <option>Gas</option>
+                            <option>Electric</option>
+                            <option>Hybrid</option>
+                        </select>
+                        <select>
+                            <option>All Brands</option>
+                            <option>Porsche</option>
+                            <option>McLaren</option>
+                            <option>Ferrari</option>
+                            <option>Lamborghini</option>
+                        </select>
+                        <button>Filter</button>
+                    </div>
+                    
+                    <div class="view-controls">
+                        <button class="active"><i class="fas fa-th-list"></i></button>
+                        <button><i class="fas fa-th"></i></button>
+                    </div>
+                </div>
+                
+                <div class="inventory-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Image</th>
+                                <th>Car Name</th>
+                                <th>Brand</th>
+                                <th>Category</th>
+                                <th>Price</th>
+                                <th>Stock</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><img src="car1.png" alt="Porsche 911" class="car-thumbnail"></td>
+                                <td>Porsche 911 Turbo Gas</td>
+                                <td>Porsche</td>
+                                <td>Gas</td>
+                                <td>$400,000</td>
+                                <td>8</td>
+                                <td><span class="status active">Active</span></td>
+                                <td class="actions">
+                                    <button><i class="fas fa-edit"></i></button>
+                                    <button><i class="fas fa-trash"></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><img src="car2.png" alt="Porsche Panamera" class="car-thumbnail"></td>
+                                <td>Porsche Panamera Hybrid</td>
+                                <td>Porsche</td>
+                                <td>Hybrid</td>
+                                <td>$350,000</td>
+                                <td>5</td>
+                                <td><span class="status active">Active</span></td>
+                                <td class="actions">
+                                    <button><i class="fas fa-edit"></i></button>
+                                    <button><i class="fas fa-trash"></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><img src="car14.png" alt="Porsche 911 Targa" class="car-thumbnail"></td>
+                                <td>Porsche 911 Targa Electric</td>
+                                <td>Porsche</td>
+                                <td>Electric</td>
+                                <td>$180,000</td>
+                                <td>3</td>
+                                <td><span class="status active">Active</span></td>
+                                <td class="actions">
+                                    <button><i class="fas fa-edit"></i></button>
+                                    <button><i class="fas fa-trash"></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><img src="car11.png" alt="McLaren 720S" class="car-thumbnail"></td>
+                                <td>McLaren 720S Gas</td>
+                                <td>McLaren</td>
+                                <td>Gas</td>
+                                <td>$200,000</td>
+                                <td>2</td>
+                                <td><span class="status low">Low Stock</span></td>
+                                <td class="actions">
+                                    <button><i class="fas fa-edit"></i></button>
+                                    <button><i class="fas fa-trash"></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td><img src="car6.png" alt="Ferrari SF90" class="car-thumbnail"></td>
+                                <td>Ferrari SF90 Hybrid</td>
+                                <td>Ferrari</td>
+                                <td>Hybrid</td>
+                                <td>$400,000</td>
+                                <td>0</td>
+                                <td><span class="status inactive">Out of Stock</span></td>
+                                <td class="actions">
+                                    <button><i class="fas fa-edit"></i></button>
+                                    <button><i class="fas fa-trash"></i></button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="pagination">
+                    <button><i class="fas fa-chevron-left"></i></button>
+                    <button class="active">1</button>
+                    <button>2</button>
+                    <button>3</button>
+                    <button><i class="fas fa-chevron-right"></i></button>
+                </div>
+            </section>
+            
+            <!-- Orders Section -->
+            <section id="orders" class="content-section">
+                <div class="section-header">
+                    <h2>Customer Orders</h2>
+                </div>
+                
+                <div class="orders-controls">
+                    <div class="orders-filter">
+                        <input type="text" placeholder="Search orders...">
+                        <select>
+                            <option>All Status</option>
+                            <option>Pending</option>
+                            <option>Processing</option>
+                            <option>Completed</option>
+                            <option>Cancelled</option>
+                        </select>
+                        <button>Filter</button>
+                    </div>
+                </div>
+                
+                <div class="orders-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Order ID</th>
+                                <th>Customer</th>
+                                <th>Car</th>
+                                <th>Date</th>
+                                <th>Amount</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>#ORD-2345</td>
+                                <td>John Doe</td>
+                                <td>Porsche 911 Turbo Gas</td>
+                                <td>May 3, 2025</td>
+                                <td>$400,000</td>
+                                <td><span class="order-status pending">Pending</span></td>
+                                <td class="actions">
+                                    <button><i class="fas fa-eye"></i></button>
+                                    <button><i class="fas fa-edit"></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>#ORD-2344</td>
+                                <td>Emily Johnson</td>
+                                <td>McLaren 720S Gas</td>
+                                <td>May 2, 2025</td>
+                                <td>$200,000</td>
+                                <td><span class="order-status processing">Processing</span></td>
+                                <td class="actions">
+                                    <button><i class="fas fa-eye"></i></button>
+                                    <button><i class="fas fa-edit"></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>#ORD-2343</td>
+                                <td>Michael Smith</td>
+                                <td>Porsche Panamera Hybrid</td>
+                                <td>May 1, 2025</td>
+                                <td>$350,000</td>
+                                <td><span class="order-status completed">Completed</span></td>
+                                <td class="actions">
+                                    <button><i class="fas fa-eye"></i></button>
+                                    <button><i class="fas fa-edit"></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>#ORD-2342</td>
+                                <td>Sarah Williams</td>
+                                <td>Ferrari SF90 Hybrid</td>
+                                <td>Apr 29, 2025</td>
+                                <td>$400,000</td>
+                                <td><span class="order-status cancelled">Cancelled</span></td>
+                                <td class="actions">
+                                    <button><i class="fas fa-eye"></i></button>
+                                    <button><i class="fas fa-edit"></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>#ORD-2341</td>
+                                <td>David Brown</td>
+                                <td>Porsche 911 Targa Electric</td>
+                                <td>Apr 28, 2025</td>
+                                <td>$180,000</td>
+                                <td><span class="order-status completed">Completed</span></td>
+                                <td class="actions">
+                                    <button><i class="fas fa-eye"></i></button>
+                                    <button><i class="fas fa-edit"></i></button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="pagination">
+                    <button><i class="fas fa-chevron-left"></i></button>
+                    <button class="active">1</button>
+                    <button>2</button>
+                    <button>3</button>
+                    <button><i class="fas fa-chevron-right"></i></button>
+                </div>
+            </section>
+            
+            <!-- Customers Section -->
+            <section id="customers" class="content-section">
+                <div class="section-header">
+                    <h2>Customer Management</h2>
+                </div>
+                
+                <div class="customers-controls">
+                    <div class="customers-filter">
+                        <input type="text" placeholder="Search customers...">
+                        <select>
+                            <option>All Status</option>
+                            <option>Active</option>
+                            <option>Inactive</option>
+                        </select>
+                        <button>Filter</button>
+                    </div>
+                </div>
+                
+                <div class="customers-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Customer ID</th>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Phone</th>
+                                <th>Orders</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>#CUST-1001</td>
+                                <td>John Doe</td>
+                                <td>john.doe@example.com</td>
+                                <td>+1 (555) 123-4567</td>
+                                <td>3</td>
+                                <td><span class="customer-status active">Active</span></td>
+                                <td class="actions">
+                                    <button><i class="fas fa-eye"></i></button>
+                                    <button><i class="fas fa-edit"></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>#CUST-1002</td>
+                                <td>Emily Johnson</td>
+                                <td>emily.j@example.com</td>
+                                <td>+1 (555) 234-5678</td>
+                                <td>1</td>
+                                <td><span class="customer-status active">Active</span></td>
+                                <td class="actions">
+                                    <button><i class="fas fa-eye"></i></button>
+                                    <button><i class="fas fa-edit"></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>#CUST-1003</td>
+                                <td>Michael Smith</td>
+                                <td>michael.s@example.com</td>
+                                <td>+1 (555) 345-6789</td>
+                                <td>2</td>
+                                <td><span class="customer-status active">Active</span></td>
+                                <td class="actions">
+                                    <button><i class="fas fa-eye"></i></button>
+                                    <button><i class="fas fa-edit"></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>#CUST-1004</td>
+                                <td>Sarah Williams</td>
+                                <td>sarah.w@example.com</td>
+                                <td>+1 (555) 456-7890</td>
+                                <td>1</td>
+                                <td><span class="customer-status active">Active</span></td>
+                                <td class="actions">
+                                    <button><i class="fas fa-eye"></i></button>
+                                    <button><i class="fas fa-edit"></i></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>#CUST-1005</td>
+                                <td>David Brown</td>
+                                <td>david.b@example.com</td>
+                                <td>+1 (555) 567-8901</td>
+                                <td>4</td>
+                                <td><span class="customer-status inactive">Inactive</span></td>
+                                <td class="actions">
+                                    <button><i class="fas fa-eye"></i></button>
+                                    <button><i class="fas fa-edit"></i></button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="pagination">
+                    <button><i class="fas fa-chevron-left"></i></button>
+                    <button class="active">1</button>
+                    <button>2</button>
+                    <button>3</button>
+                    <button><i class="fas fa-chevron-right"></i></button>
+                </div>
+            </section>
+            
+            <!-- Analytics Section (Simple Placeholder) -->
+            <section id="analytics" class="content-section">
+                <div class="section-header">
+                    <h2>Analytics & Reports</h2>
+                </div>
+                
+                <div class="analytics-filters">
+                    <div class="date-range">
+                        <label>Date Range:</label>
+                        <input type="date">
+                        <span>to</span>
+                        <input type="date">
+                        <button>Apply</button>
+                    </div>
+                    
+                    <div class="report-type">
+                        <label>Report Type:</label>
+                        <select>
+                            <option>Sales Report</option>
+                            <option>Inventory Report</option>
+                            <option>Customer Report</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="analytics-charts">
+                    <div class="chart-card">
+                        <h3>Sales by Category</h3>
+                        <div class="pie-chart-placeholder">
+                            <div class="pie-segment gas"></div>
+                            <div class="pie-segment electric"></div>
+                            <div class="pie-segment hybrid"></div>
+                        </div>
+                        <div class="chart-legend">
+                            <div class="legend-item">
+                                <span class="legend-color" style="background-color: #4e73df;"></span>
+                                <span class="legend-label">Gas (45%)</span>
+                            </div>
+                            <div class="legend-item">
+                                <span class="legend-color" style="background-color: #1cc88a;"></span>
+                                <span class="legend-label">Electric (25%)</span>
+                            </div>
+                            <div class="legend-item">
+                                <span class="legend-color" style="background-color: #f6c23e;"></span>
+                                <span class="legend-label">Hybrid (30%)</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="chart-card">
+                        <h3>Sales by Brand</h3>
+                        <div class="bar-chart-placeholder">
+                            <div class="bar-container">
+                                <div class="chart-bar" style="height: 80%;"></div>
+                                <span>Porsche</span>
+                            </div>
+                            <div class="bar-container">
+                                <div class="chart-bar" style="height: 60%;"></div>
+                                <span>Ferrari</span>
+                            </div>
+                            <div class="bar-container">
+                                <div class="chart-bar" style="height: 50%;"></div>
+                                <span>McLaren</span>
+                            </div>
+                            <div class="bar-container">
+                                <div class="chart-bar" style="height: 70%;"></div>
+                                <span>Lamborghini</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="top-stats">
+                    <div class="stat-header">
+                        <h3>Key Performance Indicators</h3>
+                    </div>
+                    <div class="stat-cards">
+                        <div class="kpi-card">
+                            <h4>Average Order Value</h4>
+                            <p class="kpi-value">$285,000</p>
+                            <p class="kpi-change positive">+5% from previous period</p>
+                        </div>
+                        <div class="kpi-card">
+                            <h4>Conversion Rate</h4>
+                            <p class="kpi-value">3.2%</p>
+                            <p class="kpi-change positive">+0.5% from previous period</p>
+                        </div>
+                        <div class="kpi-card">
+                            <h4>Customer Retention</h4>
+                            <p class="kpi-value">68%</p>
+                            <p class="kpi-change negative">-2% from previous period</p>
+                        </div>
+                        <div class="kpi-card">
+                            <h4>Inventory Turnover</h4>
+                            <p class="kpi-value">4.5x</p>
+                            <p class="kpi-change positive">+0.3x from previous period</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="generate-report">
+                    <button>
+                        <i class="fas fa-file-export"></i> Export Report
+                    </button>
+                </div>
+            </section>
+            
+            <!-- Settings Section -->
+            <section id="settings" class="content-section">
+                <div class="section-header">
+                    <h2>System Settings</h2>
+                </div>
+                
+                <div class="settings-container">
+                    <div class="settings-menu">
+                        <ul>
+                            <li class="active">General</li>
+                            <li>Profile</li>
+                            <li>Security</li>
+                            <li>Notifications</li>
+                            <li>Backup</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="settings-content">
+                        <div class="settings-panel active">
+                            <h3>General Settings</h3>
+                            
+                            <div class="settings-form">
+                                <div class="form-group">
+                                    <label>Site Name</label>
+                                    <input type="text" value="Car Showroom Admin" class="form-control">
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label>Currency</label>
+                                    <select class="form-control">
+                                        <option>USD ($)</option>
+                                        <option>EUR (€)</option>
+                                        <option>GBP (£)</option>
+                                    </select>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label>Date Format</label>
+                                    <select class="form-control">
+                                        <option>MM/DD/YYYY</option>
+                                        <option>DD/MM/YYYY</option>
+                                        <option>YYYY-MM-DD</option>
+                                    </select>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label>Timezone</label>
+                                    <select class="form-control">
+                                        <option>UTC-8 (Pacific Time)</option>
+                                        <option>UTC-5 (Eastern Time)</option>
+                                        <option>UTC+0 (GMT)</option>
+                                        <option>UTC+1 (Central European Time)</option>
+                                    </select>
+                                </div>
+                                
+                                <div class="toggle-group">
+                                    <label>Maintenance Mode</label>
+                                    <div class="toggle-switch">
+                                        <input type="checkbox" id="maintenance-mode">
+                                        <label for="maintenance-mode"></label>
+                                    </div>
+                                </div>
+                                
+                                <div class="toggle-group">
+                                    <label>Enable Customer Reviews</label>
+                                    <div class="toggle-switch">
+                                        <input type="checkbox" id="customer-reviews" checked>
+                                        <label for="customer-reviews"></label>
+                                    </div>
+                                </div>
+                                
+                                <div class="toggle-group">
+                                    <label>Send Email Notifications</label>
+                                    <div class="toggle-switch">
+                                        <input type="checkbox" id="email-notifications" checked>
+                                        <label for="email-notifications"></label>
+                                    </div>
+                                </div>
+                                
+                                <div class="settings-actions">
+                                    <button class="save-btn">Save Changes</button>
+                                    <button class="cancel-btn">Cancel</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+    
+    <!-- Add New Car Modal -->
+    <div class="modal" id="add-car-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Add New Car</h3>
+                <button class="close-modal"><i class="fas fa-times"></i></button>
+            </div>
+            <div class="modal-body">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Car Name</label>
+                        <input type="text" placeholder="Enter car name" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label>Brand</label>
+                        <select class="form-control">
+                            <option>Select brand</option>
+                            <option>Porsche</option>
+                            <option>Ferrari</option>
+                            <option>McLaren</option>
+                            <option>Lamborghini</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Category</label>
+                        <select class="form-control">
+                            <option>Select category</option>
+                            <option>Gas</option>
+                            <option>Electric</option>
+                            <option>Hybrid</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Price</label>
+                        <input type="text" placeholder="Enter price" class="form-control">
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label>Engine</label>
+                        <input type="text" placeholder="Enter engine details" class="form-control">
+                    </div>
+                    <div class="form-group">
+                        <label>Stock Quantity</label>
+                        <input type="number" placeholder="Enter quantity" class="form-control">
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label>Car Image</label>
+                    <div class="file-upload">
+                        <input type="file" id="car-image">
+                        <label for="car-image">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                            <span>Choose Image</span>
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label>Description</label>
+                    <textarea placeholder="Enter car description" class="form-control" rows="4"></textarea>
+                </div>
+                
+                <div class="form-group">
+                    <label>Status</label>
+                    <div class="radio-group">
+                        <div class="radio-item">
+                            <input type="radio" id="status-active" name="status" checked>
+                            <label for="status-active">Active</label>
+                        </div>
+                        <div class="radio-item">
+                            <input type="radio" id="status-inactive" name="status">
+                            <label for="status-inactive">Inactive</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="cancel-btn">Cancel</button>
+                <button class="save-btn">Add Car</button>
+            </div>
+        </div>
+    </div>
+    
+    <script src="admin.js"></script>
+</body>
+</html>

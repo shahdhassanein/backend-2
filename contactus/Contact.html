@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us</title>
+    <link rel="stylesheet" href="Contact.css">
+    <script src="Contact.js"></script>
+</head>
+<body>
+    <video autoplay loop muted playsinline class="background-video">
+        <source src="C:\Users\express\OneDrive\Documents\car-showroom-projj1\assests\videos\contactpagerr.mp4" type="video/mp4">
+        Your browser does not support the video tag.
+    </video>
+    
+    <nav>
+        <div class="navbar">
+            <div class="logo">
+                <h2 style="margin-left: 16px;">Car Showroom</h2> 
+            </div>
+            <ul>
+                <li><a href="carshowroomproj.html" >Home</a></li>
+                <li><a href="carlisting.html">Car Listings</a></li>
+                <li><a href="userdashboard.html">Dashboard</a></li>
+                <li><a href="contact.html" class="active">Contact</a></li>
+                <li><a href="login.html">Sign Up/Login</a></li>
+            </ul>
+            <div class="cart-container">
+                <button class="cart-text-button" onclick="window.location.href='cart.html'">Cart</button> <!-- Added new button -->
+            </div>
+        </div>
+    </nav>
+    
+    
+    <div class="overlay">
+        <div class="contact-container">
+            <h1>Contact Us</h1>
+            <p>Have any questions? Feel free to reach out!</p>
+            <form id="contact-form">
+                <input type="text" name="name" placeholder="Your Name" required>
+                <input type="email" name="email" placeholder="Your Email" required>
+                <textarea name="message" placeholder="Your Message" required></textarea>
+                <button type="submit">Send Message</button>
+            </form>
+            <div class="contact-info">
+                <p>Email: support@carshowroom.com</p>
+                <p>Phone: +123 456 7890</p>
+                <p>Address: 123 Street, London, England</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
