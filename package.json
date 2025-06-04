@@ -8,9 +8,18 @@
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "description": "",
   "dependencies": {
     "express": "^5.1.0",
     "mongodb": "^6.16.0"
-  }
+  },
+  "devDependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shahdhassanein/backend-2.git"
+  },
+  "bugs": {
+    "url": "https://github.com/shahdhassanein/backend-2/issues"
+  },
+  "homepage": "https://github.com/shahdhassanein/backend-2#readme",
+  "description": ""
 }
