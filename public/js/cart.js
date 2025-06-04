@@ -1,136 +1,144 @@
-// cart.js - Cart functionality for Car Showroom website
-
-document.addEventListener('DOMContentLoaded', function() {
-    // Load cart data from localStorage
+document.addEventListener('DOMContentLoaded', function () {
+    // ====== GLOBAL VARIABLES ======
     let cart = JSON.parse(localStorage.getItem('cart')) || [];
-    
-    // Check if we're on the cart page
+
+    // ====== DOM ELEMENTS ======
     const cartContainer = document.getElementById('cart-items-container');
-    if (cartContainer) {
-        renderCart();
-    }
-    
-    // Update cart count on all pages
+    const subtotalElement = document.querySelector('.subtotal-amount');
+    const totalElement = document.querySelector('.total-amount');
+
+    // ====== INITIAL SETUP ======
+    renderCart();
     updateCartCount();
 
-    // Event delegation for cart interactions (if we're on the cart page)
+    // ====== EVENT HANDLERS ======
     if (cartContainer) {
-        cartContainer.addEventListener('click', function(e) {
-            const target = e.target;
-            const cartItem = target.closest('.cart-item');
-            if (!cartItem) return;
+        cartContainer.addEventListener('click', function (e) {
+            const clicked = e.target;
+            const itemElement = clicked.closest('.cart-item');
+            if (!itemElement) return;
 
-            const itemId = cartItem.dataset.id;
-            const itemIndex = cart.findIndex(item => item.id === itemId);
+            const itemId = itemElement.dataset.id;
 
-            // Remove item
-            if (target.classList.contains('remove-btn')) {
-                cartItem.classList.add('removing');
-                setTimeout(() => {
-                    cart.splice(itemIndex, 1);
-                    saveCart();
-                    renderCart();
-                    updateCartCount();
-                }, 300);
+            if (clicked.classList.contains('remove-btn')) {
+                removeItem(itemId);
             }
 
-            // Quantity controls
-            if (target.classList.contains('quantity-btn')) {
-                const item = cart[itemIndex];
-                if (target.classList.contains('increase')) {
-                    item.quantity = (item.quantity || 1) + 1;
-                } else if (target.classList.contains('decrease')) {
-                    item.quantity = Math.max(1, (item.quantity || 1) - 1);
-                }
-                saveCart();
-                renderCart();
-                updateCartCount();
+            if (clicked.classList.contains('quantity-btn')) {
+                const change = clicked.classList.contains('increase') ? 1 : -1;
+                updateQuantity(itemId, change);
             }
         });
     }
 
-    // Function to render cart items (only on cart page)
+    // ====== CART FUNCTIONS ======
+    function removeItem(id) {
+        cart = cart.filter(item => item.id !== id);
+        saveCart();
+        renderCart();
+    }
+
+    function updateQuantity(id, change) {
+        const item = cart.find(item => item.id === id);
+        if (!item) return;
+
+        const newQuantity = item.quantity + change;
+        if (newQuantity < 1 || newQuantity > 4) return;
+        
+        item.quantity = newQuantity;
+        saveCart();
+        renderCart();
+    }
+
+    function saveCart() {
+        localStorage.setItem('cart', JSON.stringify(cart));
+        updateCartCount();
+    }
+
     function renderCart() {
         if (!cartContainer) return;
         
         if (cart.length === 0) {
             cartContainer.innerHTML = '<div class="empty-cart-message">Your cart is empty</div>';
-        } else {
-            cartContainer.innerHTML = cart.map(item => `
-                <div class="cart-item" data-id="${item.id}">
-                    <div class="cart-item-details">
-                        <h3>${item.name}</h3>
-                        ${item.brand ? `<p>${item.brand}</p>` : ''}
-                        <div class="quantity-controls">
-                            <button class="quantity-btn decrease">-</button>
-                            <span>${item.quantity || 1}</span>
-                            <button class="quantity-btn increase">+</button>
-                        </div>
-                    </div>
-                    <div class="cart-item-price">
-                        $${(item.price * (item.quantity || 1)).toFixed(2)}
-                    </div>
-                    <button class="remove-btn">✕</button>
-                </div>
-            `).join('');
+            if (document.querySelector('.cart-summary')) {
+                document.querySelector('.cart-summary').style.display = 'none';
+            }
+            return;
         }
 
-        updateTotal();
+        if (document.querySelector('.cart-summary')) {
+            document.querySelector('.cart-summary').style.display = 'block';
+        }
+
+        cartContainer.innerHTML = cart.map(item => `
+            <div class="cart-item" data-id="${item.id}">
+                <div class="cart-item-details">
+                    <h3>${item.name}</h3>
+                    <p class="item-price">Price: $${item.price.toLocaleString()}</p>
+                    <div class="quantity-controls">
+                        <button class="quantity-btn decrease" ${item.quantity <= 1 ? 'disabled' : ''}>-</button>
+                        <span class="quantity-display">${item.quantity}</span>
+                        <button class="quantity-btn increase" ${item.quantity >= 4 ? 'disabled' : ''}>+</button>
+                    </div>
+                    <p class="item-subtotal">Subtotal: $${(item.price * item.quantity).toLocaleString()}</p>
+                </div>
+                <button class="remove-btn">✕</button>
+            </div>
+        `).join('');
+
+        updateCartTotal();
     }
 
-    // Update cart totals
-    function updateTotal() {
-        const subtotalElement = document.querySelector('.subtotal-amount');
-        const totalElement = document.querySelector('.total-amount');
-        
+    function updateCartTotal() {
         if (!subtotalElement || !totalElement) return;
         
-        const subtotal = cart.reduce((sum, item) => 
-            sum + (item.price * (item.quantity || 1)), 0);
-        
-        subtotalElement.textContent = `$${subtotal.toFixed(2)}`;
-        totalElement.textContent = `$${subtotal.toFixed(2)}`;
+        const subtotal = cart.reduce((sum, item) => {
+            return sum + (item.price * item.quantity);
+        }, 0);
+
+        subtotalElement.textContent = `$${subtotal.toLocaleString()}`;
+        totalElement.textContent = `$${subtotal.toLocaleString()}`;
     }
 
-    // Save cart to localStorage
-    function saveCart() {
-        localStorage.setItem('cart', JSON.stringify(cart));
-    }
-
-    // Update cart count badge on all pages
     function updateCartCount() {
-        const count = cart.reduce((sum, item) => sum + (item.quantity || 1), 0);
-        const countElements = document.querySelectorAll('.count');
-        
-        countElements.forEach(el => {
+        const count = cart.reduce((total, item) => total + item.quantity, 0);
+        document.querySelectorAll('.cart-count').forEach(el => {
             el.textContent = count;
         });
     }
 
     // Make addToCart available globally
-    window.addToCart = function(product) {
-        // Check if product already exists in cart
+    window.addToCart = function (product) {
         const existingItem = cart.find(item => item.id === product.id);
-        
+
         if (existingItem) {
-            // Increase quantity if already in cart
-            existingItem.quantity = (existingItem.quantity || 1) + 1;
+            if (existingItem.quantity < 4) {
+                existingItem.quantity += 1;
+                showNotification('Item quantity updated in cart');
+            } else {
+                showNotification('Maximum quantity reached for this item (4)');
+                return;
+            }
         } else {
-            // Add new item with quantity 1
             cart.push({
-                id: product.id,
-                name: product.name,
-                price: product.price,
-                quantity: 1,
-                brand: product.brand || ''
+                ...product,
+                quantity: 1
             });
+            showNotification('Item added to cart successfully!');
         }
-        
-        // Save updated cart and update UI
+
         saveCart();
         renderCart();
-        updateCartCount();
-        
-        console.log('Added to cart:', product);
     };
 });
+
+function showNotification(message) {
+    const notification = document.createElement('div');
+    notification.className = 'notification';
+    notification.textContent = message;
+    document.body.appendChild(notification);
+
+    setTimeout(() => {
+        notification.remove();
+    }, 3000);
+}
