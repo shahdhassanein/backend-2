@@ -14,3 +14,5 @@ const connectDB = async () => {
 };
 
 module.exports = connectDB;
+
+///to be implemented the rest+implement in server.js (will remove the note after implem!!!!)
