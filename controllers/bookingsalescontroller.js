@@ -20,3 +20,12 @@ exports.getMyBookings = async (req, res) => {
     res.status(500).json({ error: 'Failed to fetch bookings' });
   }
 };
+exports.getMyPurchases = async (req, res) => {
+  try {
+    const userId = req.user.id;
+    const purchases = await Purchase.find({ userId });
+    res.json(purchases);
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to fetch purchases' });
+  }
+};
