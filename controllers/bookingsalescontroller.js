@@ -11,3 +11,12 @@ exports.purchaseCar = async (req, res) =>
     res.status(500).json({ error: 'Failed to reserve car' });
   }
 };
+exports.getMyBookings = async (req, res) => {
+  try {
+    const userId = req.user.id;
+    const bookings = await Booking.find({ userId });
+    res.json(bookings);
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to fetch bookings' });
+  }
+};
