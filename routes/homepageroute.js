@@ -15,6 +15,10 @@ router.get('/', async (req, res) => {
     });
   }
 });
-router.get('/', auth, (req, res) =>
+router.get('/', auth, (req, res) => {
+ 
+  res.render('homepage', { user: req.user }); 
+});
+ 
 
 module.exports = router;
