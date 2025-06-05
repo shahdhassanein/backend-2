@@ -29,3 +29,13 @@ exports.getMyPurchases = async (req, res) => {
     res.status(500).json({ error: 'Failed to fetch purchases' });
   }
 };
+exports.updateBookingStatus = async (req, res) => {
+  try {
+    const bookingId = req.params.id;
+    const { status } = req.body;
+    await Booking.findByIdAndUpdate(bookingId, { status });
+    res.json({ message: 'Booking status updated' });
+  } catch (err) {
+    res.status(500).json({ error: 'Failed to update booking status' });
+  }
+};
