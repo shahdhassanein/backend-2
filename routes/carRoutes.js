@@ -3,7 +3,7 @@ const router = express.Router();
 const Car = require('../models/Car');
 const { protect, authorize } = require('../middleware/auth');
 
-// Get all cars
+
 router.get('/', async (req, res) => {
     try {
         const cars = await Car.find();
@@ -20,7 +20,6 @@ router.get('/', async (req, res) => {
     }
 });
 
-// Get single car
 router.get('/:id', async (req, res) => {
     try {
         const car = await Car.findById(req.params.id);
@@ -42,7 +41,6 @@ router.get('/:id', async (req, res) => {
     }
 });
 
-// Create car (admin only)
 router.post('/', protect, authorize('admin'), async (req, res) => {
     try {
         const car = await Car.create(req.body);
@@ -58,7 +56,6 @@ router.post('/', protect, authorize('admin'), async (req, res) => {
     }
 });
 
-// Update car (admin only)
 router.put('/:id', protect, authorize('admin'), async (req, res) => {
     try {
         const car = await Car.findByIdAndUpdate(req.params.id, req.body, {
@@ -83,7 +80,7 @@ router.put('/:id', protect, authorize('admin'), async (req, res) => {
     }
 });
 
-// Delete car (admin only)
+
 router.delete('/:id', protect, authorize('admin'), async (req, res) => {
     try {
         const car = await Car.findByIdAndDelete(req.params.id);

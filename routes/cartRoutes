@@ -4,7 +4,7 @@ const auth = require('../middleware/auth');
 const Car = require('../models/Car');
 const User = require('../models/User');
 
-// Get user's cart
+
 router.get('/', auth, async (req, res) => {
     try {
         const user = await User.findById(req.user.id).populate('cart.items.car');
@@ -22,7 +22,6 @@ router.get('/', auth, async (req, res) => {
     }
 });
 
-// Add item to cart
 router.post('/add', auth, async (req, res) => {
     try {
         const { carId } = req.body;
@@ -33,7 +32,7 @@ router.post('/add', auth, async (req, res) => {
             return res.status(404).json({ success: false, error: 'Car not found' });
         }
 
-        // Check if car is already in cart
+        
         const existingItem = user.cart.items.find(item => item.car.toString() === carId);
         if (existingItem) {
             existingItem.quantity += 1;
@@ -49,7 +48,7 @@ router.post('/add', auth, async (req, res) => {
     }
 });
 
-// Update cart item quantity
+
 router.put('/update', auth, async (req, res) => {
     try {
         const { carId, quantity } = req.body;
@@ -74,7 +73,6 @@ router.put('/update', auth, async (req, res) => {
     }
 });
 
-// Remove item from cart
 router.delete('/remove', auth, async (req, res) => {
     try {
         const { carId } = req.body;
