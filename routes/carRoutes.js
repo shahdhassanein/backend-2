@@ -4,7 +4,7 @@ const Car = require('../models/Car');
 const { protect, authorize } = require('../middleware/auth');
 
 
-router.get('/', async (req, res) => {
+router.get('/cars', async (req, res) => {
     try {
         const cars = await Car.find();
         res.status(200).json({
