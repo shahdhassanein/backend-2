@@ -6,3 +6,4 @@ const purchaseSchema = new mongoose.Schema({
   paymentInfo: { type: Object },
   purchaseDate: { type: Date, default: Date.now }
 });
+module.exports = mongoose.model('Purchase', purchaseSchema);
