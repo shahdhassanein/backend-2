@@ -15,5 +15,6 @@ router.get('/', async (req, res) => {
     });
   }
 });
+router.get('/', auth, (req, res) =>
 
 module.exports = router;
