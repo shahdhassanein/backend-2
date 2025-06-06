@@ -14,3 +14,4 @@ const connectDB = async () => {
 };
 
 module.exports = connectDB;
+//correctdb.js(safe,flexiable,.env file mst5dm)
