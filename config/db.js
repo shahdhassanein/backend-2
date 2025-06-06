@@ -14,4 +14,19 @@ const connectDB = async () => {
 };
 
 module.exports = connectDB;
-//correctdb.js(safe,flexiable,.env file mst5dm)
+/* const mongoose = require('mongoose');
+
+const connectDB = async () => {
+  try {
+    await mongoose.connect('mongodb://localhost:27017/carshowroom', {
+      useNewUrlParser: true,
+      useUnifiedTopology: true
+    });
+    console.log('MongoDB connected');
+  } catch (err) {
+    console.error('MongoDB connection error:', err.message);
+    process.exit(1);
+  }
+};
+
+module.exports = connectDB; */ //hsybo ka backup ashan lw haga msht8ltsh !!
