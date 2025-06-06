@@ -39,3 +39,10 @@ exports.updateBookingStatus = async (req, res) => {
     res.status(500).json({ error: 'Failed to update booking status' });
   }
 };
+exports.getMyBookingsData = async (userId) => {
+  return await Booking.find({ userId });
+};
+
+exports.getMyPurchasesData = async (userId) => {
+  return await Purchase.find({ userId });
+};
