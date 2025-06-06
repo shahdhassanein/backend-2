@@ -9,6 +9,8 @@ const app = express();
 
 const carRoutes= require('./routes/carRoutes');
 const userRoutes = require('./routes/userRoutes');
+
+const bookingSalesRoutes = require('./routes/bookingsales');
 //to connect to the database 
 connectDB();
 
