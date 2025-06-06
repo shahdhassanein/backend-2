@@ -38,3 +38,6 @@ const loginUser = async (req, res) => {
     }
 };
 
+// @desc    Register new user
+// @route   POST /api/users/register
+
