@@ -14,5 +14,13 @@ router.get('/view-my-bookings', auth, async (req, res) => {
     res.status(500).send('Server error');
   }
 });
+router.get('/view-my-purchases', auth, async (req, res) => {
+  try {
+    const purchases = await controller.getMyPurchasesData(req.user.id);
+    res.render('mypurchases', { purchases });  
+  } catch (error) {
+    res.status(500).send('Server error');
+  }
+});
 
 module.exports = router;
