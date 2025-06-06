@@ -14,7 +14,7 @@ connectDB();
 
 
 app.use(express.json());
-
+app.use(express.static('./public'));
 
 // hena al routes ya shabab add it hena 
 app.use('/',carRoutes);
