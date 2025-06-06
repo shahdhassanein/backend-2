@@ -3,3 +3,22 @@
     <head>
   <title>My Bookings</title>
 </head>
+<body>
+  <h1>My Bookings</h1>
+
+  <% if (bookings.length === 0) { %>
+    <p>You have no bookings.</p>
+  <% } else { %>
+    <ul>
+      <% bookings.forEach(booking => { %>
+        <li>
+          Car ID: <%= booking.carId %> <br>
+          Status: <%= booking.status %>
+        </li>
+        <hr>
+      <% }) %>
+    </ul>
+  <% } %>
+
+  <a href="/">Back to Home</a>
+</body>
