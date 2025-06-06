@@ -10,7 +10,7 @@ const app = express();
 const carRoutes= require('./routes/carRoutes');
 const userRoutes = require('./routes/userRoutes');
 
-const bookingSalesRoutes = require('./routes/bookingsales');
+const bookingsalesroute = require('./routes/bookingsales');
 //to connect to the database 
 connectDB();
 
@@ -21,7 +21,7 @@ app.use(express.static('./public'));
 // hena al routes ya shabab add it hena 
 app.use('/',carRoutes);
 app.use('/api/users', userRoutes);
-
+app.use('/api/bookingsales', bookingsalesroute);
 app.use(express.static('./public'));
 
 app.listen(3000, () => {
