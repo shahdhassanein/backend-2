@@ -26,4 +26,4 @@ app.use(express.static('./public'));
 app.set('view engine', 'ejs'); // Show bookings page
 app.listen(3000, () => {
   console.log('Server running on port 3000');
-});//i added it 3ashan bas a3raf law server crashed aw l2 okay.
+});//i added it 3ashan bas a3raf law server crashed aw l2 okay.ss
