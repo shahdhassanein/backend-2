@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const Car = require('../models/Car');
+const Car = require('../models/carsschema');
 const { protect, authorize } = require('../middleware/auth');
 
 
