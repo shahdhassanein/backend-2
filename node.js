@@ -21,7 +21,7 @@ app.use(express.static('./public'));
 // hena al routes ya shabab add it hena 
 app.use('/',carRoutes);
 app.use('/api/users', userRoutes);
-app.use('/api/bookingsales', bookingsalesroute);
+app.use('/api/bookingsales', bookingsalesroute);//bookingroute
 app.use(express.static('./public'));
 
 app.listen(3000, () => {
