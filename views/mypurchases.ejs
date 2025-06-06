@@ -3,3 +3,23 @@
 <head>
   <title>My Purchases</title>
 </head>
+<body>
+  <h1>My Purchases</h1>
+
+  <% if (purchases.length === 0) { %>
+    <p>You have not purchased any cars.</p>
+  <% } else { %>
+    <ul>
+      <% purchases.forEach(purchase => { %>
+        <li>
+          Car ID: <%= purchase.carId %> <br>
+          Payment Info: <%= JSON.stringify(purchase.paymentInfo) %> <br>
+          Date: <%= new Date(purchase.purchaseDate).toLocaleDateString() %>
+        </li>
+        <hr>
+      <% }) %>
+    </ul>
+  <% } %>
+
+  <a href="/">Back to Home</a>
+</body>
