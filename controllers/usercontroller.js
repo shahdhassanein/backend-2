@@ -60,5 +60,20 @@ const registerUser = async (req, res) => {
             password
         });
 
+const token = generateToken(user._id);
+
+        res.status(201).json({
+            _id: user._id,
+            name: user.name,
+            email: user.email,
+            isAdmin: user.isAdmin,
+            token,
+            message: 'Registration successful'
+        });
+    } catch (error) {
+        console.error('Registration error:', error);
+        res.status(500).json({ message: 'Server error during registration' });
+    }
+};
 
 
