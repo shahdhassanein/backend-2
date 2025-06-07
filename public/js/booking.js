@@ -7,6 +7,7 @@
       return "Invalid date";
     }
   }
+  //for booking
   function initBookingPage() {
     const bookingList = document.getElementById("booking-list");
     if (!bookingList) return;
@@ -19,3 +20,21 @@
 
     console.log("Booking page initialized");
   }
+  //for purchase 
+   function initPurchasePage() {
+    const purchaseList = document.getElementById("purchase-list");
+    if (!purchaseList) return;
+
+    // Example: format purchase date nicely on each purchase
+    Array.from(purchaseList.children).forEach(item => {
+      const dateStr = item.dataset.purchasedate;
+      const formattedDate = formatDate(dateStr);
+
+      // Append formatted date in a new span for clarity
+      const dateSpan = document.createElement("span");
+      dateSpan.textContent = ` (Purchased on: ${formattedDate})`;
+      dateSpan.style.fontStyle = "italic";
+      dateSpan.style.marginLeft = "10px";
+
+      item.appendChild(dateSpan);
+    });
