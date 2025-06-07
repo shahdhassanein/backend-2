@@ -2,12 +2,12 @@ const Purchase = require('../models/purchaseschema');
 const Car = require('../models/car');
 const User = require('../models/user');
 
-// Create a new purchase
+// to create a new purchase
 exports.purchaseCar = async (req, res) => {
   try {
-    const { userId, carId, paymentInfo } = req.body;
+const userId = req.user._id;  
+const { carId, paymentInfo } = req.body;
 
-    // Validate user and car existence
     const user = await User.findById(userId);
     if (!user) return res.status(404).json({ message: 'User not found' });
 
@@ -18,14 +18,13 @@ exports.purchaseCar = async (req, res) => {
       return res.status(400).json({ message: 'Car is not available for purchase' });
     }
 
-    // Create purchase
     const purchase = new Purchase({
       userId,
       carId,
       paymentInfo
     });
 
-    // Optionally mark car unavailable after purchase
+  
     car.availability = false;
     await car.save();
 
@@ -41,7 +40,7 @@ exports.purchaseCar = async (req, res) => {
 // Get all purchases for the logged-in user
 exports.getMyPurchases = async (req, res) => {
   try {
-    const userId = req.user._id; // Assuming auth middleware sets req.user
+    const userId = req.user._id; 
 
     const purchases = await Purchase.find({ userId })
       .populate('carId')
