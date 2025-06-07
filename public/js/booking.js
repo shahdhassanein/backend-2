@@ -48,3 +48,5 @@
       initPurchasePage();
     }
   }
+    document.addEventListener("DOMContentLoaded", init);
+})();
