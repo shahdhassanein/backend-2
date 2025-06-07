@@ -41,3 +41,10 @@
     
     console.log("Purchase page initialized");
   }
+  function init() {
+    if (document.getElementById("booking-page")) {
+      initBookingPage();
+    } else if (document.getElementById("purchase-page")) {
+      initPurchasePage();
+    }
+  }
