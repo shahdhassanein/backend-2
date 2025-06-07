@@ -58,3 +58,9 @@ strong {
     display: inline-block;
     min-width: 80px;
 }
+
+p {
+    text-align: center;
+    font-size: 18px;
+    color: #bbb;
+}
