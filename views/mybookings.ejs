@@ -1,27 +1,29 @@
 <!DOCTYPE html>
 <html>
-    <head>
+<head>
   <title>My Bookings</title>
-    <link rel="stylesheet" href="/css/booking.css">
+  <link rel="stylesheet" href="/css/booking.css">
 </head>
 <body>
   <h1>My Bookings</h1>
 
-  <% if (bookings.length === 0) { %>
-    <p>You have no bookings.</p>
-  <% } else { %>
-    <ul>
-      <% bookings.forEach(booking => { %>
-        <li>
-          Car ID: <%= booking.carId %> <br>
-          Status: <%= booking.status %>
-        </li>
-        <hr>
-      <% }) %>
-    </ul>
-  <% } %>
+  <div id="booking-page">
+    <% if (bookings.length === 0) { %>
+      <p>You have no bookings.</p>
+    <% } else { %>
+      <ul id="booking-list">
+        <% bookings.forEach(booking => { %>
+          <li data-car-id="<%= booking.carId %>" data-status="<%= booking.status %>">
+            Car ID: <%= booking.carId %> <br>
+            Status: <%= booking.status %>
+          </li>
+        <% }) %>
+      </ul>
+    <% } %>
+  </div>
 
   <a href="/">Back to Home</a>
-    <script src="/js/booking.js" defer></script>
+
+  <script src="/js/booking.js" defer></script>
 </body>
 </html>
