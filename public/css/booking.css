@@ -1,29 +1,18 @@
-.background-image {
-    background: url('R2.jpg') no-repeat center center fixed;
-    background-size: cover;
-    position: fixed;
-    top: 0;
-    left: 0;
-    height: 100%;
-    width: 100%;
-    z-index: -1;
-}
 body {
     font-family: Arial, sans-serif;
+    background: url('R1.jpg') no-repeat center center fixed;
+    background-size: cover;
     margin: 0;
     padding: 0;
     color: white;
-    position: relative;
-    z-index: 1;
 }
+
 .navbar {
     display: flex;
     align-items: center;
     background: #333;
     padding: 15px 20px;
     color: #fff;
-    position: relative;
-    z-index: 100;
 }
 
 .logo h2 {
@@ -58,50 +47,83 @@ body {
     border-radius: 5px;
 }
 
-.container {
-    width: 80%;
-    margin: 50px auto;
-    padding: 20px;
-    background: rgba(0, 0, 0, 0.8);
-    border-radius: 10px;
-    box-shadow: 0 4px 10px rgba(255, 0, 0, 0.5);
+.cart-container {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
 }
 
-.container h2 {
-    font-size: 32px;
-    text-align: center;
-    margin-bottom: 30px;
+.cart-text-button {
+    background: darkred;
     color: white;
-    border-bottom: 2px solid crimson;
-    padding-bottom: 10px;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background 0.3s ease;
 }
-ul {
+
+.cart-text-button:hover {
+    background: rgb(170, 0, 0);
+}
+
+.container {
+    max-width: 700px;
+    margin: 60px auto;
+    padding: 30px;
+    background: rgba(0, 0, 0, 0.7);
+    border-radius: 12px;
+    text-align: center;
+    backdrop-filter: blur(10px);
+}
+
+.container h1 {
+    color: crimson;
+    margin-bottom: 30px;
+}
+
+#purchase-list {
     list-style: none;
     padding: 0;
+    margin: 0;
 }
 
-li {
+#purchase-list li {
     background: rgba(255, 255, 255, 0.1);
-    padding: 15px;
+    padding: 20px;
     margin-bottom: 15px;
     border-radius: 8px;
-    border-left: 5px solid crimson;
-    transition: 0.3s ease;
+    text-align: left;
+    font-size: 16px;
+    line-height: 1.6;
+    color: #fff;
+    border-left: 4px solid crimson;
 }
 
-li:hover {
-    background: rgba(255, 255, 255, 0.2);
-    transform: scale(1.02);
+#purchase-list li span {
+    color: #ddd;
+    font-style: italic;
+    font-size: 14px;
 }
 
-strong {
-    color: crimson;
-    display: inline-block;
-    min-width: 80px;
-}
-
-p {
-    text-align: center;
+.back-button {
+    position: fixed;
+    top: 100px;
+    left: 20px;
+    text-decoration: none;
     font-size: 18px;
-    color: #bbb;
+    font-weight: bold;
+    color: white;
+    background: darkred;
+    padding: 10px 20px;
+    border-radius: 5px;
+    transition: background 0.3s ease, transform 0.2s;
+    border: none;
+    z-index: 1000;
+}
+
+.back-button:hover {
+    background: crimson;
+    transform: scale(1.05);
 }

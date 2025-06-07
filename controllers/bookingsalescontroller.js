@@ -1,48 +1,55 @@
-const Booking = require('../models/bookingschema'); 
 const Purchase = require('../models/purchaseschema');
-exports.purchaseCar = async (req, res) =>
-  {
+const Car = require('../models/car');
+const User = require('../models/user');
+
+// Create a new purchase
+exports.purchaseCar = async (req, res) => {
   try {
     const { userId, carId, paymentInfo } = req.body;
-    const newPurchase = new Purchase({ userId, carId, paymentInfo });
-    await newPurchase.save();
-    res.status(201).json({ message: 'Car reserved successfully' });
-  } catch (err) {
-    res.status(500).json({ error: 'Failed to reserve car' });
+
+    // Validate user and car existence
+    const user = await User.findById(userId);
+    if (!user) return res.status(404).json({ message: 'User not found' });
+
+    const car = await Car.findById(carId);
+    if (!car) return res.status(404).json({ message: 'Car not found' });
+
+    if (!car.availability) {
+      return res.status(400).json({ message: 'Car is not available for purchase' });
+    }
+
+    // Create purchase
+    const purchase = new Purchase({
+      userId,
+      carId,
+      paymentInfo
+    });
+
+    // Optionally mark car unavailable after purchase
+    car.availability = false;
+    await car.save();
+
+    await purchase.save();
+
+    res.status(201).json({ message: 'Purchase completed successfully', purchase });
+  } catch (error) {
+    console.error('Purchase error:', error);
+    res.status(500).json({ message: 'Failed to complete purchase', error: error.message });
   }
-};
-exports.getMyBookings = async (req, res) => {
-  try {
-    const userId = req.user.id;
-    const bookings = await Booking.find({ userId });
-    res.json(bookings);
-  } catch (err) {
-    res.status(500).json({ error: 'Failed to fetch bookings' });
-  }
-};
-exports.getMyPurchases = async (req, res) => {
-  try {
-    const userId = req.user.id;
-    const purchases = await Purchase.find({ userId });
-    res.json(purchases);
-  } catch (err) {
-    res.status(500).json({ error: 'Failed to fetch purchases' });
-  }
-};
-exports.updateBookingStatus = async (req, res) => {
-  try {
-    const bookingId = req.params.id;
-    const { status } = req.body;
-    await Booking.findByIdAndUpdate(bookingId, { status });
-    res.json({ message: 'Booking status updated' });
-  } catch (err) {
-    res.status(500).json({ error: 'Failed to update booking status' });
-  }
-};
-exports.getMyBookingsData = async (userId) => {
-  return await Booking.find({ userId });
 };
 
-exports.getMyPurchasesData = async (userId) => {
-  return await Purchase.find({ userId });
+// Get all purchases for the logged-in user
+exports.getMyPurchases = async (req, res) => {
+  try {
+    const userId = req.user._id; // Assuming auth middleware sets req.user
+
+    const purchases = await Purchase.find({ userId })
+      .populate('carId')
+      .populate('userId', '-password');
+
+    res.json(purchases);
+  } catch (error) {
+    console.error('Get purchases error:', error);
+    res.status(500).json({ message: 'Failed to fetch purchases' });
+  }
 };

@@ -11,7 +11,7 @@ const carRoutes= require('./routes/carRoutes');
 const userRoutes = require('./routes/userRoutes');
 
 const bookingsalesroute = require('./routes/bookingsales');
-//to connect to the database 
+//to connect purchase to the database mfysh booking
 connectDB();
 
 
@@ -21,9 +21,9 @@ app.use(express.static('./public'));
 // hena al routes ya shabab add it hena 
 app.use('/',carRoutes);
 app.use('/api/users', userRoutes);
-app.use('/api/bookingsales', bookingsalesroute);//bookingroute
+app.use('/api/bookingsales', bookingsalesroute);//purchaseroute
 app.use(express.static('./public'));
-app.set('view engine', 'ejs'); // Show bookings page
+app.set('view engine', 'ejs'); 
 app.listen(3000, () => {
   console.log('Server running on port 3000');
 });//i added it 3ashan bas a3raf law server crashed aw l2 okay.

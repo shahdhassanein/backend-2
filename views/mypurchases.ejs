@@ -7,7 +7,7 @@
 </head>
 <body>
 
-  <!-- Navbar -->
+
   <nav>
     <div class="navbar">
       <div class="logo">
@@ -19,7 +19,6 @@
         <li><a href="/Dashboard/Dashboard.html">Dashboard</a></li>
         <li><a href="/contactus/Contact.html">Contact</a></li>
         <li><a href="/login/login.html">Sign Up/Login</a></li>
-        <li><a href="/mybookings">My Bookings</a></li>
         <li><a href="/mypurchases">My Purchases</a></li>
       </ul>
       <div class="cart-container">
@@ -30,22 +29,22 @@
     </div>
   </nav>
 
-  <!-- Back button -->
+ 
   <a href="/Dashboard/Dashboard.html" class="back-button">⬅ Back</a>
 
   <div class="container">
     <h1>My Purchases</h1>
 
     <div id="purchase-page">
-      <% if (purchases.length === 0) { %>
+      <% if (!purchases || purchases.length === 0) { %>
         <p>You have not purchased any cars.</p>
       <% } else { %>
         <ul id="purchase-list">
           <% purchases.forEach(purchase => { %>
-            <li data-car-id="<%= purchase.carId %>" data-purchasedate="<%= purchase.purchaseDate %>">
-              Car ID: <%= purchase.carId %> <br>
-              Payment Info: <%= JSON.stringify(purchase.paymentInfo) %> <br>
-              Date: <%= new Date(purchase.purchaseDate).toLocaleDateString() %>
+            <li class="purchase-item">
+              <strong>Car ID:</strong> <%= purchase.carId %> <br>
+              <strong>Payment Method:</strong> <%= purchase.paymentInfo.method %> <br>
+              <strong>Purchase Date:</strong> <%= new Date(purchase.purchaseDate).toLocaleString() %>
             </li>
           <% }) %>
         </ul>
