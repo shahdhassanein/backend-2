@@ -1,6 +1,6 @@
 const Purchase = require('../models/purchaseschema');
-const Car = require('../models/car');
-const User = require('../models/user');
+const Car = require('../models/carsschema');
+const User = require('../models/usersschema');
 
 // to create a new purchase
 exports.purchaseCar = async (req, res) => {

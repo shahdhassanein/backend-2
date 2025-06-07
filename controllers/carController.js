@@ -13,7 +13,7 @@ exports.getAllCars=async(req,res)=>{
     const car=await Car.findById(req.params.id);//takes the id by url 
     res.json(car);
   };
-  exports.createCar=async(req,res)=>{
+  /*exports.createCar=async(req,res)=>{
     let imageUrls=[];
     if (req.files&& req.files.length >0){
      imageUrls=req.files.map(file=>file.path);
@@ -23,7 +23,7 @@ exports.getAllCars=async(req,res)=>{
     })
     await car.save();
     res.json(car);
-  }
+  }*/
   exports.updateCar=async(req,res)=>{
 const updateCar=await Car.findByIdAndUpdate(req.params.id,req.body,{ new:true});// {new:true tells monogoose the updated data , body feyha updated data }
 res.json(updateCar);

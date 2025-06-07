@@ -64,4 +64,4 @@ const validation = {
 };
 
 // Export the validation object
-window.validation = validation; 
+window.validation = validation;
