@@ -12,7 +12,7 @@
     const bookingList = document.getElementById("booking-list");
     if (!bookingList) return;
 
-    // Example: add tooltip showing status on each booking
+ 
     Array.from(bookingList.children).forEach(item => {
       const status = item.dataset.status || "Unknown";
       item.title = `Status: ${status}`;
@@ -30,7 +30,7 @@
       const dateStr = item.dataset.purchasedate;
       const formattedDate = formatDate(dateStr);
 
-      // Append formatted date in a new span for clarity
+      
       const dateSpan = document.createElement("span");
       dateSpan.textContent = ` (Purchased on: ${formattedDate})`;
       dateSpan.style.fontStyle = "italic";
