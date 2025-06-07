@@ -7,22 +7,24 @@
 <body>
   <h1>My Purchases</h1>
 
-  <% if (purchases.length === 0) { %>
-    <p>You have not purchased any cars.</p>
-  <% } else { %>
-    <ul>
-      <% purchases.forEach(purchase => { %>
-        <li>
-          Car ID: <%= purchase.carId %> <br>
-          Payment Info: <%= JSON.stringify(purchase.paymentInfo) %> <br>
-          Date: <%= new Date(purchase.purchaseDate).toLocaleDateString() %>
-        </li>
-        <hr>
-      <% }) %>
-    </ul>
-  <% } %>
+  <div id="purchase-page">
+    <% if (purchases.length === 0) { %>
+      <p>You have not purchased any cars.</p>
+    <% } else { %>
+      <ul id="purchase-list">
+        <% purchases.forEach(purchase => { %>
+          <li data-car-id="<%= purchase.carId %>" data-purchasedate="<%= purchase.purchaseDate %>">
+            Car ID: <%= purchase.carId %> <br>
+            Payment Info: <%= JSON.stringify(purchase.paymentInfo) %> <br>
+            Date: <%= new Date(purchase.purchaseDate).toLocaleDateString() %>
+          </li>
+        <% }) %>
+      </ul>
+    <% } %>
+  </div>
 
   <a href="/">Back to Home</a>
-    <script src="/js/booking.js" defer></script>
+
+  <script src="/js/booking.js" defer></script>
 </body>
 </html>
