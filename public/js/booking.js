@@ -25,7 +25,7 @@
     const purchaseList = document.getElementById("purchase-list");
     if (!purchaseList) return;
 
-    // Example: format purchase date nicely on each purchase
+   
     Array.from(purchaseList.children).forEach(item => {
       const dateStr = item.dataset.purchasedate;
       const formattedDate = formatDate(dateStr);
@@ -38,3 +38,6 @@
 
       item.appendChild(dateSpan);
     });
+    
+    console.log("Purchase page initialized");
+  }
