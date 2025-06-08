@@ -8,4 +8,9 @@ router.get('/cars/:id', carController.getCarById);
 // router.post('/cars', upload.array('images'), carController.createCar);
 router.put('/cars/:id', carController.updateCar);
 router.delete('/cars/:id', carController.deleteCar);
+<<<<<<< Updated upstream
 module.exports = router;  // <<-- important export
+=======
+
+module.exports = router;  
+>>>>>>> Stashed changes
