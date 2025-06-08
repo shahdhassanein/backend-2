@@ -7,6 +7,8 @@ const mongoose = require('mongoose');
 //tells the node.js to go to the routes files and bring whatever exported from it 
 const app = express();
 
+
+
 const carRoutes= require('../backend-2/routes/carRoutes');
 const userRoutes = require('../backend-2/routes/userRoutes');
 
@@ -14,6 +16,9 @@ const bookingsalesroute = require('../backend-2/routes/bookingsalesroute');
 //to connect purchase to the database mfysh booking
 connectDB();
 
+console.log('carRoutes:', carRoutes);
+console.log('userRoutes:', userRoutes);
+console.log('bookingsalesroute:', bookingsalesroute);
 
 app.use(express.json());
 app.use(express.static('./public'));
