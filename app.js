@@ -16,9 +16,9 @@ const bookingsalesroute = require('../backend-2/routes/bookingsalesroute');
 //to connect purchase to the database mfysh booking
 connectDB();
 
-console.log('carRoutes:', carRoutes);
+/*console.log('carRoutes:', carRoutes);
 console.log('userRoutes:', userRoutes);
-console.log('bookingsalesroute:', bookingsalesroute);
+console.log('bookingsalesroute:', bookingsalesroute);*/ //hsybo dlw ashan nhdd fyn el error da debugging bs
 
 app.use(express.json());
 app.use(express.static('./public'));
