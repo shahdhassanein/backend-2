@@ -5,13 +5,11 @@ const auth = require('../middleware/auth');
 
 router.post('/purchase', auth, controller.purchaseCar);
 
-
 router.get('/my-purchases', auth, controller.getMyPurchases);
-
 
 router.get('/view-my-purchases', auth, async (req, res) => {
   try {
-    const purchases = await controller.getMyPurchasesData(req.user.id);
+    const purchases = await controller.getMyPurchasesData(req.user._id);
     res.render('mypurchases', { purchases });  
   } catch (error) {
     console.error('Error fetching purchases:', error);

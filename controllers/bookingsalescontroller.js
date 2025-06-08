@@ -5,8 +5,8 @@ const User = require('../models/usersschema');
 // to create a new purchase
 exports.purchaseCar = async (req, res) => {
   try {
-const userId = req.user._id;  
-const { carId, paymentInfo } = req.body;
+    const userId = req.user._id;  
+    const { carId, paymentInfo } = req.body;
 
     const user = await User.findById(userId);
     if (!user) return res.status(404).json({ message: 'User not found' });
@@ -24,10 +24,8 @@ const { carId, paymentInfo } = req.body;
       paymentInfo
     });
 
-  
     car.availability = false;
     await car.save();
-
     await purchase.save();
 
     res.status(201).json({ message: 'Purchase completed successfully', purchase });
@@ -37,18 +35,23 @@ const { carId, paymentInfo } = req.body;
   }
 };
 
-// Get all purchases for the logged-in user
+// Get  purchases for the logged-in user 
 exports.getMyPurchases = async (req, res) => {
   try {
     const userId = req.user._id; 
-
     const purchases = await Purchase.find({ userId })
       .populate('carId')
       .populate('userId', '-password');
-
     res.json(purchases);
   } catch (error) {
     console.error('Get purchases error:', error);
     res.status(500).json({ message: 'Failed to fetch purchases' });
   }
+};
+
+
+exports.getMyPurchasesData = async (userId) => {
+  return await Purchase.find({ userId })
+    .populate('carId')
+    .populate('userId', '-password');
 };
