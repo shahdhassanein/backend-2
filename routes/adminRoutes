@@ -1,30 +1,22 @@
-const express = require('express');
+const express = require ('express');
 const router = express.Router();
-const { protect, adminOnly } = require('../middleware/authMiddleware');
+const mongoose = require ('mongoose');
+const user = requie ('../models/userschema');
+const purchase = require ('../models/purchaseschema');
+const car = require ('../models/carsschema');
+const protect = require ('../middleware/auth' );
+const adminOnly= require ('../middleware/adminOnly');
 
-// Get dashboard stats
-router.get('/stats', protect, adminOnly, async (req, res) => {
+
+//get admin dashboard
+router.get('/Dashboard', protect, adminOnly, async (req, res)=>{
     try {
-        const stats = {
-            totalUsers: await User.countDocuments({ isAdmin: false }),
-            totalCars: await Car.countDocuments(),
-            totalOrders: await Order.countDocuments(),
-            // Add more stats as needed
-        };
-        res.json(stats);
-    } catch (error) {
-        res.status(500).json({ message: error.message });
+        const userCount = await user.countDocments();
+        const carCount = await car.countDocuments();
+        const bookingCount = await booking.countDocuments();
+        res.json({users: userCount, cars: carCount, booking:bookingCount});
+    } catch(err){ 
+        res.status(500).json({message:'Error fetching dashboards stats',error:err.message});
     }
 });
 
-// Get all users (admin only)
-router.get('/users', protect, adminOnly, async (req, res) => {
-    try {
-        const users = await User.find({}).select('-password');
-        res.json(users);
-    } catch (error) {
-        res.status(500).json({ message: error.message });
-    }
-});
-
-module.exports = router;
