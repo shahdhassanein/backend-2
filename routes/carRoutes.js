@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const Car = require('../models/carsschema');
-const { protect, authorize } = require('../middleware/auth');
+const { protect, authorize } = require('../middleware/auth.js');
 const carController=require('../controllers/carController');
 router.get('/cars',carController.getAllCars);
 router.get('/cars/:id',carController.getCarById);
