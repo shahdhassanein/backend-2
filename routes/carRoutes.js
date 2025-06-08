@@ -8,3 +8,4 @@ router.get('/cars/:id',carController.getCarById);
 //router.post('/cars',upload.array('images'),carController.createCar);
 router.put('cars/:id',carController.updateCar);
 router.delete('/cars/:id',carController.deleteCar);
+module.exports = router;
