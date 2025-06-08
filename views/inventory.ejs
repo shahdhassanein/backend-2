@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Car Inventory Management - Car Showroom</title>
+    <link rel="stylesheet" href="/styles/inventory.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Header Section -->
+        <div class="header">
+            <div class="header-content">
+                <div class="header-left">
+                    <h1><i class="fas fa-car"></i> Car Inventory</h1>
+                    <p>Manage your luxury car collection</p>
+                </div>
+                <div class="header-actions">
+                    <button class="btn btn-secondary" id="exportBtn">
+                        <i class="fas fa-download"></i> Remove Car
+                    </button>
+                    <button class="btn btn-primary" id="addCarBtn">
+                        <i class="fas fa-plus"></i> Add New Car
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Stats Section -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-header">
+                    <div class="stat-icon" style="background: linear-gradient(135deg, #7b0707, #7b0707);">
+                        <i class="fas fa-car"></i>
+                    </div>
+                    <div>
+                        <div class="stat-value" id="totalCars"><%= totalCars %></div>
+                        <div class="stat-label">Total Cars</div>
+                    </div>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-header">
+                    <div class="stat-icon" style="background: linear-gradient(135deg, #11998e, #38ef7d);">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <div>
+                        <div class="stat-value" id="activeCars"><%= activeCars %></div>
+                        <div class="stat-label">Active Cars</div>
+                    </div>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-header">
+                    <div class="stat-icon" style="background: linear-gradient(135deg, #f093fb, #f5576c);">
+                        <i class="fas fa-exclamation-triangle"></i>
+                    </div>
+                    <div>
+                        <div class="stat-value" id="lowStock"><%= lowStock %></div>
+                        <div class="stat-label">Low Stock</div>
+                    </div>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-header">
+                    <div class="stat-icon" style="background: linear-gradient(135deg, #4facfe, #00f2fe);">
+                        <i class="fas fa-dollar-sign"></i>
+                    </div>
+                    <div>
+                        <div class="stat-value" id="totalValue">$<%= totalValue %>M</div>
+                        <div class="stat-label">Total Value</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Controls Section -->
+        <div class="controls-section">
+            <div class="search-filters">
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="searchInput" placeholder="Search cars...">
+                </div>
+                <div class="filter-group">
+                    <select id="brandFilter">
+                        <option value="">All Brands</option>
+                        <% brands.forEach(brand => { %>
+                            <option value="<%= brand %>"><%= brand %></option>
+                        <% }) %>
+                    </select>
+                    <select id="categoryFilter">
+                        <option value="">All Categories</option>
+                        <% categories.forEach(cat => { %>
+                            <option value="<%= cat %>"><%= cat %></option>
+                        <% }) %>
+                    </select>
+                    <select id="statusFilter">
+                        <option value="">All Status</option>
+                        <option value="Active">Active</option>
+                        <option value="Low Stock">Low Stock</option>
+                        <option value="Out of Stock">Out of Stock</option>
+                    </select>
+                </div>
+            </div>
+            <div class="view-controls">
+                <button class="view-btn active" data-view="grid"><i class="fas fa-th"></i></button>
+                <button class="view-btn" data-view="table"><i class="fas fa-list"></i></button>
+            </div>
+        </div>
+
+        <!-- Inventory Grid View -->
+        <div class="inventory-grid" id="inventoryGrid">
+            <% cars.forEach(car => { %>
+                <div class="car-card">
+                    <img src="<%= car.image %>" alt="<%= car.name %>">
+                    <div class="car-details">
+                        <h3><%= car.name %></h3>
+                        <p><strong>Brand:</strong> <%= car.brand %></p>
+                        <p><strong>Category:</strong> <%= car.category %></p>
+                        <p><strong>Price:</strong> $<%= car.price %></p>
+                        <p><strong>Stock:</strong> <%= car.stock %></p>
+                    </div>
+                </div>
+            <% }) %>
+        </div>
+
+        <!-- Inventory Table View -->
+        <div class="inventory-table" id="inventoryTable" style="display: none;">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Image</th>
+                        <th>Car Name</th>
+                        <th>Brand</th>
+                        <th>Category</th>
+                        <th>Price</th>
+                        <th>Stock</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody id="inventoryTableBody">
+                    <% cars.forEach(car => { %>
+                        <tr>
+                            <td><img src="<%= car.image %>" alt="<%= car.name %>" height="50"></td>
+                            <td><%= car.name %></td>
+                            <td><%= car.brand %></td>
+                            <td><%= car.category %></td>
+                            <td>$<%= car.price %></td>
+                            <td><%= car.stock %></td>
+                            <td><%= car.status %></td>
+                            <td>
+                                <button class="btn btn-edit" onclick="editCar('<%= car.id %>')">Edit</button>
+                                <button class="btn btn-delete" onclick="deleteCar('<%= car.id %>')">Delete</button>
+                            </td>
+                        </tr>
+                    <% }) %>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Pagination -->
+        <div class="pagination" id="pagination">
+            <button class="page-btn" id="prevBtn"><i class="fas fa-chevron-left"></i></button>
+            <div class="page-numbers" id="pageNumbers"></div>
+            <button class="page-btn" id="nextBtn"><i class="fas fa-chevron-right"></i></button>
+        </div>
+    </div>
+
+    <!-- Include modals here if needed (Add/Edit, Delete) -->
+    <% include ./partials/modals %>
+
+    <script src="/scripts/inventory.js"></script>
+</body>
+</html>
