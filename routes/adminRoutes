@@ -1,22 +1,13 @@
 const express = require ('express');
 const router = express.Router();
-const mongoose = require ('mongoose');
-const user = requie ('../models/userschema');
-const purchase = require ('../models/purchaseschema');
-const car = require ('../models/carsschema');
-const protect = require ('../middleware/auth' );
-const adminOnly= require ('../middleware/adminOnly');
 
+const {protect, adminOnly} = require ('../Middleware/auth');
+const adminController =  require ('../controllers/adminController');
 
-//get admin dashboard
-router.get('/Dashboard', protect, adminOnly, async (req, res)=>{
-    try {
-        const userCount = await user.countDocments();
-        const carCount = await car.countDocuments();
-        const bookingCount = await booking.countDocuments();
-        res.json({users: userCount, cars: carCount, booking:bookingCount});
-    } catch(err){ 
-        res.status(500).json({message:'Error fetching dashboards stats',error:err.message});
-    }
-});
+router.get('/users', protect, adminOnly, adminController.getAllUsers);
+router.get('/bookings', protect, adminOnly, adminController.getAllBookings );
+router.get('/cars', protect, adminOnly, adminController.getAllCars);
+router.get('/report', protect, adminOnly, adminController.getReport);
+
+module.exports = router;
 
