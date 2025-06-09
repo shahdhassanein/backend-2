@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard - Car Showroom</title>
     <link rel="stylesheet" href="/css/admin.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 <body>
     <div class="admin-container">
@@ -14,7 +15,7 @@
                 <ul>
                     <li class="active" data-tab="cars"><i class="fas fa-car"></i> Cars Management</li>
                     <li><a href="/usersmangment"><i class="fas fa-users"></i> Users Management</a></li>
-                   <li data-tab="orders"><i class="fas fa-shopping-cart"></i> Orders</li>
+                   
                     <li id="logout"><i class="fas fa-sign-out-alt"></i> Logout</li>
                 </ul>
             </nav>
@@ -22,19 +23,35 @@
 
         <main class="main-content">
             <header>
-                 <h2>Cars Management</h2>
+                <h2>Cars Management</h2>
                 <div class="admin-info">
                     <span id="admin-name"></span>
                 </div>
             </header>
-//hhu
+
             <section id="cars" class="tab-content active">
                 <div class="section-header">
                     <button class="add-btn" id="add-car-btn">Add New Car</button>
-                     <button class="add-btn" id="add-car-btn">Remove  Car</button>
-                      <button class="add-btn" id="add-car-btn">Update  Car</button>
+                    <button class="add-btn" id="remove-car-btn">Remove Car</button>
+                    <button class="add-btn" id="update-car-btn">Update Car</button>
                 </div>
-                <div class="cars-grid" id="cars-grid"></div>
+
+                <!-- Add Car Form -->
+                <div class="car-form-container" id="car-form-container" style="display: none;">
+                    <form id="add-car-form" method="POST" action="/admin/add-car">
+                        <h3>Add New Car</h3>
+                        <input type="text" name="brand" placeholder="Brand" required>
+                        <input type="text" name="model" placeholder="Model" required>
+                        <input type="number" name="price" placeholder="Price" required>
+                        <input type="text" name="color" placeholder="Color">
+                        <button type="submit">Submit</button>
+                        <button type="button" id="cancel-form-btn">Cancel</button>
+                    </form>
+                </div>
+
+                <div class="cars-grid" id="cars-grid">
+                    <!-- Car cards will be rendered here -->
+                </div>
             </section>
 
             <section id="users" class="tab-content">
@@ -48,6 +65,8 @@
             </section>
         </main>
     </div>
+
+    <!-- External JavaScript -->
     <script src="/js/admin.js"></script>
 </body>
 </html>
