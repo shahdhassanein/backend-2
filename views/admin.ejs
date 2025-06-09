@@ -14,12 +14,34 @@
                 <ul>
                     <li class="active" data-tab="cars"><i class="fas fa-car"></i> Cars Management</li>
                     <li data-tab="users"><i class="fas fa-users"></i> Users Management</li>
-                    <li data-tab="orders"><i class="fas fa-shopping-cart"></i> Orders</li>
+                   <li data-tab="orders"><i class="fas fa-shopping-cart"></i> Orders</li>
                     <li id="logout"><i class="fas fa-sign-out-alt"></i> Logout</li>
                 </ul>
             </nav>
         </aside>
-
+<!-- Orders Section -->
+<section id="orders" class="content-section">
+  <div class="section-header">
+    <h2>Orders</h2>
+  </div>
+  <div class="orders-table">
+    <table>
+      <thead>
+        <tr>
+          <th>Order ID</th>
+          <th>Customer</th>
+          <th>Car</th>
+          <th>Date</th>
+          <th>Amount</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody id="orders-body">
+        <!-- Orders will load here via JavaScript -->
+      </tbody>
+    </table>
+  </div>
+</section>
         <main class="main-content">
             <header>
                 <h1>Cars Management</h1>
@@ -46,8 +68,10 @@
                 <h2>Orders Management</h2>
                 <div class="orders-list" id="orders-list"></div>
             </section>
+
         </main>
     </div>
    <script src="/js/admin.js"></script>
+   <script src="/js/admin-orders.js"></script>
 </body>
 </html>
