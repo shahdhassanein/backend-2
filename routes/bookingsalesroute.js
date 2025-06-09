@@ -7,6 +7,16 @@ router.post('/purchase', protect, controller.purchaseCar);
 
 router.get('/my-purchases', protect, controller.getMyPurchases);
 
+router.get('/', protect, async (req, res) => {
+    try {
+        const purchases = await controller.getAllPurchases(); // Call a controller function to get ALL purchases
+        res.json(purchases); // Send the data as JSON
+    } catch (error) {
+        console.error('Error fetching all purchases:', error);
+        res.status(500).json({ message: 'Server error while fetching all purchases' });
+    }
+});
+
 router.get('/view-my-purchases', protect, async (req, res) => {
   try {
     const purchases = await controller.getMyPurchasesData(req.user._id);
