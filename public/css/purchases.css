@@ -2,7 +2,7 @@
 
 body {
     font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
+    background-color:  #a6a6a6;
     margin: 0;
     padding: 20px;
     color: #333;
@@ -55,7 +55,7 @@ table {
 }
 
 table thead th {
-    background-color: #007bff;
+    background-color: #8B0000;
     color: white;
     padding: 12px 15px;
     text-align: left;
