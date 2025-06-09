@@ -51,7 +51,7 @@ app.get('/admin/orders', (req, res) => {
 });
 app.post('/api/cars', (req, res) => {
     const newCar = req.body;
-    // Add to DB logic here
+    
     res.status(201).json({ message: 'Car added' });
 });
 
