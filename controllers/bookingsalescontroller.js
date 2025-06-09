@@ -55,3 +55,15 @@ exports.getMyPurchasesData = async (userId) => {
     .populate('carId')
     .populate('userId', '-password');
 };
+
+exports.getAllPurchases = async () => {
+    try {
+        const purchases = await Purchase.find({}) // Find all purchases
+            .populate('carId') // Populate car details
+            .populate('userId', '-password'); // Populate user details (excluding password)
+        return purchases;
+    } catch (error) {
+        console.error('Error in getAllPurchases controller:', error);
+        throw new Error('Failed to retrieve all purchases');
+    }
+};
