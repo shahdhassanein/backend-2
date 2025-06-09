@@ -50,5 +50,29 @@ const car = require ('../models/carsschema');
             res.status(500).json({message:'failed to generate report'});
          }
         };
+        // Get all orders
+exports.getAllOrders = async (req, res) => {
+    try {
+        const orders = await Purchase.find()
+            .populate('user', 'name email')
+            .populate('items.car', 'brand model price images')
+            .sort({ createdAt: -1 });
+        res.json(orders);
+    } catch (error) {
+        res.status(500).json({ error: "Failed to fetch orders" });
+    }
+};
+
+// Update order status
+exports.updateOrderStatus = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { status } = req.body;
+        const order = await Purchase.findByIdAndUpdate(id, { status }, { new: true });
+        res.json({ success: true, order });
+    } catch (error) {
+        res.status(500).json({ error: "Failed to update status" });
+    }
+};s
 
        
