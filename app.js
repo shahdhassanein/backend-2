@@ -32,8 +32,15 @@ app.use(express.static('./public'));
 app.set('view engine', 'ejs'); 
 app.set('views', path.join(__dirname,'views'));
 app.use(express.static(path.join(__dirname,'public')));
-app.get('/',(req,res)=>{res.render('homepage',{title: 'Home Page'})});
-app.get('/admin',(req,res)=>{res.render('admin',{title: 'admin page'})});
+app.get ('/',(req,res)=>{res.render('homepage',{title: 'Home Page'})});
+app.get ('/admin',(req,res)=>{res.render('admin',{title: 'admin page'})});
+app.get ('/purchases', (req,res)=>{res.render ('purchases',{title:'Purchases'})});
+app.get ('/Dashboard',(req,res)=>{res.render ('Dashboard',{title:'Dashboard'})});
+app.get ('Conatct', (req,res)=> {res.render('Contact', {title:'Contact'})});
+app.get ('/checkout', (req,res)=> {res.render ('checkout',{title:'Checkout'})});
+app.get ('/cart', (req,res)=> {res.render ('cart', {title:'Cart'})});
+app.get ('/carlisting', (req, res)=> {res.render ('carlisting', {title:'Car Listing'})});
+app.get ('/admin-orders', (req,res)=>{res.render ('admin-orders', {title:'Admin Orders'})});
 
 app.get('/orders', (req, res) => {
     res.render('orders');
