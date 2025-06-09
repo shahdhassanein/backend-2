@@ -35,13 +35,18 @@ app.use(express.static(path.join(__dirname,'public')));
 
 app.get ('/',(req,res)=>{res.render('homepage',{title: 'Home Page'})});
 app.get ('/admin',(req,res)=>{res.render('admin',{title: 'admin page'})});
-app.get ('/purchases', (req,res)=>{res.render ('purchases',{title:'Purchases'})});
+app.get ('/mypurchases', (req,res)=>{res.render ('purchases',{title:'Purchases'})});
 app.get ('/Dashboard',(req,res)=>{res.render ('Dashboard',{title:'Dashboard'})});
-app.get ('Conatct', (req,res)=> {res.render('Contact', {title:'Contact'})});
+app.get ('/Contact', (req,res)=> {res.render('Contact', {title:'Contact'})});
 app.get ('/checkout', (req,res)=> {res.render ('checkout',{title:'Checkout'})});
 app.get ('/cart', (req,res)=> {res.render ('cart', {title:'Cart'})});
-app.get ('/carlisting', (req, res)=> {res.render ('carlisting', {title:'Car Listing'})});
+app.get ('/carllisting', (req, res)=> {res.render ('carllisting', {title:'Car Listing'})});
 app.get ('/admin-orders', (req,res)=>{res.render ('admin-orders', {title:'Admin Orders'})});
+app.get ('/inventory',(req,res)=>{res.render('inventory', {title: 'Inventory'})});
+app.get ('/login', (req,res)=>{ res.render ('login', {title:'Login'})});
+app.get ('/Privacy', (req,res)=> {req.render ('Privacy', {title:'Privacy'})});
+app.get ('/Term', (req,res)=> {res.render ('Term', {titl:'Term'})});
+app.get ('/usersmangment', (req,res)=> {res.render ('usermangment' ,{title:'Users Management'})});
 app.get ('/admin/orders', (req,res)=>{res.render('admin/orders', { title: 'Order', user: req.user })});
 
 
