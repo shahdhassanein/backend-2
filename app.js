@@ -25,7 +25,7 @@ app.use(express.json());
 app.use(express.static('./public'));
 
 // hena al routes ya shabab add it hena 
-app.use('/',carRoutes);
+app.use('/api/cars',carRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/bookingsales', bookingsalesroute);//purchaseroute
 app.use(express.static('./public'));
@@ -46,8 +46,8 @@ app.get ('/admin-orders', (req,res)=>{res.render ('admin-orders', {title:'Admin 
 
 app.get('/',(req,res)=>{res.render('homepage',{title: 'Home Page'})});
 app.get('/admin',(req,res)=>{res.render('admin',{title: 'admin page'})});
-app.get('/admin/orders', (req, res) => {
-    res.render('admin/orders', { title: 'Order', user: req.user });
+app.get('/usersmangment', (req, res) => {
+    res.render('usersmangment');
 });
 app.post('/api/cars', (req, res) => {
     const newCar = req.body;
