@@ -43,12 +43,7 @@ app.get ('/cart', (req,res)=> {res.render ('cart', {title:'Cart'})});
 app.get ('/carlisting', (req, res)=> {res.render ('carlisting', {title:'Car Listing'})});
 app.get ('/admin-orders', (req,res)=>{res.render ('admin-orders', {title:'Admin Orders'})});
 
-
-app.get('/',(req,res)=>{res.render('homepage',{title: 'Home Page'})});
-app.get('/admin',(req,res)=>{res.render('admin',{title: 'admin page'})});
-app.get('/admin/orders', (req, res) => {
-    res.render('admin/orders', { title: 'Order', user: req.user });
-});
+app.get ('/admin/orders', (rew,res)=>{res.render('admin/orders', { title: 'Order', user: req.user })});
 app.post('/api/cars', (req, res) => {
     const newCar = req.body;
     // Add to DB logic here
