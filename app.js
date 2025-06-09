@@ -42,6 +42,18 @@ app.get ('/cart', (req,res)=> {res.render ('cart', {title:'Cart'})});
 app.get ('/carllisting', (req, res)=> {res.render ('carlisting', {title:'Car Listing'})});
 app.get ('/admin-orders', (req,res)=>{res.render ('admin-orders', {title:'Admin Orders'})});
 
+
+app.get('/',(req,res)=>{res.render('homepage',{title: 'Home Page'})});
+app.get('/admin',(req,res)=>{res.render('admin',{title: 'admin page'})});
+app.get('/usersmangment', (req, res) => {
+    res.render('usersmangment');
+});
+app.post('/api/cars', (req, res) => {
+    const newCar = req.body;
+    
+    res.status(201).json({ message: 'Car added' });
+});
+
 const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {
