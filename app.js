@@ -29,6 +29,8 @@ app.use('/api/users', userRoutes);
 app.use('/api/bookingsales', bookingsalesroute);//purchaseroute
 app.use(express.static('./public'));
 app.set('view engine', 'ejs'); 
-app.listen(3000, () => {
-  console.log('Server running on port 3000');
-});//i added it 3ashan bas a3raf law server crashed aw l2 okay.
+const PORT = process.env.PORT || 3000;
+
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});
