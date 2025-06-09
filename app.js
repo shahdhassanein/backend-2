@@ -3,6 +3,7 @@ require('dotenv').config();
 const express=require('express');
 const connectDB = require('./config/db');
 const mongoose = require('mongoose');
+const path = require('path');
 
 //tells the node.js to go to the routes files and bring whatever exported from it 
 const app = express();
@@ -29,7 +30,10 @@ app.use('/api/users', userRoutes);
 app.use('/api/bookingsales', bookingsalesroute);//purchaseroute
 app.use(express.static('./public'));
 app.set('view engine', 'ejs'); 
-
+app.set('views', path.join(__dirname,'views'));
+app.use(express.static(path.join(__dirname,'public')));
+app.get('/',(req,res)=>{res.render('homepage',{title: 'Home Page'})});
+app.get('/homepage.ejs',(req,res)=>{res.render('homepage',{title: 'Home Page'})});
 
 const PORT = process.env.PORT || 3000;
 

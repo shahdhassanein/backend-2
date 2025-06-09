@@ -1,11 +1,92 @@
-
-<!-- views/homepage.ejs -->
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Car Showroom</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Car Showroom - Home</title>
+    <link rel="stylesheet" href="/css/homepage.css"> 
+    
 </head>
+
 <body>
-  <h1>Welcome to the Car Showroom Website 🚗</h1>
+
+    
+    <nav>
+        <div class="navbar"> 
+            <div class="logo">
+                <h2 style="margin-left: 16px;">Car Showroom</h2> 
+
+            </div>
+            <ul>
+                <li><a href="/homepage.ejs" class="active" onclick="playSound('porsche-105500')">Home</a></li>
+                <li><a href="carllisting.ejs">Car Listings</a></li>
+                <li><a href="../Dashboard/Dashboard.html">Dashboard</a></li>
+                <li><a href="../contactus/Contact.html" >Contact</a></li>
+                <li><a href="../login/login.html">Sign Up/Login</a></li>
+                 
+
+            </ul>
+            <div class="cart-container">
+                <li><a href="./cart.ejs" >Cart</a></li>
+            </div>
+        </div>
+    </nav>
+
+    
+    <section class="hero">
+        <video autoplay muted id="hero-video">
+            <source src="../public/img/lambodriving.mp4" type="video/mp4">
+      
+        </video>
+        <div class="hero-content">
+            <h1>Discover Your Dream Car</h1>
+            <p>Explore the latest models and find the car of your dreams.</p>
+        </div>
+    </section>
+
+  
+    <section class="featured">
+     
+        <div class="featured-item">
+            <img src="newrealease.jpg" alt="New Releases">
+            <h2>New Releases</h2>
+            <p>Discover the latest models.</p>
+        </div>
+
+
+<div class="featured-item">
+    <img id="best-seller-image" src="car2.png" alt="Best Sellers" onclick="changeBestSellerImage()">
+    <h2>Best Sellers</h2>
+    <p>Find out our top-selling cars.</p>
+</div>
+
+        <div class="featured-item">
+            <img src="assests/image/brandnew.jpg" alt="Brand News">
+            <h2>Brand News</h2>
+            <p>Stay updated with our latest announcements.</p>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-content">
+            <p>&copy; 2025 Car Showroom | All Rights Reserved</p>
+            <p>
+                <a href="Term.html" target="_blank">Terms of Service</a> | 
+                <a href="Privacy.html" target="_blank">Privacy Policy</a>
+            </p>
+            
+            <p>Email: <a href="mailto:support@carshowroom.com">support@carshowroom.com</a></p>
+            <p>Phone: <a href="tel:+1234567890">+123 456 7890</a></p>
+            <p>Address: 123 Street, London, England</p>
+        </div>
+    </footer>
+    
+    <script src="../public/js/homepage.js"></script>
+
+<div class="cookie-banner">
+    <p>This website uses cookies. <a href="Privacy.html">Learn more</a></p>
+    <button onclick="this.parentElement.style.display='none'">Accept</button>
+</div>
+
 </body>
 </html>
