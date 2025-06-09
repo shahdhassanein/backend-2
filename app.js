@@ -42,7 +42,7 @@ app.get ('/checkout', (req,res)=> {res.render ('checkout',{title:'Checkout'})});
 app.get ('/cart', (req,res)=> {res.render ('cart', {title:'Cart'})});
 app.get ('/carlisting', (req, res)=> {res.render ('carlisting', {title:'Car Listing'})});
 app.get ('/admin-orders', (req,res)=>{res.render ('admin-orders', {title:'Admin Orders'})});
-app.get ('/admin/orders', (rew,res)=>{res.render('admin/orders', { title: 'Order', user: req.user })});
+app.get ('/admin/orders', (req,res)=>{res.render('admin/orders', { title: 'Order', user: req.user })});
 
 
 app.get('/',(req,res)=>{res.render('homepage',{title: 'Home Page'})});
