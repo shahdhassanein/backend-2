@@ -29,6 +29,7 @@ app.use('/api/users', userRoutes);
 app.use('/api/bookingsales', bookingsalesroute);//purchaseroute
 app.use(express.static('./public'));
 app.set('view engine', 'ejs'); 
+
 const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {
