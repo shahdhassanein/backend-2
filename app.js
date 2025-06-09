@@ -34,6 +34,9 @@ app.set('views', path.join(__dirname,'views'));
 app.use(express.static(path.join(__dirname,'public')));
 app.get('/',(req,res)=>{res.render('homepage',{title: 'Home Page'})});
 app.get('/admin',(req,res)=>{res.render('admin',{title: 'admin page'})});
+app.get('/admin/orders', (req, res) => {
+    res.render('admin/orders', { title: 'Admin Order Management', user: req.user });
+});
 app.post('/api/cars', (req, res) => {
     const newCar = req.body;
     // Add to DB logic here
