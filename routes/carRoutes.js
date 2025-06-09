@@ -1,31 +1,25 @@
 const express = require('express');
 const router = express.Router();
 const Car = require('../models/carsschema');
-const { protect, authorize } = require('../middleware/auth');
-const carController = require('../controllers/carController');
-router.get('/cars', carController.getAllCars);
-router.post("/admin/add-car", async (req, res) => {
+
+router.post('/add', async (req, res) => {
   try {
-    const { brand, model, year, color, price, imageUrl } = req.body;
+    const { name, model, engine, image, price } = req.body;
 
     const newCar = new Car({
-      brand,
+      name,
       model,
-      year,
-      color,
-      price,
-      imageUrl,
+      engine,
+      image,
+      price
     });
 
     await newCar.save();
-    res.status(200).json({ message: "Car added successfully" });
-  } catch (err) {
-    console.error("Error saving car:", err);
-    res.status(500).json({ error: "Failed to add car" });
+    res.status(201).json({ message: 'Car added successfully!' });
+  } catch (error) {
+    console.error('Error saving car:', error);
+    res.status(400).json({ error: error.message });
   }
 });
-router.get('/cars/:id', carController.getCarById);
-// router.post('/cars', upload.array('images'), carController.createCar);
-router.put('/cars/:id', carController.updateCar);
-router.delete('/cars/:id', carController.deleteCar);
-module.exports = router;  // <<-- important export
+
+module.exports = router;
