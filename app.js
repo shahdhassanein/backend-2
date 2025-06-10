@@ -1,9 +1,10 @@
+// app.js
 // Load environment variables from .env file
 require('dotenv').config();
 
 // --- IMPORTS ---
 const express = require('express');
-const mongoose = require('mongoose');
+const mongoose = require('mongoose'); // Mongoose is already imported, good.
 const path = require('path');
 const connectDB = require('./config/db'); // Your database connection function
 
@@ -11,37 +12,48 @@ const connectDB = require('./config/db'); // Your database connection function
 const app = express();
 
 // Connect to Database
+connectDB(); // Call the database connection function
 
-connectDB();
+// --- ROUTE IMPORTS ---
 const carRoutes = require('./routes/carRoutes');
 const bookingsalesroute = require('./routes/bookingsalesroute');
-const authRoutes = require('./routes/authRoutes'); // <-- IMPORT YOUR NEW AUTH ROUTES FILE
+const authRoutes = require('./routes/authRoutes');
+const adminRoutes = require('./routes/adminRoutes'); // Assuming this is also a separate routes file
 
-// --- USE API ROUTES ---
-// This tells Express to use your route files for any URL starting with the specified prefix.
-// This is the organized way to handle your APIs.
-app.use('/api/auth', authRoutes); // <-- USE THE AUTH ROUTES for URLs like /api/auth/login
-app.use('/api/bookingsales', bookingsalesroute);
-const adminRoutes = require('./routes/adminRoutes'); 
-//to connect purchase to the database mfysh booking
-
-/*console.log('carRoutes:', carRoutes);
-console.log('userRoutes:', userRoutes);
-console.log('bookingsalesroute:', bookingsalesroute);*/ //hsybo dlw ashan nhdd fyn el error da debugging bs
-//>>>>>>> fbfb4a4ee56a212ecd816ee22d367e9d84f45612
-
+// --- MIDDLEWARE ---
+// Parse URL-encoded bodies (as sent by HTML forms)
 app.use(express.urlencoded({ extended: true }));
+// Parse JSON bodies (as sent by API clients)
 app.use(express.json());
-app.use(express.static('./public'));
-app.use(express.static('./public'));
-app.set('view engine', 'ejs'); 
+// Serve static files from the 'public' directory
+app.use(express.static(path.join(__dirname, 'public')));
+
+
+// --- VIEW ENGINE SETUP ---
+app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname,'views'));
-app.use(express.static(path.join(__dirname,'public')));
-app.use('/api/cars', carRoutes); 
+
+
+// --- API ROUTES ---
+// This tells Express to use your route files for any URL starting with the specified prefix.
+app.use('/api/auth', authRoutes);
+app.use('/api/bookingsales', bookingsalesroute);
+
+// Mount carRoutes for '/cars' base path.
+// This is where the logic for GET /cars/add and POST /cars/add will be handled
+// by your carRoutes.js file and carController.js.
+app.use('/add', carRoutes);
+
+// If you have admin-specific routes, uncomment and use like this:
+// app.use('/admin', adminRoutes);
+
+
+// --- FRONTEND ROUTES (rendering EJS templates) ---
+// These routes directly render EJS files, often used for serving web pages.
 app.get('/', (req, res) => { res.render('homepage', { title: 'Home Page' }) });
-app.get('/usersmangment', (req, res) => { res.render('usersmangment', { title: 'usersmangment' }) });
-app.get('/admin', (req, res) => { res.render('admin', { title: 'admin page' }) });
-app.get('/mypurchases', (req, res) => { res.render('purchases', { title: 'Purchases' }) });
+app.get('/usersmangment', (req, res) => { res.render('usersmangment', { title: 'Users Management' }) });
+app.get('/admin', (req, res) => { res.render('admin', { title: 'Admin Page' }) });
+app.get('/mypurchases', (req, res) => { res.render('purchases', { title: 'My Purchases' }) });
 app.get('/Dashboard', (req, res) => { res.render('Dashboard', { title: 'Dashboard' }) });
 app.get('/Contact', (req, res) => { res.render('Contact', { title: 'Contact' }) });
 app.get('/checkout', (req, res) => { res.render('checkout', { title: 'Checkout' }) });
@@ -51,15 +63,30 @@ app.get('/inventory', (req, res) => { res.render('inventory', { title: 'Inventor
 app.get('/login', (req, res) => { res.render('login', { title: 'Login' }) });
 app.get('/Privacy', (req, res) => { res.render('Privacy', { title: 'Privacy' }) });
 app.get('/Term', (req, res) => { res.render('Term', { title: 'Term' }) });
-app.get('/login', (req, res) => { res.render('login', { title: 'Login' });});
 app.get('/register', (req, res) => {res.render('register', { title: 'Register' });});
-app.get ('/addcar', (req,res)=> {res.render ('addcar',{title:'form for addcar '})});
-app.get ('/cart', (req,res)=> {res.render ('cart', {title:'Cart'})});
-app.get ('/carllisting.ejs', (req, res)=> {res.render ('carllisting', {title:'Car Listing'})});
-app.get ('/carllisting', (req, res)=> {res.render ('carllisting', {title:'Car Listing'})});
-app.get ('/admin-orders', (req,res)=>{res.render ('admin-orders', {title:'Admin Orders'})});
-const PORT = process.env.PORT || 3000;
 
+// The '/addcar' route is now handled by the carRoutes.js
+// so you can remove this specific GET route handler if you want
+// to solely rely on the carRoutes.js for '/cars/add'.
+// If you keep it, `app.get('/addcar')` will take precedence over
+// `app.use('/cars', carRoutes)` for the exact path `/addcar` if it's placed earlier.
+// However, the cleanest approach is to have `/cars/add` be the only way to access it.
+// I've kept it for now, but note the potential redundancy.
+app.get('/addcar', (req, res) => {
+    // If you intend for this to be `/addcar` directly, and not `/cars/add`,
+    // then this line is fine. But for consistency with MVC, it's often preferred
+    // to keep all car-related routes under the `/cars` prefix.
+    // If you want this to use the controller, you'd call `carController.getAddCarForm` here.
+    res.render('addcar', { title: 'Add Car Form', error: undefined, success: undefined });
+});
+
+
+app.get ('/carllisting', (req, res)=> {res.render ('carllisting', {title:'Car Listing'})});
+
+
+// --- SERVER START ---
+const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
+  console.log(`Server running on port ${PORT}`);
+  console.log(`Access the 'Add Car' form at: http://localhost:${PORT}/cars/add`);
 });
