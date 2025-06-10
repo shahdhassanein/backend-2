@@ -17,11 +17,21 @@ connectDB(); // Call the database connection function
 // --- ROUTE IMPORTS ---
 const carRoutes = require('./routes/carRoutes');
 const bookingsalesroute = require('./routes/bookingsalesroute');
-const authRoutes = require('./routes/authRoutes');
-const adminRoutes = require('./routes/adminRoutes'); // Assuming this is also a separate routes file
+const authRoutes = require('./routes/authRoutes'); // <-- IMPORT YOUR NEW AUTH ROUTES FILE
 
-// --- MIDDLEWARE ---
-// Parse URL-encoded bodies (as sent by HTML forms)
+// --- USE API ROUTES ---
+// This tells Express to use your route files for any URL starting with the specified prefix.
+// This is the organized way to handle your APIs.
+app.use('/api/auth', authRoutes); // <-- USE THE AUTH ROUTES for URLs like /api/auth/login
+app.use('/api/bookingsales', bookingsalesroute);
+const adminRoutes = require('./routes/adminRoutes'); 
+//to connect purchase to the database mfysh booking
+
+/*console.log('carRoutes:', carRoutes);
+console.log('userRoutes:', userRoutes);
+console.log('bookingsalesroute:', bookingsalesroute);*/ //hsybo dlw ashan nhdd fyn el error da debugging bs
+//>>>>>>> fbfb4a4ee56a212ecd816ee22d367e9d84f45612
+
 app.use(express.urlencoded({ extended: true }));
 // Parse JSON bodies (as sent by API clients)
 app.use(express.json());
