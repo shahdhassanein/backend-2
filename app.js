@@ -37,7 +37,7 @@ app.use(express.static('./public'));
 app.set('view engine', 'ejs'); 
 app.set('views', path.join(__dirname,'views'));
 app.use(express.static(path.join(__dirname,'public')));
-app.use('/addcars', carRoutes);
+app.use('/api/cars', carRoutes); 
 app.get('/', (req, res) => { res.render('homepage', { title: 'Home Page' }) });
 app.get('/usersmangment', (req, res) => { res.render('usersmangment', { title: 'usersmangment' }) });
 app.get('/admin', (req, res) => { res.render('admin', { title: 'admin page' }) });
