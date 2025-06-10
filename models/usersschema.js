@@ -1,56 +1,17 @@
-/*const mongoose = require('mongoose');
+// models/User.js
+const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 
 const usersschema = new mongoose.Schema({
-    name: {
-        type: String,
-        required: [true, 'Please provide a name'],
-        trim: true
-    },
-    email: {
-        type: String,
-        required: [true, 'Please provide an email'],
-        unique: true,
-        match: [
-            /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/,
-            'Please provide a valid email'
-        ]
-    },
-    password: {
-        type: String,
-        required: [true, 'Please provide a password'],
-        minlength: 6,
-        select: false
-    },
-    phone: {
-        type: String,
-        required: [true, 'Please provide a phone number']
-    },
-    role: {
-        type: String,
-        enum: ['user', 'admin'],
-        default: 'user'
-    },
-    cart: {
-        items: [{
-            car: {
-                type: mongoose.Schema.Types.ObjectId,
-                ref: 'Car',
-                required: true
-            },
-            quantity: {
-                type: Number,
-                required: true,
-                min: 1,
-                default: 1
-            }
-        }]
-    },
-    createdAt: {
-        type: Date,
-        default: Date.now
-    }
+    // ... your schema code ...
+    name: { type: String, required: [true, 'Please provide a name'] },
+    email: { type: String, required: [true, 'Please provide an email'], unique: true, match: [ /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/, 'Please provide a valid email' ]},
+    password: { type: String, required: [true, 'Please provide a password'], minlength: 6, select: false },
+    phone: { type: String, required: [true, 'Please provide a phone number'] },
+    role: { type: String, enum: ['user', 'admin'], default: 'user' },
+    createdAt: { type: Date, default: Date.now }
+    // I've removed the cart for simplicity in this login example, but you can keep it.
 });
 
 // Hash password before saving
@@ -64,11 +25,9 @@ usersschema.pre('save', async function(next) {
 
 // Sign JWT and return
 usersschema.methods.getSignedJwtToken = function() {
-    return jwt.sign(
-        { id: this._id },
-        process.env.JWT_SECRET,
-        { expiresIn: process.env.JWT_EXPIRE }
-    );
+    return jwt.sign({ id: this._id }, process.env.JWT_SECRET, {
+        expiresIn: process.env.JWT_EXPIRE
+    });
 };
 
 // Match user entered password to hashed password in database
@@ -76,5 +35,4 @@ usersschema.methods.matchPassword = async function(enteredPassword) {
     return await bcrypt.compare(enteredPassword, this.password);
 };
 
-module.exports = mongoose.model('User', usersschema); 
-*/
+module.exports = mongoose.model('User', usersschema);
