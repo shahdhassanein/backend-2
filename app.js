@@ -57,7 +57,7 @@ app.get ('/mypurchases', (req,res)=>{res.render ('purchases',{title:'Purchases'}
 app.get ('/Dashboard',(req,res)=>{res.render ('Dashboard',{title:'Dashboard'})});
 app.get ('/Contact', (req,res)=> {res.render('Contact', {title:'Contact'})});
 app.get ('/checkout', (req,res)=> {res.render ('checkout',{title:'Checkout'})});
-app.get ('/checkout', (req,res)=> {res.render ('checkout',{title:'Checkout'})});
+app.get ('/addcar', (req,res)=> {res.render ('addcar',{title:'form for addcar '})});
 app.get ('/cart', (req,res)=> {res.render ('cart', {title:'Cart'})});
 
 app.get ('/carllisting.ejs', (req, res)=> {res.render ('carllisting', {title:'Car Listing'})});
