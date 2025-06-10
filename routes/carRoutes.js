@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const { protect, admin } = require('../middleware/auth'); 
 const carController = require('../controllers/carController');
 
 // Handle POST request to add a car
