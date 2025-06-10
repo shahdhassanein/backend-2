@@ -1,35 +1,70 @@
 
+
 body {
     font-family: Arial, sans-serif;
-    background-color: #f8f9fa;
-    color: #343a40;
 }
+
 .container {
     max-width: 600px;
-    margin-top: 50px;
+    margin: 50px auto;
     padding: 30px;
-    background-color: #ffffff;
+    background-color: #fff;
     border-radius: 8px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
+
 h2 {
-    color:rgb(170, 0, 0);
+    color: #333;
+    margin-bottom: 25px;
     text-align: center;
-    margin-bottom: 30px;
 }
+
+/* Adjustments for Bootstrap form elements */
+.form-label {
+    font-weight: bold;
+    color: #555;
+}
+
+.form-control {
+    border-radius: 5px;
+    padding: 10px;
+}
+
 .btn-primary {
-    background-color:rgb(170, 0, 0);
-    border-color: rgb(170, 0, 0);
+    background-color: #d8000c;
+    border-color: #d8000c;
     padding: 10px 20px;
-    font-size: 1.1rem;
-    width: 100%;
-    border-radius: 8px;
+    border-radius: 5px;
+    font-weight: bold;
 }
-.btn-primary:hover {
-    background-color: rgb(170, 0, 0);
-    border-color: rgb(170, 0, 0);
+
+.btn-secondary {
+    background-color: #6c757d;
+    border-color: #6c757d;
+    padding: 10px 20px;
+    border-radius: 5px;
+    font-weight: bold;
 }
+
+.btn-primary:hover, .btn-secondary:hover {
+    opacity: 0.9;
+}
+
 .alert {
-    border-radius: 8px;
+    padding: 15px;
     margin-top: 20px;
+    border-radius: 5px;
+    font-weight: bold;
+}
+
+.alert-success {
+    background-color: #d4edda;
+    color: #d8000c;
+    border-color: #c3e6cb;
+}
+
+.alert-danger {
+    background-color: #f8d7da;
+    color: #d8000c;
+    border-color: #f5c6cb;
 }
