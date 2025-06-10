@@ -4,18 +4,15 @@ const express=require('express');
 const connectDB = require('./config/db');
 const mongoose = require('mongoose');
 const path = require('path');
-
-//tells the node.js to go to the routes files and bring whatever exported from it 
 const app = express();
-
-//njnjono
-
-const carRoutes= require('../backend-2/routes/carRoutes');
-const userRoutes = require('../backend-2/routes/userRoutes');
-
-const bookingsalesroute = require('../backend-2/routes/bookingsalesroute');
-//to connect purchase to the database mfysh booking
+app.use(express.urlencoded({ extended: true }));
+app.use(express.json());
 connectDB();
+const carRoutes= require('./routes/carRoutes');
+const userRoutes = require('./routes/userRoutes');
+const bookingsalesroute = require('./routes/bookingsalesroute');
+const adminRoutes = require('./routes/adminRoutes'); 
+//to connect purchase to the database mfysh booking
 
 /*console.log('carRoutes:', carRoutes);
 console.log('userRoutes:', userRoutes);
@@ -24,6 +21,7 @@ console.log('bookingsalesroute:', bookingsalesroute);*/ //hsybo dlw ashan nhdd f
 app.use(express.json());
 app.use(express.static('./public'));
 // hena al routes ya shabab add it hena 
+app.use('/admin', adminRoutes);
 app.use('/api/cars',carRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/bookingsales', bookingsalesroute);//purchaseroute
@@ -46,8 +44,7 @@ app.get ('/inventory',(req,res)=>{res.render('inventory', {title: 'Inventory'})}
 app.get ('/login', (req,res)=>{ res.render ('login', {title:'Login'})});
 app.get ('/Privacy', (req,res)=> {res.render ('Privacy', {title:'Privacy'})});
 app.get ('/Term', (req,res)=> {res.render ('Term', {titl:'Term'})});
-app.get ('/usersmangment', (req,res)=> {res.render ('usermangment' ,{title:'Users Management'})});
-app.get ('/admin/orders', (req,res)=>{res.render('admin/orders', { title: 'Order', user: req.user })});
+
 
 app.post('/api/cars', (req, res) => {
     const newCar = req.body;

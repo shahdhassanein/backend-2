@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard - Car Showroom</title>
     <link rel="stylesheet" href="/css/admin.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
 </head>
 <body>
     <div class="admin-container">
@@ -40,10 +39,13 @@
                 <div class="car-form-container" id="car-form-container" style="display: none;">
                     <form id="add-car-form" method="POST" action="/admin/add-car">
                         <h3>Add New Car</h3>
-                        <input type="text" name="brand" placeholder="Brand" required>
-                        <input type="text" name="model" placeholder="Model" required>
-                        <input type="number" name="price" placeholder="Price" required>
-                        <input type="text" name="color" placeholder="Color">
+                    
+        <input type="text" name="model" placeholder="Model (e.g. 2021)" required>
+        <input type="number" name="price" placeholder="Price (e.g. 20000)" required>
+        <input type="text" name="engine" placeholder="Engine (e.g. i-VTEC)" required>
+        <input type="text" name="color" placeholder="Color (e.g. Blue)" required>
+        <input type="url" name="image" placeholder="Image URL" required>
+
                         <button type="submit">Submit</button>
                         <button type="button" id="cancel-form-btn">Cancel</button>
                     </form>
