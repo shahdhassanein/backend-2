@@ -13,17 +13,6 @@ exports.getAllCars=async(req,res)=>{
     const car=await Car.findById(req.params.id);//takes the id by url 
     res.json(car);
   };
-  /*exports.createCar=async(req,res)=>{
-    let imageUrls=[];
-    if (req.files&& req.files.length >0){
-     imageUrls=req.files.map(file=>file.path);
-    }
-    const car=new Car({
-        ...req.body,imageUrls:imageUrls
-    })
-    await car.save();
-    res.json(car);
-  }*/
   exports.updateCar=async(req,res)=>{
 const updateCar=await Car.findByIdAndUpdate(req.params.id,req.body,{ new:true});// {new:true tells monogoose the updated data , body feyha updated data }
 res.json(updateCar);
@@ -32,4 +21,22 @@ res.json(updateCar);
     await Car.findByIdAndDelete(req.params.id);
     res.json({message:'car deleted'});
   }
-  
+  const renderUpdateCarForm = async (req, res) => {
+    try {
+        const car = await Car.findById(req.params.id);
+
+        if (!car) {
+            return res.status(404).render('error', { message: 'Car not found.' }); // Render an error page or redirect
+        }
+
+        res.render('updatecar', { car });
+    } catch (error) {
+        console.error('Error rendering update car form:', error);
+        res.status(500).render('error', { message: 'Server error while loading update form.' }); // Render an error page or redirect
+    }
+};
+
+
+module.exports = {
+    renderUpdateCarForm,
+};
