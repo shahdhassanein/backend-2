@@ -1,13 +1,16 @@
-require('dotenv').config(); // Load environment variables
+// db.js
+require('dotenv').config();
 const mongoose = require('mongoose');
 
 const connectDB = async () => {
   try {
-    const conn = await mongoose.connect('mongodb://localhost:27017/backend');
-    console.log(`MongoDB Connected: ${conn.connection.db.databaseName}`);
+    await mongoose.connect('mongodb://localhost:27017/backend', {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
+    console.log('✅ Connected to MongoDB');
   } catch (err) {
-    console.error('MongoDB connection error:', err);
-    process.exit(1); // Exit app if db fails
+    console.error('❌ MongoDB connection error:', err.message);
   }
 };
 

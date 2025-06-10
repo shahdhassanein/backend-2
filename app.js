@@ -11,8 +11,8 @@ const connectDB = require('./config/db'); // Your database connection function
 const app = express();
 
 // Connect to Database
-connectDB();
 
+connectDB();
 const carRoutes = require('./routes/carRoutes');
 const bookingsalesroute = require('./routes/bookingsalesroute');
 const authRoutes = require('./routes/authRoutes'); // <-- IMPORT YOUR NEW AUTH ROUTES FILE
@@ -21,7 +21,6 @@ const authRoutes = require('./routes/authRoutes'); // <-- IMPORT YOUR NEW AUTH R
 // This tells Express to use your route files for any URL starting with the specified prefix.
 // This is the organized way to handle your APIs.
 app.use('/api/auth', authRoutes); // <-- USE THE AUTH ROUTES for URLs like /api/auth/login
-app.use('/addcars', carRoutes);
 app.use('/api/bookingsales', bookingsalesroute);
 const adminRoutes = require('./routes/adminRoutes'); 
 //to connect purchase to the database mfysh booking
@@ -31,12 +30,14 @@ console.log('userRoutes:', userRoutes);
 console.log('bookingsalesroute:', bookingsalesroute);*/ //hsybo dlw ashan nhdd fyn el error da debugging bs
 //>>>>>>> fbfb4a4ee56a212ecd816ee22d367e9d84f45612
 
+app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.static('./public'));
 app.use(express.static('./public'));
 app.set('view engine', 'ejs'); 
 app.set('views', path.join(__dirname,'views'));
 app.use(express.static(path.join(__dirname,'public')));
+app.use('/addcars', carRoutes);
 app.get('/', (req, res) => { res.render('homepage', { title: 'Home Page' }) });
 app.get('/usersmangment', (req, res) => { res.render('usersmangment', { title: 'usersmangment' }) });
 app.get('/admin', (req, res) => { res.render('admin', { title: 'admin page' }) });
