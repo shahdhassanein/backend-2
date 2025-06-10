@@ -5,9 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Car Listings - Car Showroom</title>
     <link rel="stylesheet" href="/css/carlisting.css">
-    <script src="/js/carlisting.js"></script>
-    
-</head>
+    </head>
 <body>
     <nav>
         <div class="navbar">
@@ -16,19 +14,18 @@
             </div>
             <ul>
                 <li><a href="/">Home</a></li>
-                <li><a href="/car listing1/carllisting.html" class="active">Car Listings</a></li>
-                <li><a href="../Dashboard/Dashboard.html">Dashboard</a></li>
-                <li><a href="../contactus/Contact.html">Contact</a></li>
-                <li><a href="../login/login.html">Sign Up/Login</a></li>
-             
-  <li><a href="/mypurchases">My Purchases</a></li>
+                <li><a href="/carllisting" class="active">Car Listings</a></li>
+                <li><a href="/Dashboard">Dashboard</a></li>
+                <li><a href="/Contact">Contact</a></li>
+                <li><a href="/login">Sign Up/Login</a></li>
+                <li><a href="/mypurchases">My Purchases</a></li>
             </ul>
             <div class="cart-container">
-                <a href="../cart/cart.html">Cart <span class="count">0</span></a>
+                <a href="/cart">Cart <span class="count">0</span></a>
             </div>
         </div>
     </nav>
-    
+
     <div class="filter-bar">
         <select id="categoryFilter" class="filter-dropdown">
             <option value="all">All Categories</option>
@@ -50,173 +47,161 @@
             <option value="Ferrari">Ferrari</option>
             <option value="McLaren">McLaren</option>
             <option value="Porsche">Porsche</option>
-        </select>
+            </select>
         
         <button id="resetFilters" class="filter-dropdown">Reset Filters</button>
     </div>
     
-    <div class="flex-container">
-        <!-- Porsche 911 Turbo -->
-        <div class="car-card" data-category="Gas" data-price="$400,000" data-brand="Porsche">
-            <span class="category-badge">Gas</span>
-            <img src="porsche 911 turbo gas.png" alt="Porsche 911 Turbo" class="car-image">
-            <div class="car-details">
-                <h3 class="car-name">Porsche 911 Turbo Gas</h3>
-                <div class="car-info">
-                    <p><strong>Price:</strong> $400,000</p>
-                    <p><strong>Engine:</strong> V12</p>
-                    <p><strong>Brand:</strong> Porsche</p>
-                </div>
-                <button class="add-to-cart" 
-                    data-price="400000" 
-                    data-name="Porsche 911 Turbo Gas"
-                    data-brand="Porsche"
-                    data-id="porsche-911-turbo">
-                    Add to Cart
-                </button>
-            </div>
-        </div>
-        
-        <!-- Porsche Panamera -->
-        <div class="car-card" data-category="Hybrid" data-price="$350,000" data-brand="Porsche">
-            <span class="category-badge">Hybrid</span>
-            <img src="car2.png" alt="Porsche Panamera Hybrid" class="car-image">
-            <div class="car-details">
-                <h3 class="car-name">Porsche Panamera Hybrid</h3>
-                <div class="car-info">
-                    <p><strong>Price:</strong> $350,000</p>
-                    <p><strong>Engine:</strong> V8</p>
-                    <p><strong>Brand:</strong> Porsche</p>
-                </div>
-                <button class="add-to-cart" 
-                    data-price="350000" 
-                    data-name="Porsche Panamera Hybrid"
-                    data-brand="Porsche"
-                    data-id="porsche-panamera-hybrid">
-                    Add to Cart
-                </button>
-            </div>
-        </div>
-        
-        <!-- Porsche 911 Targa -->
-        <div class="car-card" data-category="Electric" data-price="$180,000" data-brand="Porsche">
-            <span class="category-badge">Electric</span>
-            <img src="car14.png" alt="Porsche 911 Targa Electric" class="car-image">
-            <div class="car-details">
-                <h3 class="car-name">Porsche 911 Targa Electric</h3>
-                <div class="car-info">
-                    <p><strong>Price:</strong> $180,000</p>
-                    <p><strong>Engine:</strong> Flat-6</p>
-                    <p><strong>Brand:</strong> Porsche</p>
-                </div>
-                <button class="add-to-cart" 
-                    data-price="180000" 
-                    data-name="Porsche 911 Targa Electric"
-                    data-brand="Porsche"
-                    data-id="porsche-911-targa-electric">
-                    Add to Cart
-                </button>
-            </div>
-        </div>
-        
-        <!-- McLaren 720S -->
-        <div class="car-card" data-category="Gas" data-price="$200,000" data-brand="McLaren">
-            <span class="category-badge">Gas</span>
-            <img src="car11.png" alt="McLaren 720S Gas" class="car-image">
-            <div class="car-details">
-                <h3 class="car-name">McLaren 720S Gas</h3>
-                <div class="car-info">
-                    <p><strong>Price:</strong> $200,000</p>
-                    <p><strong>Engine:</strong> V8 Twin-Turbo</p>
-                    <p><strong>Brand:</strong> McLaren</p>
-                </div>
-                <button class="add-to-cart" 
-                    data-price="200000" 
-                    data-name="McLaren 720S Gas"
-                    data-brand="McLaren"
-                    data-id="mclaren-720s-gas">
-                    Add to Cart
-                </button>
-            </div>
-        </div>
-        <div class="car-card" data-category="Hybrid" data-price="$250,000" data-brand="McLaren">
-            <span class="category-badge">Hybrid</span>
-            <img src="car11.png" alt="McLaren W1 Hybrid" class="car-image">
-            <div class="car-details">
-                <h3 class="car-name">McLaren W1 Hybrid</h3>
-                <div class="car-info">
-                    <p><strong>Price:</strong> $250,000</p>
-                    <p><strong>Engine:</strong> V8 Twin-Turbo</p>
-                    <p><strong>Brand:</strong> McLaren</p>
-                </div>
-                <button class="add-to-cart" 
-                    data-price="250000" 
-                    data-name="McLaren W1 Hybrid"
-                    data-brand="McLaren"
-                    data-id="McLaren W1 Hybrid">
-                    Add to Cart
-                </button>
-            </div>
-        </div>
-        
-        <!-- Add more cars following the same pattern -->
-        
+    <div class="flex-container" id="car-listings-container">
+        <p id="loading-message">Loading cars...</p>
     </div>
 
     <script>
-        // Initialize cart count on page load
-        document.addEventListener('DOMContentLoaded', function() {
-            updateCartCount();
-            
-            // Add cart functionality to all buttons
-            document.querySelectorAll('.add-to-cart').forEach(button => {
-                button.addEventListener('click', function() {
-                    const product = {
-                        id: this.dataset.id,
-                        name: this.dataset.name,
-                        price: parseFloat(this.dataset.price),
-                        brand: this.dataset.brand
-                    };
-                    
-                    // Call addToCart function from cart.js
-                    addToCart(product);
-                    
-                    // Visual feedback
-                    this.classList.add('added-to-cart');
-                    this.textContent = 'Added to Cart!';
-                    
-                    // Reset after delay
-                    setTimeout(() => {
-                        this.classList.remove('added-to-cart');
-                        this.textContent = 'Add to Cart';
-                    }, 1500);
-                    
-                    // Show notification
-                    showNotification(product.name + ' added to cart!');
-                });
+        // --- Existing Cart and Notification Functions (Keep these as they are) ---
+        function updateCartCount() {
+            const cart = JSON.parse(localStorage.getItem('cart')) || [];
+            const totalItems = cart.reduce((sum, item) => sum + (item.quantity || 1), 0);
+            document.querySelectorAll('.count').forEach(el => {
+                el.textContent = totalItems;
             });
+        }
+        
+        function showNotification(message) {
+            const notification = document.createElement('div');
+            notification.className = 'cart-notification';
+            notification.textContent = message;
+            document.body.appendChild(notification);
             
-            // Function to update cart count
-            function updateCartCount() {
-                const cart = JSON.parse(localStorage.getItem('cart')) || [];
-                const totalItems = cart.reduce((sum, item) => sum + (item.quantity || 1), 0);
-                document.querySelectorAll('.count').forEach(el => {
-                    el.textContent = totalItems;
+            setTimeout(() => {
+                notification.remove();
+            }, 3000);
+        }
+
+        // --- NEW JAVASCRIPT FOR FETCHING AND RENDERING CARS ---
+
+        const carListingsContainer = document.getElementById('car-listings-container');
+
+        async function fetchAndRenderCars() {
+            try {
+                // Display loading message
+                carListingsContainer.innerHTML = '<p id="loading-message">Loading cars...</p>';
+
+                // Fetch car data from your backend API
+                const response = await fetch('/api/cars'); 
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                const cars = await response.json();
+
+                // Clear loading message and static content
+                carListingsContainer.innerHTML = ''; 
+
+                if (cars.length === 0) {
+                    carListingsContainer.innerHTML = '<p>No cars found in the database. Please add some cars via the admin panel or database directly.</p>';
+                    return;
+                }
+
+                // Render each car dynamically
+                cars.forEach(car => {
+                    const carCard = document.createElement('div');
+                    carCard.className = 'car-card';
+                    // Add data attributes for future filtering functionality
+                    carCard.dataset.category = car.model; 
+                    carCard.dataset.price = car.price;
+                    carCard.dataset.brand = car.brand;
+
+                    // Construct image URL. Assumes images are in '/public/images' and 'car.image' is just the filename.
+                    // Adjust this path if your image storage setup is different.
+                    const imageUrl = car.image.startsWith('/') ? car.image : `/images/${car.image}`; 
+
+                    carCard.innerHTML = `
+                        <span class="category-badge">${car.model}</span>
+                        <img src="${imageUrl}" alt="${car.name}" class="car-image">
+                        <div class="car-details">
+                            <h3 class="car-name">${car.name}</h3>
+                            <div class="car-info">
+                                <p><strong>Price:</strong> $${car.price.toLocaleString()}</p>
+                                <p><strong>Engine:</strong> ${car.engine}</p>
+                                <p><strong>Brand:</strong> ${car.brand}</p>
+                            </div>
+                            <button class="add-to-cart" 
+                                data-car-id="${car._id}"
+                                data-price="${car.price}" 
+                                data-name="${car.name}"
+                                data-brand="${car.brand}">
+                                Add to Cart
+                            </button>
+                        </div>
+                    `;
+                    carListingsContainer.appendChild(carCard);
                 });
+
+                // Attach event listeners to the newly created "Add to Cart" buttons
+                attachAddToCartListeners();
+
+            } catch (error) {
+                console.error('Error fetching or rendering cars:', error);
+                carListingsContainer.innerHTML = '<p>Failed to load cars. Please check your server and network connection.</p>';
+            }
+        }
+
+        // Function to safely attach add-to-cart listeners
+        function attachAddToCartListeners() {
+            document.querySelectorAll('.add-to-cart').forEach(button => {
+                // Remove existing listener to prevent duplicates if function is called multiple times
+                button.removeEventListener('click', handleAddToCartClick); 
+                // Add the new listener
+                button.addEventListener('click', handleAddToCartClick);
+            });
+        }
+
+        // Handler for Add to Cart button clicks
+        function handleAddToCartClick() {
+            const product = {
+                id: this.dataset.carId, // Use data-car-id for the actual MongoDB ID
+                name: this.dataset.name,
+                price: parseFloat(this.dataset.price),
+                brand: this.dataset.brand
+            };
+            
+            // This assumes 'addToCart' function is defined elsewhere (e.g., in /js/cart.js).
+            // If not, you will need to implement its logic here or ensure cart.js is loaded.
+            if (typeof addToCart === 'function') {
+                addToCart(product);
+            } else {
+                console.warn("addToCart function not found. Implementing basic localStorage add.");
+                let cart = JSON.parse(localStorage.getItem('cart')) || [];
+                const existingItemIndex = cart.findIndex(item => item.id === product.id);
+                if (existingItemIndex > -1) {
+                    cart[existingItemIndex].quantity = (cart[existingItemIndex].quantity || 1) + 1;
+                } else {
+                    cart.push({ ...product, quantity: 1 });
+                }
+                localStorage.setItem('cart', JSON.stringify(cart));
             }
             
-            // Function to show notification
-            function showNotification(message) {
-                const notification = document.createElement('div');
-                notification.className = 'cart-notification';
-                notification.textContent = message;
-                document.body.appendChild(notification);
-                
-                // Remove notification after delay
-                setTimeout(() => {
-                    notification.remove();
-                }, 3000);
-            }
+            this.classList.add('added-to-cart');
+            this.textContent = 'Added to Cart!';
+            
+            // Reset button text after a short delay
+            setTimeout(() => {
+                this.classList.remove('added-to-cart');
+                this.textContent = 'Add to Cart';
+            }, 1500);
+            
+            showNotification(product.name + ' added to cart!');
+            updateCartCount(); // Update cart count after adding item
+        }
+
+
+        // --- Initial Load Logic ---
+        document.addEventListener('DOMContentLoaded', function() {
+            updateCartCount();      // Initialize cart count
+            fetchAndRenderCars();   // Fetch and display cars from the database
+            // The filtering logic for the dropdowns (category, price, brand) 
+            // will need to be implemented separately to filter the 'cars' array 
+            // fetched from the database, or to re-fetch with query parameters.
+            // This code only covers initial display.
         });
     </script>
 </body>
