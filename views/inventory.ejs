@@ -125,6 +125,8 @@
             <% }) %>
         </div>
 
+        
+
         <!-- Inventory Table View -->
         <div class="inventory-table" id="inventoryTable" style="display: none;">
             <table>
@@ -153,7 +155,9 @@
                             <td>
                                 <button class="btn btn-edit" onclick="editCar('<%= car.id %>')">Edit</button>
                                 <button class="btn btn-delete" onclick="deleteCar('<%= car.id %>')">Delete</button>
+                                <a href="/api/cars/update-car-view/<%= car.id %>" class="btn btn-warning btn-sm">Update</a>
                             </td>
+                            
                         </tr>
                     <% }) %>
                 </tbody>
