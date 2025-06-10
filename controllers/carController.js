@@ -90,9 +90,6 @@ exports.updateCar = async (req, res) => {
     }
 };
 
-// @desc    Delete a car
-// @route   DELETE /api/cars/:id
-// @access  Private/Admin
 exports.deleteCar = async (req, res) => {
     try {
         const car = await Car.findById(req.params.id);

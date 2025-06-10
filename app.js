@@ -17,21 +17,8 @@ connectDB(); // Call the database connection function
 // --- ROUTE IMPORTS ---
 const carRoutes = require('./routes/carRoutes');
 const bookingsalesroute = require('./routes/bookingsalesroute');
-const authRoutes = require('./routes/authRoutes'); // <-- IMPORT YOUR NEW AUTH ROUTES FILE
-
-// --- USE API ROUTES ---
-// This tells Express to use your route files for any URL starting with the specified prefix.
-// This is the organized way to handle your APIs.
-app.use('/api/auth', authRoutes); // <-- USE THE AUTH ROUTES for URLs like /api/auth/login
-app.use('/api/bookingsales', bookingsalesroute);
-const adminRoutes = require('./routes/adminRoutes'); 
-//to connect purchase to the database mfysh booking
-
-/*console.log('carRoutes:', carRoutes);
-console.log('userRoutes:', userRoutes);
-console.log('bookingsalesroute:', bookingsalesroute);*/ //hsybo dlw ashan nhdd fyn el error da debugging bs
-//>>>>>>> fbfb4a4ee56a212ecd816ee22d367e9d84f45612
-
+// --- MIDDLEWARE ---
+// Parse URL-encoded bodies (as sent by HTML forms)
 app.use(express.urlencoded({ extended: true }));
 // Parse JSON bodies (as sent by API clients)
 app.use(express.json());
@@ -46,13 +33,12 @@ app.set('views', path.join(__dirname,'views'));
 
 // --- API ROUTES ---
 // This tells Express to use your route files for any URL starting with the specified prefix.
-app.use('/api/auth', authRoutes);
-app.use('/api/bookingsales', bookingsalesroute);
+
 
 // Mount carRoutes for '/cars' base path.
 // This is where the logic for GET /cars/add and POST /cars/add will be handled
 // by your carRoutes.js file and carController.js.
-app.use('/addcar', carRoutes);
+//app.use('/addcar', carRoutes);
 
 // If you have admin-specific routes, uncomment and use like this:
 // app.use('/admin', adminRoutes);
