@@ -32,7 +32,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 const carRoutes = require('./routes/carRoutes');
 const bookingsalesroute = require('./routes/bookingsalesroute');
 const adminRoutes = require('./routes/adminRoutes');
-const authRoutes = require('./routes/auth'); // <-- IMPORT YOUR NEW AUTH ROUTES FILE
+const authRoutes = require('./routes/authRoutes'); // <-- IMPORT YOUR NEW AUTH ROUTES FILE
 
 // --- USE API ROUTES ---
 // This tells Express to use your route files for any URL starting with the specified prefix.
@@ -40,7 +40,7 @@ const authRoutes = require('./routes/auth'); // <-- IMPORT YOUR NEW AUTH ROUTES 
 app.use('/api/auth', authRoutes); // <-- USE THE AUTH ROUTES for URLs like /api/auth/login
 app.use('/api/cars', carRoutes);
 app.use('/api/bookingsales', bookingsalesroute);
-// app.use('/admin', adminRoutes); // You can mount admin routes here too
+ app.use('/adminRoutes', adminRoutes); // You can mount admin routes here too
 
 
 // --- PAGE RENDERING ROUTES ---
@@ -59,6 +59,15 @@ app.get('/inventory', (req, res) => { res.render('inventory', { title: 'Inventor
 app.get('/login', (req, res) => { res.render('login', { title: 'Login' }) });
 app.get('/Privacy', (req, res) => { res.render('Privacy', { title: 'Privacy' }) });
 app.get('/Term', (req, res) => { res.render('Term', { title: 'Term' }) });
+//register
+
+app.get('/login', (req, res) => {
+    res.render('login', { title: 'Login' });
+});
+
+app.get('/register', (req, res) => {
+    res.render('register', { title: 'Register' });
+});
 
 
 // --- SERVER STARTUP ---
