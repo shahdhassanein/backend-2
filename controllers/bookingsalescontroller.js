@@ -58,9 +58,15 @@ exports.getMyPurchasesData = async (userId) => {
 
 exports.getAllPurchases = async () => {
     try {
+
+              console.log('Attempting to fetch all purchases from MongoDB...');
+
         const purchases = await Purchase.find({}) // Find all purchases
             .populate('carId') // Populate car details
             .populate('userId', '-password'); // Populate user details (excluding password)
+            
+                    console.log('Purchases fetched by controller:', purchases);
+
         return purchases;
     } catch (error) {
         console.error('Error in getAllPurchases controller:', error);
