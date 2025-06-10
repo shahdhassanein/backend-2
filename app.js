@@ -21,7 +21,7 @@ const authRoutes = require('./routes/authRoutes'); // <-- IMPORT YOUR NEW AUTH R
 // This tells Express to use your route files for any URL starting with the specified prefix.
 // This is the organized way to handle your APIs.
 app.use('/api/auth', authRoutes); // <-- USE THE AUTH ROUTES for URLs like /api/auth/login
-app.use('/api/cars', carRoutes);
+app.use('/addcars', carRoutes);
 app.use('/api/bookingsales', bookingsalesroute);
 const adminRoutes = require('./routes/adminRoutes'); 
 //to connect purchase to the database mfysh booking
