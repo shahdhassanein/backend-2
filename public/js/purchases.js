@@ -1,93 +1,75 @@
 // public/js/purchases.js
 
 document.addEventListener('DOMContentLoaded', async () => {
-    const purchasesTableBody = document.querySelector('#purchasesTable tbody');
+    const purchasesTableBody = document.getElementById('purchasesTableBody');
     const loadingMessage = document.getElementById('loading');
     const messageDiv = document.getElementById('message');
 
-    // --- IMPORTANT: How to get the User ID and Token ---
-    // In a real application, after a user logs in, you would store their
-    // JWT token and potentially their user ID in localStorage.
-    // For this example, let's assume they are stored like this:
-    const token = localStorage.getItem('token'); // Get token from localStorage
-    const userId = localStorage.getItem('userId'); // Get user ID from localStorage
-
-    // You might have gotten the userId from the login response.
-    // Example: If your login response gives you: { _id: "user_id", token: "jwt_token" }
-    // You would save them: localStorage.setItem('userId', data._id); localStorage.setItem('token', data.token);
-
-    if (!token || !userId) {
-        messageDiv.className = 'message error';
-        messageDiv.textContent = 'Please log in to view your purchase history.';
-        loadingMessage.style.display = 'none';
-        return;
+    // Function to show messages on the page
+    function showMessage(msg, type = 'success') {
+        messageDiv.textContent = msg;
+        messageDiv.className = `message ${type}`;
+        messageDiv.style.display = 'block';
     }
 
-    try {
-        // Construct the API URL for the current user's purchases
-        // Ensure this URL matches the route in your node.js: /api/users/:userId/purchases
-        const apiUrl = `http://localhost:3000/api/users/${userId}/purchases`;
+    // Function to hide messages
+    function hideMessage() {
+        messageDiv.style.display = 'none';
+    }
 
-        const response = await fetch(apiUrl, {
-            method: 'GET',
-            headers: {
-                'Content-Type': 'application/json',
-                'x-auth-token': token, // Send the JWT token for authentication
-            },
-        });
+    // Function to fetch and display ALL purchases for the admin view
+    async function fetchAllPurchases() {
+        loadingMessage.style.display = 'block'; // Show "Loading..."
+        purchasesTableBody.innerHTML = '';      // Clear any old data in the table body
+        hideMessage();                          // Hide any previous messages
 
-        loadingMessage.style.display = 'none'; // Hide loading message
+        try {
+            // This is the correct API call to the unprotected route we set up
+            const response = await fetch('/api/bookingsales'); 
 
-        if (!response.ok) {
-            const errorData = await response.json();
-            throw new Error(errorData.message || 'Failed to fetch purchases.');
-        }
+            // Check if the request was successful
+            if (!response.ok) {
+                const errorData = await response.json();
+                throw new Error(errorData.message || 'Failed to fetch all purchases.');
+            }
 
-        const data = await response.json();
+            const purchases = await response.json(); // Parse the JSON data received (it's an array directly)
 
-        if (data.data && data.data.length > 0) {
-            data.data.forEach(purchase => {
-                const row = purchasesTableBody.insertRow();
+            loadingMessage.style.display = 'none'; // Hide "Loading..."
 
-                // Format purchase date nicely
-                const purchaseDate = new Date(purchase.purchaseDate).toLocaleDateString('en-US', {
-                    year: 'numeric',
-                    month: 'long',
-                    day: 'numeric'
-                });
+            // If no purchases are found, show a message (check purchases.length directly)
+            if (purchases.length === 0) {
+                showMessage('No purchase history found.', 'info');
+                return;
+            }
 
-                // Insert cells and set their content
-                // Ensure these property names (userId.name, carId.name, etc.) match
-                // what your backend returns after population.
-                row.insertCell().textContent = purchase.userId ? purchase.userId.name : 'N/A'; // Populated user name
-                row.insertCell().textContent = purchase.carId ? purchase.carId.name : 'N/A';   // Populated car name
-                row.insertCell().textContent = purchase.carId ? purchase.carId.brand : 'N/A';
-                row.insertCell().textContent = purchase.carId ? purchase.carId.model : 'N/A';
-                row.insertCell().textContent = purchase.quantity || 'N/A'; // Ensure quantity exists
-                row.insertCell().textContent = purchase.unitPrice ? `$${purchase.unitPrice.toFixed(2)}` : 'N/A'; // Ensure unitPrice exists
-                row.insertCell().textContent = purchase.totalPrice ? `$${purchase.totalPrice.toFixed(2)}` : 'N/A'; // Ensure totalPrice exists
-                row.insertCell().textContent = purchaseDate;
-                row.insertCell().textContent = purchase.status || 'N/A';
+            // Loop through each purchase and add it as a row to the table
+            purchases.forEach(purchase => {
+                const row = document.createElement('tr'); // Create a new table row element
 
-                // Add data-label for responsive design on mobile
-                row.cells[0].setAttribute('data-label', 'Username');
-                row.cells[1].setAttribute('data-label', 'Car Name');
-                row.cells[2].setAttribute('data-label', 'Brand');
-                row.cells[3].setAttribute('data-label', 'Model');
-                row.cells[4].setAttribute('data-label', 'Quantity');
-                row.cells[5].setAttribute('data-label', 'Unit Price');
-                row.cells[6].setAttribute('data-label', 'Total Price');
-                row.cells[7].setAttribute('data-label', 'Purchase Date');
-                row.cells[8].setAttribute('data-label', 'Status');
+                // Populate cells based on the data structure in your MongoDB 'orders' collection
+                // and assuming your backend might populate 'userId' and 'carId' with object details.
+                row.innerHTML = `
+                    <td>${purchase.userId ? (purchase.userId.username || purchase.userId._id) : 'N/A'}</td>
+                    <td>${purchase.carId ? (purchase.carId.name || purchase.carId.id) : 'N/A'}</td>
+                    <td>${purchase.carId ? purchase.carId.brand : 'N/A'}</td>
+                    <td>${purchase.carId ? purchase.carId.model : 'N/A'}</td>
+                    <td>${purchase.quantity || 1}</td>
+                    <td>$${(purchase.carId && purchase.carId.price) ? purchase.carId.price.toFixed(2) : 'N/A'}</td>
+                    <td>$${(purchase.totalPrice || 0).toFixed(2)}</td>
+                    <td>${new Date(purchase.purchaseDate).toLocaleDateString()}</td>
+                    <td>${purchase.paymentInfo ? (purchase.paymentInfo.status || 'N/A') : 'N/A'}</td>
+                `;
+                purchasesTableBody.appendChild(row); // Add the populated row to the table body
             });
-        } else {
-            messageDiv.className = 'message';
-            messageDiv.textContent = 'No purchase history found.';
-        }
 
-    } catch (error) {
-        console.error('Failed to fetch purchases:', error);
-        messageDiv.className = 'message error';
-        messageDiv.textContent = `Error: ${error.message}`;
+        } catch (error) {
+            loadingMessage.style.display = 'none'; // Hide "Loading..."
+            console.error('Error fetching purchase history:', error);
+            showMessage(`Error: ${error.message}`, 'error'); // Display error message on the page
+        }
     }
+
+    // Call the fetchAllPurchases function when the page is fully loaded
+    fetchAllPurchases();
 });

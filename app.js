@@ -42,7 +42,7 @@ app.use('/api/bookingsales', bookingsalesroute);
 // Mount carRoutes for '/cars' base path.
 // This is where the logic for GET /cars/add and POST /cars/add will be handled
 // by your carRoutes.js file and carController.js.
-app.use('/add', carRoutes);
+app.use('/addcar', carRoutes);
 
 // If you have admin-specific routes, uncomment and use like this:
 // app.use('/admin', adminRoutes);

@@ -3,11 +3,11 @@ const router = express.Router();
 const controller = require('../controllers/bookingsalescontroller');
 const { protect } = require('../middleware/auth');  // Import protect middleware
 
-router.post('/purchase', protect, controller.purchaseCar);
+router.post('/purchase', controller.purchaseCar);
 
-router.get('/my-purchases', protect, controller.getMyPurchases);
+router.get('/my-purchases', controller.getMyPurchases);
 
-router.get('/', protect, async (req, res) => {
+router.get('/',  async (req, res) => {
     try {
         const purchases = await controller.getAllPurchases(); // Call a controller function to get ALL purchases
         res.json(purchases); // Send the data as JSON
