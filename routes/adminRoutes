@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { protect, adminOnly } = require('../Middleware/auth');
+const { protect, adminOnly } = require('../middleware/auth');
 const adminController = require('../controllers/adminController');
 
 // Existing routes
@@ -13,4 +13,4 @@ router.get('/report', protect, adminOnly, adminController.getReport);
 router.get('/orders', protect, adminOnly, adminController.getAllOrders);
 router.put('/orders/:id/status', protect, adminOnly, adminController.updateOrderStatus);
 
-module.exports = router;
+module.exports = router;s
