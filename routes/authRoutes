@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const User = require('../models/User'); // Ensure this path is correct
+const User = require('../models/usersschema'); // Ensure this path is correct
 const { protect } = require('../middleware/auth'); // Ensure this path is correct
 
 // --- HELPER FUNCTION: Sends a token in a secure, httpOnly cookie ---

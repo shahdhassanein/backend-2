@@ -13,26 +13,8 @@ const app = express();
 // Connect to Database
 connectDB();
 
-// --- MIDDLEWARE ---
-// Body parsers: allow us to accept JSON and URL-encoded data
-// NOTE: You only need to declare these once!
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-
-// View Engine Setup (for EJS templates)
-app.set('view engine', 'ejs');
-app.set('views', path.join(__dirname, 'views'));
-
-// Static Folder Setup (for CSS, images, client-side JS)
-// NOTE: You only need one static folder declaration.
-app.use(express.static(path.join(__dirname, 'public')));
-
-
-// --- IMPORT API ROUTES ---
 const carRoutes = require('./routes/carRoutes');
 const bookingsalesroute = require('./routes/bookingsalesroute');
-//<<<<<<< HEAD
-const adminRoutes = require('./routes/adminRoutes');
 const authRoutes = require('./routes/authRoutes'); // <-- IMPORT YOUR NEW AUTH ROUTES FILE
 
 // --- USE API ROUTES ---
@@ -41,7 +23,6 @@ const authRoutes = require('./routes/authRoutes'); // <-- IMPORT YOUR NEW AUTH R
 app.use('/api/auth', authRoutes); // <-- USE THE AUTH ROUTES for URLs like /api/auth/login
 app.use('/api/cars', carRoutes);
 app.use('/api/bookingsales', bookingsalesroute);
- app.use('/adminRoutes', adminRoutes); // You can mount admin routes here too
 const adminRoutes = require('./routes/adminRoutes'); 
 //to connect purchase to the database mfysh booking
 
@@ -52,19 +33,10 @@ console.log('bookingsalesroute:', bookingsalesroute);*/ //hsybo dlw ashan nhdd f
 
 app.use(express.json());
 app.use(express.static('./public'));
-// hena al routes ya shabab add it hena 
-//app.use('/admin', adminRoutes);
-//app.use('/api/cars',carRoutes);
-//app.use('/api/users', userRoutes);
-//app.use('/api/bookingsales', bookingsalesroute);//purchaseroute
 app.use(express.static('./public'));
 app.set('view engine', 'ejs'); 
 app.set('views', path.join(__dirname,'views'));
 app.use(express.static(path.join(__dirname,'public')));
-
-//<<<<<<< HEAD
-// --- PAGE RENDERING ROUTES ---
-// These routes are for serving your HTML pages (EJS views).
 app.get('/', (req, res) => { res.render('homepage', { title: 'Home Page' }) });
 app.get('/usersmangment', (req, res) => { res.render('usersmangment', { title: 'usersmangment' }) });
 app.get('/admin', (req, res) => { res.render('admin', { title: 'admin page' }) });
@@ -73,46 +45,18 @@ app.get('/Dashboard', (req, res) => { res.render('Dashboard', { title: 'Dashboar
 app.get('/Contact', (req, res) => { res.render('Contact', { title: 'Contact' }) });
 app.get('/checkout', (req, res) => { res.render('checkout', { title: 'Checkout' }) });
 app.get('/cart', (req, res) => { res.render('cart', { title: 'Cart' }) });
-app.get('/carllisting', (req, res) => { res.render('carllisting', { title: 'Car Listing' }) });
 app.get('/admin-orders', (req, res) => { res.render('admin-orders', { title: 'Admin Orders' }) });
 app.get('/inventory', (req, res) => { res.render('inventory', { title: 'Inventory' }) });
 app.get('/login', (req, res) => { res.render('login', { title: 'Login' }) });
 app.get('/Privacy', (req, res) => { res.render('Privacy', { title: 'Privacy' }) });
 app.get('/Term', (req, res) => { res.render('Term', { title: 'Term' }) });
-//register
-
-app.get('/login', (req, res) => {
-    res.render('login', { title: 'Login' });
-});
-
-app.get('/register', (req, res) => {
-    res.render('register', { title: 'Register' });
-});
-app.get ('/',(req,res)=>{res.render('homepage',{title: 'Home Page'})});
-app.get('/usersmangment',(req,res)=>{res.render ('usersmangment',{title:'usersmangment'})});
-app.get ('/admin',(req,res)=>{res.render('admin',{title: 'admin page'})});
-app.get ('/mypurchases', (req,res)=>{res.render ('purchases',{title:'Purchases'})});
-app.get ('/Dashboard',(req,res)=>{res.render ('Dashboard',{title:'Dashboard'})});
-app.get ('/Contact', (req,res)=> {res.render('Contact', {title:'Contact'})});
-app.get ('/checkout', (req,res)=> {res.render ('checkout',{title:'Checkout'})});
+app.get('/login', (req, res) => { res.render('login', { title: 'Login' });});
+app.get('/register', (req, res) => {res.render('register', { title: 'Register' });});
 app.get ('/addcar', (req,res)=> {res.render ('addcar',{title:'form for addcar '})});
 app.get ('/cart', (req,res)=> {res.render ('cart', {title:'Cart'})});
-//>>>>>>> fbfb4a4ee56a212ecd816ee22d367e9d84f45612
-
 app.get ('/carllisting.ejs', (req, res)=> {res.render ('carllisting', {title:'Car Listing'})});
 app.get ('/carllisting', (req, res)=> {res.render ('carllisting', {title:'Car Listing'})});
 app.get ('/admin-orders', (req,res)=>{res.render ('admin-orders', {title:'Admin Orders'})});
-app.get ('/inventory',(req,res)=>{res.render('inventory', {title: 'Inventory'})});
-app.get ('/login', (req,res)=>{ res.render ('login', {title:'Login'})});
-app.get ('/Privacy', (req,res)=> {res.render ('Privacy', {title:'Privacy'})});
-app.get ('/Term', (req,res)=> {res.render ('Term', {titl:'Term'})});
-app.get ('/admin-orders', (req,res)=>{res.render ('admin-orders', {title:'Admin Orders'})});
-app.post('/api/cars', (req, res) => {
-    const newCar = req.body;
-    
-    res.status(201).json({ message: 'Car added' });
-});
-
 const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {
