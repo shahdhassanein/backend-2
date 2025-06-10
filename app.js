@@ -22,6 +22,7 @@ const authRoutes = require('./routes/authRoutes'); // <-- IMPORT YOUR NEW AUTH R
 // This is the organized way to handle your APIs.
 app.use('/api/auth', authRoutes); // <-- USE THE AUTH ROUTES for URLs like /api/auth/login
 app.use('/api/bookingsales', bookingsalesroute);
+app.use('/api/cars', carRoutes); 
 const adminRoutes = require('./routes/adminRoutes'); 
 //to connect purchase to the database mfysh booking
 
