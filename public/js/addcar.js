@@ -1,40 +1,37 @@
-document.addEventListener('DOMContentLoaded', () => {
-    const carForm = document.querySelector('form[action="/addcar"]');
-    const priceInput = document.getElementById('price');
-    const imageInput = document.getElementById('image');
+document.addEventListener("DOMContentLoaded", () => {
+  const form = document.querySelector("form");
 
-    if (carForm) {
-        carForm.addEventListener('submit', (event) => {
-            let isValid = true;
-            let errorMessage = '';
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault(); // prevent regular form submission
 
-            // --- Price Validation ---
-            const price = parseFloat(priceInput.value);
-            if (isNaN(price) || price <= 0) {
-                isValid = false;
-                errorMessage += 'Price must be a positive number.\n';
-                priceInput.classList.add('is-invalid'); // Add Bootstrap's invalid class
-            } else {
-                priceInput.classList.remove('is-invalid'); // Remove if valid
-            }
+    const name = document.getElementById("name").value;
+    const model = document.getElementById("model").value;
+    const price = document.getElementById("price").value;
+    const engine = document.getElementById("engine").value;
+    const color = document.getElementById("color").value;
+    const image = document.getElementById("image").value;
 
-            // --- Image URL Validation ---
-            try {
-                // Attempt to create a URL object to validate the format
-                new URL(imageInput.value);
-                imageInput.classList.remove('is-invalid');
-            } catch (e) {
-                isValid = false;
-                errorMessage += 'Please enter a valid Image URL.\n';
-                imageInput.classList.add('is-invalid');
-            }
+    const carData = { name, model, price, engine, color, image };
 
-            // --- Prevent Submission if Not Valid ---
-            if (!isValid) {
-                event.preventDefault(); // Stop the form from submitting
-                alert(errorMessage.trim()); // Show an alert with the combined error message
-                // Alternatively, you could display error messages next to the fields
-            }
-        });
+    try {
+      const response = await fetch("/cars/addcar", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(carData)
+      });
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(`Failed to save car: ${errorText}`);
+      }
+
+      alert("✅ Car saved successfully!");
+      form.reset();
+    } catch (err) {
+      console.error("❌ Error:", err.message);
+      alert("❌ Could not save the car. Check console for details.");
     }
+  });
 });

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/style.css"> <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { font-family: 'Inter', sans-serif; }
+    </style>
+</head>
+<body class="bg-gray-100 flex items-center justify-center min-h-screen">
+    <div class="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
+        <h1 class="text-2xl font-bold text-gray-800 mb-6 text-center">Remove Car</h1>
+
+        <div id="message" class="hidden p-3 mb-4 rounded-md text-sm"></div>
+
+        <form id="removeCarForm" class="space-y-4">
+            <div>
+                <label for="carId" class="block text-gray-700 text-sm font-semibold mb-2">Car ID:</label>
+                <input
+                    type="text"
+                    id="carId"
+                    name="carId"
+                    placeholder="Enter Car ID to remove"
+                    required
+                    class="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                >
+            </div>
+            <button
+                type="submit"
+                class="w-full bg-red-600 text-white font-bold py-2 px-4 rounded-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition duration-200 ease-in-out shadow-lg"
+            >
+                Remove Car
+            </button>
+        </form>
+    </div>
+
+    <script src="/js/removecar.js"></script> </body>
+</html>
