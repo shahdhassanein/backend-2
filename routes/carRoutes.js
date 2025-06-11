@@ -1,14 +1,25 @@
-
+// routes/carRoutes.js
 const express = require('express');
 const path = require('path');
 const router = express.Router();
-const { addCar } = require('../controllers/carController');
+const { addCar, getAllCars } = require('../controllers/carController'); // Make sure getAllCars is imported!
 
-// Route to handle adding a car via POST (JSON body)
-router.post('/addcar', addCar);
-router.get('/addcar', (req, res) => {
-  res.sendFile(path.join(__dirname, '../views/addcar.ejs'));
+// API route to handle adding a car
+router.post('/addcar', addCar); // This will be accessible at /cars/addcar (POST)
+
+// Route to display the addcar form (if you want it under /cars/addcar)
+// If you access /addcar directly, this route is needed.
+// If your app.js handles /addcar, you might not need this here.
+router.get('/addcar', (req, res) => { // This will be accessible at /cars/addcar (GET)
+  res.render('addcar', { title: 'Add Car' });
 });
 
-module.exports = router;
+// API route to fetch ALL cars (this is your JSON endpoint!)
+// This will be accessible at /cars/all
+router.get('/all', getAllCars);
 
+// IMPORTANT: DO NOT have a route like this here if app.js handles /carllisting directly
+// If you have `router.get('/carllisting', ...)` in THIS file, REMOVE IT.
+// The `app.get('/carllisting', ...)` in `app.js` will handle rendering the EJS page.
+
+module.exports = router;

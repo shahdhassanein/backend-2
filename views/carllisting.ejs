@@ -1,208 +1,58 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Car Listings - Car Showroom</title>
-    <link rel="stylesheet" href="/css/carlisting.css">
-    </head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= title %></title>
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet" href="/css/carlisting.css">
+</head>
 <body>
+
+  <header>
     <nav>
-        <div class="navbar">
-            <div class="logo">
-                <h2>Car Showroom</h2>
-            </div>
-            <ul>
-                <li><a href="/">Home</a></li>
-                <li><a href="/carllisting" class="active">Car Listings</a></li>
-                <li><a href="/Dashboard">Dashboard</a></li>
-                <li><a href="/Contact">Contact</a></li>
-                <li><a href="/login">Sign Up/Login</a></li>
-                <li><a href="/mypurchases">My Purchases</a></li>
-            </ul>
-            <div class="cart-container">
-                <a href="/cart">Cart <span class="count">0</span></a>
-            </div>
-        </div>
+      <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="/carllisting" class="active">Car Listings</a></li>
+        <li><a href="/Dashboard">Dashboard</a></li>
+        <li><a href="/Contact">Contact</a></li>
+        <li><a href="/login">Sign Up/Login</a></li>
+        <li><a href="/mypurchases">My Purchases</a></li>
+        <li><a href="/cart">Cart 0</a></li>
+      </ul>
     </nav>
+  </header>
 
-    <div class="filter-bar">
-        <select id="categoryFilter" class="filter-dropdown">
-            <option value="all">All Categories</option>
-            <option value="Electric">Electric Car</option>
-            <option value="Gas">Gas</option>
-            <option value="Hybrid">Hybrid</option>
-        </select>
-        
-        <select id="priceFilter" class="filter-dropdown">
-            <option value="all">All Prices</option>
-            <option value="low">$100,000 - $200,000</option>
-            <option value="medium">$200,000 - $300,000</option>
-            <option value="high">$300,000+</option>
-        </select>
-        
-        <select id="brandFilter" class="filter-dropdown">
-            <option value="all">All brands</option>
-            <option value="Lamborghini">Lamborghini</option>
-            <option value="Ferrari">Ferrari</option>
-            <option value="McLaren">McLaren</option>
-            <option value="Porsche">Porsche</option>
-            </select>
-        
-        <button id="resetFilters" class="filter-dropdown">Reset Filters</button>
-    </div>
-    
-    <div class="flex-container" id="car-listings-container">
+  <main>
+    <section class="filters-section">
+      <div class="filters-container">
+        <select>
+          <option>All Categories</option>
+          </select>
+        <select>
+          <option>All Prices</option>
+          </select>
+        <select>
+          <option>All Brands</option>
+          </select>
+        <button class="reset-filters">Reset Filters</button>
+      </div>
+    </section>
+
+    <section class="car-listings-section">
+      <h2>Available Cars</h2>
+      <div id="cars-container" class="cars-grid">
         <p id="loading-message">Loading cars...</p>
-    </div>
+        </div>
+      <p id="error-message" style="display: none;">Failed to load cars. Please check your server and network connection.</p>
+      <p id="no-cars-message" style="display: none;">No cars available at the moment.</p>
+    </section>
+  </main>
 
-    <script>
-        // --- Existing Cart and Notification Functions (Keep these as they are) ---
-        function updateCartCount() {
-            const cart = JSON.parse(localStorage.getItem('cart')) || [];
-            const totalItems = cart.reduce((sum, item) => sum + (item.quantity || 1), 0);
-            document.querySelectorAll('.count').forEach(el => {
-                el.textContent = totalItems;
-            });
-        }
-        
-        function showNotification(message) {
-            const notification = document.createElement('div');
-            notification.className = 'cart-notification';
-            notification.textContent = message;
-            document.body.appendChild(notification);
-            
-            setTimeout(() => {
-                notification.remove();
-            }, 3000);
-        }
+  <footer>
+    <p>&copy; 2025 Car Showroom. All rights reserved.</p>
+  </footer>
 
-        // --- NEW JAVASCRIPT FOR FETCHING AND RENDERING CARS ---
-
-        const carListingsContainer = document.getElementById('car-listings-container');
-
-        async function fetchAndRenderCars() {
-            try {
-                // Display loading message
-                carListingsContainer.innerHTML = '<p id="loading-message">Loading cars...</p>';
-
-                // Fetch car data from your backend API
-                const response = await fetch('/api/cars'); 
-                if (!response.ok) {
-                    throw new Error(`HTTP error! status: ${response.status}`);
-                }
-                const cars = await response.json();
-
-                // Clear loading message and static content
-                carListingsContainer.innerHTML = ''; 
-
-                if (cars.length === 0) {
-                    carListingsContainer.innerHTML = '<p>No cars found in the database. Please add some cars via the admin panel or database directly.</p>';
-                    return;
-                }
-
-                // Render each car dynamically
-                cars.forEach(car => {
-                    const carCard = document.createElement('div');
-                    carCard.className = 'car-card';
-                    // Add data attributes for future filtering functionality
-                    carCard.dataset.category = car.model; 
-                    carCard.dataset.price = car.price;
-                    carCard.dataset.brand = car.brand;
-
-                    // Construct image URL. Assumes images are in '/public/images' and 'car.image' is just the filename.
-                    // Adjust this path if your image storage setup is different.
-                    const imageUrl = car.image.startsWith('/') ? car.image : `/images/${car.image}`; 
-
-                    carCard.innerHTML = `
-                        <span class="category-badge">${car.model}</span>
-                        <img src="${imageUrl}" alt="${car.name}" class="car-image">
-                        <div class="car-details">
-                            <h3 class="car-name">${car.name}</h3>
-                            <div class="car-info">
-                                <p><strong>Price:</strong> $${car.price.toLocaleString()}</p>
-                                <p><strong>Engine:</strong> ${car.engine}</p>
-                                <p><strong>Brand:</strong> ${car.brand}</p>
-                            </div>
-                            <button class="add-to-cart" 
-                                data-car-id="${car._id}"
-                                data-price="${car.price}" 
-                                data-name="${car.name}"
-                                data-brand="${car.brand}">
-                                Add to Cart
-                            </button>
-                        </div>
-                    `;
-                    carListingsContainer.appendChild(carCard);
-                });
-
-                // Attach event listeners to the newly created "Add to Cart" buttons
-                attachAddToCartListeners();
-
-            } catch (error) {
-                console.error('Error fetching or rendering cars:', error);
-                carListingsContainer.innerHTML = '<p>Failed to load cars. Please check your server and network connection.</p>';
-            }
-        }
-
-        // Function to safely attach add-to-cart listeners
-        function attachAddToCartListeners() {
-            document.querySelectorAll('.add-to-cart').forEach(button => {
-                // Remove existing listener to prevent duplicates if function is called multiple times
-                button.removeEventListener('click', handleAddToCartClick); 
-                // Add the new listener
-                button.addEventListener('click', handleAddToCartClick);
-            });
-        }
-
-        // Handler for Add to Cart button clicks
-        function handleAddToCartClick() {
-            const product = {
-                id: this.dataset.carId, // Use data-car-id for the actual MongoDB ID
-                name: this.dataset.name,
-                price: parseFloat(this.dataset.price),
-                brand: this.dataset.brand
-            };
-            
-            // This assumes 'addToCart' function is defined elsewhere (e.g., in /js/cart.js).
-            // If not, you will need to implement its logic here or ensure cart.js is loaded.
-            if (typeof addToCart === 'function') {
-                addToCart(product);
-            } else {
-                console.warn("addToCart function not found. Implementing basic localStorage add.");
-                let cart = JSON.parse(localStorage.getItem('cart')) || [];
-                const existingItemIndex = cart.findIndex(item => item.id === product.id);
-                if (existingItemIndex > -1) {
-                    cart[existingItemIndex].quantity = (cart[existingItemIndex].quantity || 1) + 1;
-                } else {
-                    cart.push({ ...product, quantity: 1 });
-                }
-                localStorage.setItem('cart', JSON.stringify(cart));
-            }
-            
-            this.classList.add('added-to-cart');
-            this.textContent = 'Added to Cart!';
-            
-            // Reset button text after a short delay
-            setTimeout(() => {
-                this.classList.remove('added-to-cart');
-                this.textContent = 'Add to Cart';
-            }, 1500);
-            
-            showNotification(product.name + ' added to cart!');
-            updateCartCount(); // Update cart count after adding item
-        }
-
-
-        // --- Initial Load Logic ---
-        document.addEventListener('DOMContentLoaded', function() {
-            updateCartCount();      // Initialize cart count
-            fetchAndRenderCars();   // Fetch and display cars from the database
-            // The filtering logic for the dropdowns (category, price, brand) 
-            // will need to be implemented separately to filter the 'cars' array 
-            // fetched from the database, or to re-fetch with query parameters.
-            // This code only covers initial display.
-        });
-    </script>
+  <script src="/js/carListing.js"></script>
 </body>
 </html>
