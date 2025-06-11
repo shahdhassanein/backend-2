@@ -11,22 +11,25 @@
     <div class="container">
         <div class="form-card">
             <h2><i class="fas fa-edit"></i> Update Car Details</h2>
-            <form id="updateCarForm">
-                <input type="hidden" id="carId" name="carId" value="<%= car.id %>">
+
+            <!-- Form will be submitted via JavaScript (AJAX) -->
+            <form id="updateCarForm" method="POST">
+                <!-- Use _id if MongoDB is being used -->
+                <input type="hidden" id="carId" name="carId" value="<%= car._id %>">
 
                 <div class="form-group">
                     <label for="name">Car Name:</label>
-                    <input type="text" id="name" name="name" value="<%= car.name %>" required>
+                    <input type="text" id="name" name="name" value="<%= car.name %>" required maxlength="100">
                 </div>
 
                 <div class="form-group">
                     <label for="brand">Brand:</label>
-                    <input type="text" id="brand" name="brand" value="<%= car.brand %>" required>
+                    <input type="text" id="brand" name="brand" value="<%= car.brand %>" required maxlength="100">
                 </div>
 
                 <div class="form-group">
                     <label for="category">Category:</label>
-                    <input type="text" id="category" name="category" value="<%= car.category %>" required>
+                    <input type="text" id="category" name="category" value="<%= car.category %>" required maxlength="50">
                 </div>
 
                 <div class="form-group">
@@ -41,12 +44,14 @@
 
                 <div class="form-group">
                     <label for="image">Image URL:</label>
-                    <input type="text" id="image" name="image" value="<%= car.image %>" required>
+                    <input type="url" id="image" name="image" value="<%= car.image %>" required>
                 </div>
 
                 <button type="submit" class="btn-submit">Update Car</button>
                 <a href="/api/cars" class="btn-cancel">Cancel</a>
             </form>
+
+            <!-- Message container for success or error messages -->
             <div id="message" class="message"></div>
         </div>
     </div>

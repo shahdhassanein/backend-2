@@ -46,7 +46,7 @@ app.get('/register', (req, res) => {res.render('register', { title: 'Register' }
 
 
 app.get ('/carllisting', (req, res)=> {res.render ('carllisting', {title:'Car Listing'})});
-
+//console.log('carRoutes.js loaded!'); //debugging lltesting 
 
 // --- SERVER START ---
 const PORT = process.env.PORT || 3000;
