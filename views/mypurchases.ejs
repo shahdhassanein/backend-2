@@ -161,25 +161,27 @@
             <ul>
                 <li><a href="/home page/homepage.html">Home</a></li>
                 <li><a href="/car listing/carlisting.html">Car Listings</a></li>
-                <li><a href="/Dashboard/Dashboard.html">Dashboard</a></li>
-                <li><a href="/contactus/Contact.html">Contact</a></li>
-                <li><a href="/login/login.html">Sign Up/Login</a></li>
-                <li><a href="/mypurchases">My Purchases</a></li>
+                <li><a href="/Dashboard">Dashboard</a></li> <!-- Corrected link -->
+                <li><a href="/Contact">Contact</a></li> <!-- Corrected link -->
+                <li><a href="/login">Sign Up/Login</a></li> <!-- Corrected link -->
+                <li><a href="/api/bookingsales/view-my-purchases">My Purchases</a></li> <!-- CRITICAL: This is the dynamically loaded, protected link -->
+                <li><a href="/api/auth/logout">Logout</a></li> <!-- Added logout link -->
             </ul>
             <div class="cart-container">
-                <a href="/cart/cart.html" class="cart-text-button">
+                <!-- CRITICAL: Corrected link from '/cart/cart.html' -->
+                <a href="/cart" class="cart-text-button">
                     Cart <span class="count">0</span>
                 </a>
             </div>
         </div>
     </nav>
 
-    <a href="/Dashboard/Dashboard.html" class="back-button">⬅ Back</a>
+    <!-- CRITICAL: Corrected back button link -->
+    <a href="/Dashboard" class="back-button">⬅ Back</a>
 
     <div class="container">
         <h1 class="text-3xl font-bold text-gray-800 mb-8 text-center">My Purchase History</h1>
 
-        <!-- Message div (similar to admin purchases page) -->
         <div id="message" class="message info" style="display: none;">
             <!-- Message will be displayed here if no purchases -->
         </div>
@@ -220,7 +222,6 @@
         <% } %>
     </div>
     
-    <!-- If you have any specific JS for this page, keep it here or link it -->
-    <!-- <script src="/js/booking.js" defer></script> -->
+    <!-- No client-side JS for fetching data needed here, as the backend passes it directly -->
 </body>
 </html>

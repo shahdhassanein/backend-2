@@ -305,4 +305,20 @@ footer {
         /* On very small screens, make it single column */
         grid-template-columns: 1fr;
     }
+}#cars-container {
+    min-height: 200px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 20px;
+}
+.car-card {
+    background-color: #fff;
+    padding: 15px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+.car-image {
+    width: 100%;
+    height: auto;
+    border-radius: 10px;
 }
