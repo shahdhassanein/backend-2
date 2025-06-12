@@ -36,5 +36,24 @@ const deleteCar = async (req, res) => {
     res.status(500).send("Failed to remove car");
   }
 };
+const updateCar = async (req, res) => {
+  try {
+    const { id, name, model, price, engine, color, image } = req.body;
 
-module.exports = { addCar,getAllCars ,deleteCar };
+    const updatedCar = await Car.findByIdAndUpdate(
+      id,
+      { name, model, price, engine, color, image },
+      { new: true }
+    );
+
+    if (!updatedCar) {
+      return res.status(404).send("Car not found");
+    }
+
+    res.status(200).send("Car updated successfully");
+  } catch (error) {
+    console.error(error);
+    res.status(500).send("Error updating car");
+  }
+};
+module.exports = { addCar,getAllCars ,deleteCar,updateCar };
