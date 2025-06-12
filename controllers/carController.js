@@ -33,12 +33,11 @@ const addCar = async (req, res) => {
 };
 const getAllCars = async (req, res) => {
     try {
-        const cars = await Car.find({}); // Find all documents in the Car collection
-        return res.status(200).json({ success: true, cars: cars }); // Send them as JSON
-
+        const cars = await Car.find();
+        return res.status(200).json({ success: true, cars });
     } catch (err) {
         console.error("Error fetching cars:", err.message);
-        return res.status(500).json({ success: false, message: 'Failed to fetch cars.', error: err.message });
+        return res.status(500).json({ success: false, message: 'Failed to retrieve cars.', error: err.message });
     }
 };
 

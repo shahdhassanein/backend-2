@@ -4,39 +4,23 @@ document.addEventListener("DOMContentLoaded", async () => {
     const errorMessage = document.getElementById('error-message');
     const noCarsMessage = document.getElementById('no-cars-message');
 
+    // Function to create a car card element
     const createCarCard = (car) => {
-    const carCard = document.createElement('div');
-    carCard.className = 'car-card';
+        const carCard = document.createElement('div');
+        carCard.className = 'car-card'; // Apply CSS styling for car cards
 
-    carCard.innerHTML = `
-        <img src="${car.image}" alt="${car.name} ${car.model}" class="car-image">
-        <div class="car-details">
-            <h3>${car.name} ${car.model}</h3>
-            <p><strong>Price:</strong> $${car.price.toLocaleString()}</p>
-            <p><strong>Engine:</strong> ${car.engine}</p>
-            <p><strong>Color:</strong> ${car.color}</p>
-        </div>
-        <button class="view-details-btn">Add to cart</button>
-    `;
-
-    carCard.querySelector('.view-details-btn').addEventListener('click', async () => {
-        try {
-            await fetch('/api/cart/add', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(car)
-            });
-            // Redirect to cart page after success
-            window.location.href = '/cart';
-        } catch (error) {
-            console.error('Error adding to cart:', error);
-        }
-    });
-
-    return carCard;
-};
+        carCard.innerHTML = `
+            <img src="${car.image}" alt="${car.name} ${car.model}" class="car-image">
+            <div class="car-details">
+                <h3>${car.name} ${car.model}</h3>
+                <p><strong>Price:</strong> $${car.price.toLocaleString()}</p>
+                <p><strong>Engine:</strong> ${car.engine}</p>
+                <p><strong>Color:</strong> ${car.color}</p>
+                </div>
+            <button class="view-details-btn">View Details</button>
+        `;
+        return carCard;
+    };
 
     // Function to load cars from the API
     const loadCars = async () => {
