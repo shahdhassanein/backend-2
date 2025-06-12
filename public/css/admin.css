@@ -72,33 +72,68 @@ body {
     font-size: 28px;
 }
 
+/* Unified button styling */
+button,
+.add-btn,
+.update-btn,
+.remove-btn {
+    font-family: inherit;
+    font-size: 16px;
+    padding: 10px 18px;
+    border-radius: var(--button-radius);
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    border: none;
+}
+
+/* Add New Car */
 .add-btn {
     background-color: var(--accent-color);
     color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: var(--button-radius);
-    cursor: pointer;
-    transition: background-color 0.3s;
+    box-shadow: 0 4px 10px rgba(255, 77, 77, 0.4);
 }
-
 .add-btn:hover {
     background-color: var(--accent-hover);
+    transform: translateY(-2px);
+}
+
+/* Update Button */
+.update-btn {
+    background-color: #28a745;
+    color: white;
+    box-shadow: 0 4px 10px rgba(40, 167, 69, 0.4);
+}
+.update-btn:hover {
+    background-color: #218838;
+    transform: translateY(-2px);
+}
+
+/* Remove Button */
+.remove-btn {
+    background-color: #dc3545;
+    color: white;
+    box-shadow: 0 4px 10px rgba(220, 53, 69, 0.4);
+}
+.remove-btn:hover {
+    background-color: #c82333;
+    transform: translateY(-2px);
 }
 
 .cars-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-    gap: 25px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-top: 2rem;
 }
 
-/* ----- Car Card Styling ----- */
 .car-card {
-    background-color: var(--card-bg);
-    border-radius: 12px;
-    overflow: hidden;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
-    padding: 15px;
+    background-color: #222;
+    color: #fff;
+    padding: 1rem;
+    border-radius: 8px;
+    width: 200px;
+    box-shadow: 0 0 10px rgba(255, 0, 0, 0.2);
     transition: transform 0.3s ease;
 }
 
@@ -122,87 +157,43 @@ body {
     margin: 5px 0;
 }
 
-/* Buttons inside car cards */
 .car-actions {
     margin-top: 10px;
     display: flex;
     justify-content: space-between;
 }
 
-.update-btn,
-.remove-btn {
-    padding: 6px 12px;
-    border: none;
-    border-radius: var(--button-radius);
-    cursor: pointer;
-    font-weight: bold;
-    font-size: 14px;
-}
-
-.update-btn {
-    background-color: #4CAF50;
-    color: white;
-}
-
-.update-btn:hover {
-    background-color: #3e8e41;
-}
-
-.remove-btn {
-    background-color: #f44336;
-    color: white;
-}
-
-.remove-btn:hover {
-    background-color: #d32f2f;
-}
-
-.tab-content {
-    display: none;
-}
-
-.tab-content.active {
-    display: block;
-}
-/* Modal styling */
+/* Modal Styling */
 .modal {
     display: none;
     position: fixed;
     z-index: 999;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    overflow: auto;
+    left: 0; top: 0; right: 0; bottom: 0;
     background-color: rgba(0,0,0,0.7);
+    justify-content: center;
+    align-items: center;
 }
 
 .modal-content {
-    background-color: var(--secondary-color);
-    margin: 10% auto;
-    padding: 20px;
-    border-radius: 8px;
-    width: 400px;
-    box-shadow: 0 0 10px rgba(0,0,0,0.5);
-}
-
-.modal-content h2 {
+    background: rgb(37, 34, 34);
+    padding: 30px;
+    border-radius: 10px;
+    width: 350px;
     text-align: center;
-    margin-bottom: 15px;
+    box-shadow: 0 0 10px #000;
 }
 
 .modal-content input,
 .modal-content button {
-    display: block;
+    margin: 10px 0;
     width: 100%;
     padding: 10px;
-    margin: 10px 0;
-    border: none;
     border-radius: 4px;
 }
 
 .modal-content input {
     background-color: #eee;
+    border: none;
 }
 
 .modal-content button {
@@ -213,113 +204,45 @@ body {
 
 .close {
     float: right;
-    font-size: 20px;
+    font-size: 24px;
     color: white;
     cursor: pointer;
 }
-/* Add to public/css/admin.css */
-.orders-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 20px;
+
+.message {
+    margin-top: 10px;
+    font-weight: bold;
 }
 
-.orders-table th, 
+/* Orders Table (for future usage if needed) */
+.orders-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.orders-table th,
 .orders-table td {
-  padding: 12px;
-  text-align: left;
-  border-bottom: 1px solid #ddd;
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
 }
 
 .orders-table th {
-  background-color: #f8f9fa;
+    background-color: #f8f9fa;
+    color: #000;
 }
 
 .status-select {
-  padding: 5px;
-  border-radius: 4px;
-  border: 1px solid #ddd;
-}
-.cars-grid {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 1rem;
-    margin-top: 2rem;
+    padding: 5px;
+    border-radius: 4px;
+    border: 1px solid #ddd;
 }
 
-.car-card {
-    background-color: #222;
-    color: #fff;
-    padding: 1rem;
-    border-radius: 8px;
-    width: 200px;
-    box-shadow: 0 0 10px rgba(255, 0, 0, 0.2);
-}
-  .modal {
+/* Tab visibility */
+.tab-content {
     display: none;
-    position: fixed;
-    z-index: 100;
-    left: 0; top: 0;
-    width: 100%; height: 100%;
-    background-color: rgba(0, 0, 0, 0.4);
-  }
-  .modal-content {
-    background-color: #151414;
-    margin: 15% auto;
-    padding: 20px;
-    width: 300px;
-    border-radius: 8px;
-    text-align: center;
-  }
-  .close {
-    float: right;
-    font-size: 24px;
-    cursor: pointer;
-  }
-  .message {
-    margin-top: 10px;
-    font-weight: bold;
-  }
-
-.modal {
-  display: none;
-  position: fixed;
-  z-index: 999;
-  left: 0; top: 0; right: 0; bottom: 0;
-  background-color: rgba(0,0,0,0.7);
-  justify-content: center;
-  align-items: center;
 }
-
-.modal-content {
-  background: rgb(37, 34, 34);
-  padding: 30px;
-  border-radius: 10px;
-  width: 350px;
-  text-align: center;
-  box-shadow: 0 0 10px #000;
-}
-
-.modal-content input,
-.modal-content button {
-  margin: 10px 0;
-  width: 100%;
-  padding: 10px;
-}
-
-.update-btn {
-  background-color: #ff6347;
-  color: white;
-  border: none;
-  cursor: pointer;
-  font-weight: bold;
-}
-
-.update-btn:hover {
-  background-color: #e0533a;
-}
-
-.message {
-  margin-top: 10px;
-  font-weight: bold;
+.tab-content.active {
+    display: block;
 }
