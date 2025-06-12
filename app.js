@@ -33,7 +33,7 @@ app.use(session({
     resave: false,
     saveUninitialized: false,
     store: MongoStore.create({ 
-        mongoUrl: process.env.MONGO_URI // Make sure this is in your .env file
+       mongoUrl: process.env.MONGODB_URI // Make sure this is in your .env file
     }),
     cookie: {
         httpOnly: true,
