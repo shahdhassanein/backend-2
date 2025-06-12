@@ -4,23 +4,47 @@ document.addEventListener("DOMContentLoaded", async () => {
     const errorMessage = document.getElementById('error-message');
     const noCarsMessage = document.getElementById('no-cars-message');
 
-    // Function to create a car card element
     const createCarCard = (car) => {
-        const carCard = document.createElement('div');
-        carCard.className = 'car-card'; // Apply CSS styling for car cards
+    const carCard = document.createElement('div');
+    carCard.className = 'car-card';
 
-        carCard.innerHTML = `
-            <img src="${car.image}" alt="${car.name} ${car.model}" class="car-image">
-            <div class="car-details">
-                <h3>${car.name} ${car.model}</h3>
-                <p><strong>Price:</strong> $${car.price.toLocaleString()}</p>
-                <p><strong>Engine:</strong> ${car.engine}</p>
-                <p><strong>Color:</strong> ${car.color}</p>
-                </div>
-            <button class="view-details-btn">View Details</button>
-        `;
-        return carCard;
-    };
+    carCard.innerHTML = `
+        <img src="${car.image}" alt="${car.name} ${car.model}" class="car-image">
+        <div class="car-details">
+            <h3>${car.name} ${car.model}</h3>
+            <p><strong>Price:</strong> $${car.price.toLocaleString()}</p>
+            <p><strong>Engine:</strong> ${car.engine}</p>
+            <p><strong>Color:</strong> ${car.color}</p>
+        </div>
+        <button class="view-details-btn">Add to cart</button>
+    `;
+
+    // Add event listener to the button
+    const addToCartBtn = carCard.querySelector('.view-details-btn');
+    addToCartBtn.addEventListener('click', async () => {
+        try {
+            const response = await fetch('/api/cart/add', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(car)
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to add car to cart');
+            }
+
+            const result = await response.json();
+            alert('✅ Car added to cart successfully!');
+        } catch (err) {
+            console.error('Error adding to cart:', err);
+            alert('❌ Failed to add car to cart. Please try again.');
+        }
+    });
+
+    return carCard;
+};
 
     // Function to load cars from the API
     const loadCars = async () => {
