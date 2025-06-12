@@ -26,5 +26,15 @@ const getAllCars = async (req, res) => {
     }
 };
 
+const deleteCar = async (req, res) => {
+  try {
+    const { id } = req.body; // destructure from JSON
+    await Car.findByIdAndDelete(id);
+    res.status(200).send("Car removed successfully");
+  } catch (err) {
+    console.error("❌ Error deleting car:", err.message);
+    res.status(500).send("Failed to remove car");
+  }
+};
 
-module.exports = { addCar,getAllCars  };
+module.exports = { addCar,getAllCars ,deleteCar };
