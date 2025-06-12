@@ -63,7 +63,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const messageEl = document.getElementById("remove-message");
 
     try {
-      const response = await fetch("/cars/deletecar", {
+      const response = await fetch("/addcars/deletecar", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ id: carId })
@@ -99,7 +99,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const messageEl = document.getElementById("update-message");
 
     try {
-      const res = await fetch("/cars/updatecar", {
+      const res = await fetch("/addcars/updatecar", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(updatedCar),
