@@ -82,7 +82,7 @@ app.get('/Privacy', (req, res) => { res.render('Privacy', { title: 'Privacy' }) 
 app.get('/Term', (req, res) => { res.render('Term', { title: 'Term' }) });
 app.get('/register', (req, res) => {res.render('register', { title: 'Register' }) });
 app.get ('/addcar', (req,res)=> {res.render ('addcar',{title:'form for addcar '})});
-app.get ('/carllisting.ejs', (req, res)=> {res.render ('carllisting', {title:'Car Listing'})}); 
+//app.get ('/carllisting.ejs', (req, res)=> {res.render ('carllisting', {title:'Car Listing'})}); 
 app.get ('/carllisting', (req, res)=> {res.render ('carllisting', {title:'Car Listing'})});
 
 
