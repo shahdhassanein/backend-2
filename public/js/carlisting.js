@@ -30,7 +30,7 @@ document.addEventListener("DOMContentLoaded", async () => {
         carsContainer.innerHTML = ''; // Clear previous content
 
         try {
-            const response = await fetch('/cars/all'); // Call your new API endpoint
+            const response = await fetch('/addcars/all'); // Call your new API endpoint
 
             if (!response.ok) {
                 const errorData = await response.json();
