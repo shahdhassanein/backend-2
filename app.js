@@ -4,7 +4,7 @@ require('dotenv').config();
 // --- IMPORTS ---
 const express = require('express');
 const mongoose = require('mongoose');
-const session = require ('express-session');
+//const session = require ('express-session');
 const MongoStore = require ('connect-mongo');
 const path = require('path');
 const connectDB = require('./config/db'); // Your database connection function
@@ -35,7 +35,7 @@ app.use('/api/cart', cartRoutes);
 console.log('userRoutes:', userRoutes);
 console.log('bookingsalesroute:', bookingsalesroute);*/ //hsybo dlw ashan nhdd fyn el error da debugging bs
 //>>>>>>> fbfb4a4ee56a212ecd816ee22d367e9d84f45612
-app.use(session({
+/*app.use(session({
     secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
@@ -47,6 +47,7 @@ app.use(session({
         maxAge: 1000 * 60 * 60 * 24 // 1 day
     }
 }));
+*/
 
 app.use(express.json());
 app.use(express.static(path.join(__dirname,'public')));
