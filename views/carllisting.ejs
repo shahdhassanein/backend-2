@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title><%= title %></title>
   <link rel="stylesheet" href="/css/main.css">
   <link rel="stylesheet" href="/css/carlisting.css">
@@ -17,7 +17,8 @@
         <li><a href="/Dashboard">Dashboard</a></li>
         <li><a href="/Contact">Contact</a></li>
         <li><a href="/login">Sign Up/Login</a></li>
-<li><a href="/api/bookingsales/view-my-purchases">My Purchases</a></li>        <li><a href="/cart">Cart 0</a></li>
+        <li><a href="/api/bookingsales/view-my-purchases">My Purchases</a></li>
+        <li><a href="/cart">Cart 0</a></li>
       </ul>
     </nav>
   </header>
@@ -27,23 +28,22 @@
       <div class="filters-container">
         <select>
           <option>All Categories</option>
-          </select>
+        </select>
         <select>
           <option>All Prices</option>
-          </select>
+        </select>
         <select>
           <option>All Brands</option>
-          </select>
+        </select>
         <button class="reset-filters">Reset Filters</button>
       </div>
     </section>
 
     <section class="car-listings-section">
-      <div id="cars-container" class="cars-grid">
-        <p id="loading-message">Loading cars...</p>
-        </div>
+      <p id="loading-message">Loading cars...</p>
       <p id="error-message" style="display: none;">Failed to load cars. Please check your server and network connection.</p>
       <p id="no-cars-message" style="display: none;">No cars available at the moment.</p>
+      <div id="cars-container" class="cars-grid"></div>
     </section>
   </main>
 

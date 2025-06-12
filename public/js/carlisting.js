@@ -5,57 +5,50 @@ document.addEventListener("DOMContentLoaded", async () => {
     const noCarsMessage = document.getElementById('no-cars-message');
 
     const createCarCard = (car) => {
-    const carCard = document.createElement('div');
-    carCard.className = 'car-card';
+        const carCard = document.createElement('div');
+        carCard.className = 'car-card';
 
-    carCard.innerHTML = `
-        <img src="${car.image}" alt="${car.name} ${car.model}" class="car-image">
-        <div class="car-details">
-            <h3>${car.name} ${car.model}</h3>
-            <p><strong>Price:</strong> $${car.price.toLocaleString()}</p>
-            <p><strong>Engine:</strong> ${car.engine}</p>
-            <p><strong>Color:</strong> ${car.color}</p>
-        </div>
-        <button class="view-details-btn">Add to cart</button>
-    `;
+        carCard.innerHTML = `
+            <img src="${car.image}" alt="${car.name} ${car.model}" class="car-image">
+            <div class="car-details">
+                <h3>${car.name} ${car.model}</h3>
+                <p><strong>Price:</strong> $${car.price.toLocaleString()}</p>
+                <p><strong>Engine:</strong> ${car.engine}</p>
+                <p><strong>Color:</strong> ${car.color}</p>
+            </div>
+            <button class="view-details-btn">Add to cart</button>
+        `;
 
-    // Add event listener to the button
-    const addToCartBtn = carCard.querySelector('.view-details-btn');
-    addToCartBtn.addEventListener('click', async () => {
-        try {
-            const response = await fetch('/api/cart/add', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ _id: car._id })
-            });
+        const addToCartBtn = carCard.querySelector('.view-details-btn');
+        addToCartBtn.addEventListener('click', async () => {
+            try {
+                const response = await fetch('/api/cart/add', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ _id: car._id })
+                });
 
-            if (!response.ok) {
-                throw new Error('Failed to add car to cart');
+                if (!response.ok) throw new Error('Failed to add car to cart');
+
+                const result = await response.json();
+                alert('✅ Car added to cart successfully!');
+            } catch (err) {
+                console.error('Error adding to cart:', err);
+                alert('❌ Failed to add car to cart. Please try again.');
             }
+        });
 
-            const result = await response.json();
-            alert('✅ Car added to cart successfully!');
-        } catch (err) {
-            console.error('Error adding to cart:', err);
-            alert('❌ Failed to add car to cart. Please try again.');
-        }
-    });
+        return carCard;
+    };
 
-    return carCard;
-};
-
-    // Function to load cars from the API
     const loadCars = async () => {
-        loadingMessage.style.display = 'block'; // Show loading message
-        errorMessage.style.display = 'none';    // Hide error message
-        noCarsMessage.style.display = 'none';   // Hide no cars message
-        carsContainer.innerHTML = ''; // Clear previous content
+        loadingMessage.style.display = 'block';
+        errorMessage.style.display = 'none';
+        noCarsMessage.style.display = 'none';
+        carsContainer.innerHTML = '';
 
         try {
-            const response = await fetch('/addcars/all'); // Call your new API endpoint
-
+            const response = await fetch('/addcars/all');
             if (!response.ok) {
                 const errorData = await response.json();
                 throw new Error(errorData.message || 'Failed to fetch car data.');
@@ -68,20 +61,19 @@ document.addEventListener("DOMContentLoaded", async () => {
                     const carCard = createCarCard(car);
                     carsContainer.appendChild(carCard);
                 });
-                loadingMessage.style.display = 'none'; // Hide loading message
+                loadingMessage.style.display = 'none';
             } else {
-                loadingMessage.style.display = 'none'; // Hide loading message
-                noCarsMessage.style.display = 'block'; // Show no cars message
+                loadingMessage.style.display = 'none';
+                noCarsMessage.style.display = 'block';
             }
 
         } catch (error) {
             console.error('Error loading cars:', error);
-            loadingMessage.style.display = 'none'; // Hide loading message
-            errorMessage.style.display = 'block'; // Show error message
+            loadingMessage.style.display = 'none';
+            errorMessage.style.display = 'block';
             errorMessage.textContent = `Failed to load cars: ${error.message}. Please check your server and network connection.`;
         }
     };
 
-    // Load cars when the page loads
     loadCars();
 });
