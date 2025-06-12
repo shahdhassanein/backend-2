@@ -1,25 +1,88 @@
+// ==== Fetch Cars Function ====
+async function fetchCars() {
+  try {
+    const response = await fetch('/addcars/all'); // Ensure this matches your route
+    const cars = await response.json();
+
+    const carsGrid = document.getElementById('cars-grid');
+    carsGrid.innerHTML = ''; // Clear grid before adding
+
+    cars.forEach(car => {
+      const carCard = document.createElement('div');
+      carCard.classList.add('car-card');
+      carCard.innerHTML = `
+        <img src="${car.image || 'default.jpg'}" alt="${car.name}">
+        <h3>${car.name}</h3>
+        <p>Model: ${car.model}</p>
+        <p>Price: $${car.price}</p>
+        <p>Engine: ${car.engine}</p>
+        <p>Color: ${car.color}</p>
+      `;
+      carsGrid.appendChild(carCard);
+    });
+  } catch (err) {
+    console.error('Failed to load cars:', err);
+  }
+}
+
 document.addEventListener('DOMContentLoaded', () => {
-  // Fetch and display cars
-  fetch('/addcars')
-    .then(res => res.json())
-    .then(data => {
-      const carsGrid = document.getElementById('cars-grid');
-      carsGrid.innerHTML = '';
+  // Load cars on page load
+  fetchCars();
 
-      data.forEach(car => {
-        const carCard = document.createElement('div');
-        carCard.className = 'car-card';
-        carCard.innerHTML = `
-          <h3>${car.name}</h3>
-          <p>Model: ${car.model}</p>
-          <p>Price: ${car.price}</p>
-        `;
-        carsGrid.appendChild(carCard);
+  // ==== ADD CAR ====
+  const addPopup = document.getElementById('addPopup');
+  const addBtn = document.getElementById('add-car-btn');
+  const closeAdd = document.querySelector('.close-add');
+  const addForm = document.getElementById('add-car-form');
+  const addMessage = document.getElementById('add-message');
+
+  addBtn.onclick = () => {
+    addPopup.style.display = 'block';
+  };
+
+  closeAdd.onclick = () => {
+    addPopup.style.display = 'none';
+    addForm.reset();
+    addMessage.textContent = '';
+  };
+
+  addForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+
+    const newCar = {
+      name: document.getElementById('addName').value,
+      model: document.getElementById('addModel').value,
+      price: document.getElementById('addPrice').value,
+      engine: document.getElementById('addEngine').value,
+      color: document.getElementById('addColor').value,
+      image: document.getElementById('addImage').value
+    };
+
+    try {
+      const res = await fetch('/addcars/addcars', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(newCar)
       });
-    })
-    .catch(err => console.error('Error fetching cars:', err));
 
-  // Remove Car Popup Logic
+      const data = await res.json();
+
+      if (res.ok) {
+        addMessage.textContent = 'Car added successfully!';
+        addMessage.style.color = 'green';
+        addForm.reset();
+        fetchCars(); // Refresh car list
+      } else {
+        addMessage.textContent = data.error || 'Failed to add car.';
+        addMessage.style.color = 'red';
+      }
+    } catch (err) {
+      addMessage.textContent = 'Server error.';
+      addMessage.style.color = 'red';
+    }
+  });
+
+  // ==== REMOVE CAR ====
   const removeBtn = document.getElementById("remove-car-btn");
   const removePopup = document.getElementById("removePopup");
   const closeRemove = document.querySelector(".close");
@@ -32,30 +95,6 @@ document.addEventListener('DOMContentLoaded', () => {
     removePopup.style.display = "none";
   });
 
-  // Update Car Popup Logic
-  const updateBtn = document.getElementById("update-car-btn");
-  const updatePopup = document.getElementById("updatePopup");
-  const closeUpdate = document.querySelector(".close-update");
-
-  updateBtn.addEventListener("click", () => {
-    updatePopup.style.display = "block";
-  });
-
-  closeUpdate.addEventListener("click", () => {
-    updatePopup.style.display = "none";
-  });
-
-  // Global click to close modals
-  window.addEventListener("click", (e) => {
-    if (e.target === removePopup) {
-      removePopup.style.display = "none";
-    }
-    if (e.target === updatePopup) {
-      updatePopup.style.display = "none";
-    }
-  });
-
-  // Remove Car Form Submit
   document.getElementById("remove-car-form").addEventListener("submit", async (e) => {
     e.preventDefault();
 
@@ -76,13 +115,26 @@ document.addEventListener('DOMContentLoaded', () => {
 
       messageEl.textContent = "✅ Car removed successfully!";
       messageEl.style.color = "green";
+      fetchCars();
     } catch (err) {
       messageEl.textContent = "❌ Error: " + err.message;
       messageEl.style.color = "red";
     }
   });
 
-  // Update Car Form Submit
+  // ==== UPDATE CAR ====
+  const updateBtn = document.getElementById("update-car-btn");
+  const updatePopup = document.getElementById("updatePopup");
+  const closeUpdate = document.querySelector(".close-update");
+
+  updateBtn.addEventListener("click", () => {
+    updatePopup.style.display = "block";
+  });
+
+  closeUpdate.addEventListener("click", () => {
+    updatePopup.style.display = "none";
+  });
+
   document.getElementById("update-car-form").addEventListener("submit", async (e) => {
     e.preventDefault();
 
@@ -109,9 +161,25 @@ document.addEventListener('DOMContentLoaded', () => {
 
       messageEl.textContent = "✅ Car updated successfully!";
       messageEl.style.color = "green";
+      fetchCars();
     } catch (err) {
       messageEl.textContent = "❌ Error: " + err.message;
       messageEl.style.color = "red";
+    }
+  });
+
+  // ==== Global Modal Close on Outside Click ====
+  window.addEventListener("click", (e) => {
+    if (e.target === removePopup) {
+      removePopup.style.display = "none";
+    }
+    if (e.target === updatePopup) {
+      updatePopup.style.display = "none";
+    }
+    if (e.target === addPopup) {
+      addPopup.style.display = "none";
+      addForm.reset();
+      addMessage.textContent = '';
     }
   });
 });
