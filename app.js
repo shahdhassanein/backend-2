@@ -1,66 +1,57 @@
-// Load environment variables from .env file
+// --- Load environment variables ---
 require('dotenv').config();
 
-// --- IMPORTS ---
+// --- Imports ---
 const express = require('express');
 const mongoose = require('mongoose');
 const path = require('path');
-const connectDB = require('./config/db'); // Your database connection function
 
-// --- INITIALIZATION ---
+// --- Import your MongoDB connection ---
+const connectDB = require('./config/db'); // make sure this is a function
+
+// --- App Setup ---
 const app = express();
 
-// Connect to Database
+// --- Connect to MongoDB ---
+connectDB(); // This must be a function that connects using mongoose
 
-connectDB();
+// --- Middleware ---
+app.use(express.urlencoded({ extended: true })); // To parse form data
+app.use(express.json()); // To parse JSON
+app.use(express.static(path.join(__dirname, 'public'))); // Static files
+
+// --- View Engine ---
+app.set('view engine', 'ejs');
+app.set('views', path.join(__dirname, 'views'));
+
+// --- Import Routes ---
 const carRoutes = require('./routes/carRoutes');
 const bookingsalesroute = require('./routes/bookingsalesroute');
-const authRoutes = require('./routes/authRoutes'); // <-- IMPORT YOUR NEW AUTH ROUTES FILE
 
-// --- USE API ROUTES ---
-// This tells Express to use your route files for any URL starting with the specified prefix.
-// This is the organized way to handle your APIs.
-app.use('/api/auth', authRoutes); // <-- USE THE AUTH ROUTES for URLs like /api/auth/login
-app.use('/api/bookingsales', bookingsalesroute);
-app.use('/api/cars', carRoutes); 
-const adminRoutes = require('./routes/adminRoutes'); 
-//to connect purchase to the database mfysh booking
+// --- Use Routes ---
+app.use('/cars', carRoutes);
+app.use('/bookingsales', bookingsalesroute);
 
-/*console.log('carRoutes:', carRoutes);
-console.log('userRoutes:', userRoutes);
-console.log('bookingsalesroute:', bookingsalesroute);*/ //hsybo dlw ashan nhdd fyn el error da debugging bs
-//>>>>>>> fbfb4a4ee56a212ecd816ee22d367e9d84f45612
+// --- Render Pages ---
+app.get('/', (req, res) => res.render('homepage', { title: 'Home Page' }));
+app.get('/addcar', (req, res) => res.render('addcar', { title: 'Add Car' }));
+app.get('/admin', (req, res) => res.render('admin', { title: 'Admin Page' }));
+app.get('/usersmangment', (req, res) => res.render('usersmangment', { title: 'Users Management' }));
+app.get('/mypurchases', (req, res) => res.render('purchases', { title: 'My Purchases' }));
+app.get('/Dashboard', (req, res) => res.render('Dashboard', { title: 'Dashboard' }));
+app.get('/Contact', (req, res) => res.render('Contact', { title: 'Contact' }));
+app.get('/checkout', (req, res) => res.render('checkout', { title: 'Checkout' }));
+app.get('/cart', (req, res) => res.render('cart', { title: 'Cart' }));
+app.get('/admin-orders', (req, res) => res.render('admin-orders', { title: 'Admin Orders' }));
+app.get('/inventory', (req, res) => res.render('inventory', { title: 'Inventory' }));
+app.get('/login', (req, res) => res.render('login', { title: 'Login' }));
+app.get('/Privacy', (req, res) => res.render('Privacy', { title: 'Privacy' }));
+app.get('/Term', (req, res) => res.render('Term', { title: 'Term' }));
+app.get('/register', (req, res) => res.render('register', { title: 'Register' }));
+app.get('/carllisting', (req, res) => res.render('carllisting', { title: 'Car Listing' }));
 
-app.use(express.urlencoded({ extended: true }));
-app.use(express.json());
-app.use(express.static('./public'));
-app.use(express.static('./public'));
-app.set('view engine', 'ejs'); 
-app.set('views', path.join(__dirname,'views'));
-app.use(express.static(path.join(__dirname,'public')));
-app.use('/api/cars', carRoutes); 
-app.get('/', (req, res) => { res.render('homepage', { title: 'Home Page' }) });
-app.get('/usersmangment', (req, res) => { res.render('usersmangment', { title: 'usersmangment' }) });
-app.get('/admin', (req, res) => { res.render('admin', { title: 'admin page' }) });
-app.get('/mypurchases', (req, res) => { res.render('purchases', { title: 'Purchases' }) });
-app.get('/Dashboard', (req, res) => { res.render('Dashboard', { title: 'Dashboard' }) });
-app.get('/Contact', (req, res) => { res.render('Contact', { title: 'Contact' }) });
-app.get('/checkout', (req, res) => { res.render('checkout', { title: 'Checkout' }) });
-app.get('/cart', (req, res) => { res.render('cart', { title: 'Cart' }) });
-app.get('/admin-orders', (req, res) => { res.render('admin-orders', { title: 'Admin Orders' }) });
-app.get('/inventory', (req, res) => { res.render('inventory', { title: 'Inventory' }) });
-app.get('/login', (req, res) => { res.render('login', { title: 'Login' }) });
-app.get('/Privacy', (req, res) => { res.render('Privacy', { title: 'Privacy' }) });
-app.get('/Term', (req, res) => { res.render('Term', { title: 'Term' }) });
-app.get('/login', (req, res) => { res.render('login', { title: 'Login' });});
-app.get('/register', (req, res) => {res.render('register', { title: 'Register' });});
-app.get ('/addcar', (req,res)=> {res.render ('addcar',{title:'form for addcar '})});
-app.get ('/cart', (req,res)=> {res.render ('cart', {title:'Cart'})});
-app.get ('/carllisting.ejs', (req, res)=> {res.render ('carllisting', {title:'Car Listing'})});
-app.get ('/carllisting', (req, res)=> {res.render ('carllisting', {title:'Car Listing'})});
-app.get ('/admin-orders', (req,res)=>{res.render ('admin-orders', {title:'Admin Orders'})});
+// --- Start Server ---
 const PORT = process.env.PORT || 3000;
-
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });

@@ -1,23 +1,25 @@
+// routes/carRoutes.js
 const express = require('express');
+const path = require('path');
 const router = express.Router();
-const carController = require('../controllers/carController');
-const { protect, admin } = require('../middleware/auth');
+const { addCar, getAllCars } = require('../controllers/carController'); // Make sure getAllCars is imported!
 
-router.get('/', carController.getAllCars);
+// API route to handle adding a car
+router.post('/addcar', addCar); // This will be accessible at /cars/addcar (POST)
 
-// Route to render the update car form for a specific car
-router.get('/update-car-view/:id', protect, admin, carController.renderUpdateCarForm);
-
-router.get('/:id', carController.getCarById);
-
-router.post('/add', protect, admin, carController.createCar);
-
-router.put('/:id', protect, admin, carController.updateCar);
-
-router.delete('/:id', protect, admin, carController.deleteCar);
-
-router.get('/addcar-view', (req, res) => {
-    res.render('addcar', { title: 'Add New Car' });
+// Route to display the addcar form (if you want it under /cars/addcar)
+// If you access /addcar directly, this route is needed.
+// If your app.js handles /addcar, you might not need this here.
+router.get('/addcar', (req, res) => { // This will be accessible at /cars/addcar (GET)
+  res.render('addcar', { title: 'Add Car' });
 });
+
+// API route to fetch ALL cars (this is your JSON endpoint!)
+// This will be accessible at /cars/all
+router.get('/all', getAllCars);
+
+// IMPORTANT: DO NOT have a route like this here if app.js handles /carllisting directly
+// If you have `router.get('/carllisting', ...)` in THIS file, REMOVE IT.
+// The `app.get('/carllisting', ...)` in `app.js` will handle rendering the EJS page.
 
 module.exports = router;
