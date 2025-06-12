@@ -1,10 +1,10 @@
 /* for both register, login bc they are the same */
- 
+
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: Arial, sans-serif;
+    font-family: Arial, sans-serif; /* Consistent font */
 }
 
 body {
@@ -12,34 +12,41 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    background: url('/pexels-sebastianpichard-6894427.jpg') no-repeat center center fixed;
-    background-size: cover;
+    /* Background image and overlay removed */
+    position: relative;
+    color: #fff; /* Ensuring text is visible on dark background */
 }
+
+/* Overlay from home page body::before - Removed */
+
 
 .auth-container {
     width: 400px;
     padding: 40px;
-    background: rgba(255, 255, 255, 0.85);
-    border-radius: 10px;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    background: rgba(0, 0, 0, 0.7); /* Dark, semi-transparent background for card effect */
+    border-radius: 12px; /* Slightly more rounded from home page cards */
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5); /* Stronger shadow from home page cards */
     text-align: center;
+    color: #fff; /* Ensure text inside container is white */
 }
 
 .auth-container h1 {
     font-size: 28px;
     margin-bottom: 20px;
-    color: #333;
+    color: #fff; /* White for prominent headings */
+    text-shadow: 4px 4px 10px red, 0px 0px 15px red; /* Adopted from home page h3 */
 }
 
 .error-message {
-    background-color: #f8d7da;
-    color: #721c24;
+    background-color: #dc3545; /* Red background for errors */
+    color: white; /* White text for contrast */
     padding: 10px;
     border-radius: 5px;
     margin-bottom: 15px;
     font-size: 14px;
     text-align: left;
     display: none; /* Hidden by default */
+    box-shadow: 0 2px 5px rgba(220, 53, 69, 0.3); /* Subtle shadow */
 }
 
 .form-group {
@@ -51,17 +58,24 @@ body {
     display: block;
     margin-bottom: 8px;
     font-size: 14px;
-    color: #555;
+    color: #e0e0e0; /* Lighter grey for labels */
 }
 
 .form-group input {
     width: 100%;
     padding: 12px;
-    border: 1px solid #ddd;
+    border: 1px solid #444; /* Darker border */
     border-radius: 5px;
-    background: white;
-    color: #333;
+    background: #3a3a3a; /* Darker input background */
+    color: #e0e0e0; /* Light text color for input */
     font-size: 16px;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.2); /* Inner shadow for depth */
+}
+
+.form-group input:focus {
+    border-color: darkred; /* Focus color */
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(255, 0, 0, 0.3); /* Red glow on focus */
 }
 
 .password-container {
@@ -78,7 +92,7 @@ body {
     top: 50%;
     transform: translateY(-50%);
     cursor: pointer;
-    color: #555;
+    color: #e0e0e0; /* Lighter color for toggle icon */
 }
 
 .form-options {
@@ -87,12 +101,13 @@ body {
     align-items: center;
     margin-bottom: 30px;
     font-size: 14px;
+    color: #e0e0e0; /* Lighter color for options text */
 }
 
 .auth-btn {
     width: 100%;
     padding: 14px;
-    background: #2989d8;
+    background: darkred; /* Adopted from home page buttons */
     color: white;
     border: none;
     border-radius: 5px;
@@ -100,22 +115,28 @@ body {
     font-weight: bold;
     cursor: pointer;
     margin-bottom: 20px;
+    transition: background-color 0.3s ease, transform 0.2s ease; /* Adopted transitions */
+    box-shadow: 0 4px 10px rgba(255, 0, 0, 0.4); /* Adopted shadow */
 }
 
 .auth-btn:hover {
-    background: #1e5799;
+    background: red; /* Adopted hover color */
+    transform: translateY(-2px); /* Adopted hover effect */
 }
 
 .prompt {
     font-size: 14px;
+    color: #e0e0e0; /* Lighter color for prompt text */
 }
 
 .prompt a {
-    color: #2989d8;
+    color: darkred; /* Adopted accent color for links */
     text-decoration: none;
     font-weight: bold;
+    transition: color 0.3s ease, text-decoration 0.3s ease; /* Smooth transition for links */
 }
 
 .prompt a:hover {
-    text-decoration: underline;
+    color: red; /* Adopted hover color */
+    text-decoration: underline; /* Keep underline on hover for clarity */
 }
