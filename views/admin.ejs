@@ -30,9 +30,29 @@
       <section id="cars" class="tab-content active">
         <div class="section-header">
           <a href="/addcar"><button class="add-btn" id="add-car-btn">Add New Car</button></a>
+
         <button class="add-btn" id="remove-car-btn">Remove Car</button>
-          <a href="/api/cars" class="add-btn" id="update-car-btn">Update Car</a>
+          <button class="update-btn" id="update-car-btn">Update Car</a>
         </div>
+        <!-- Update Car Modal -->
+<div id="updatePopup" class="modal">
+  <div class="modal-content">
+    <span class="close-update">&times;</span>
+    <h3>Update Car</h3>
+    <form id="update-car-form">
+      <input type="text" id="updateCarId" placeholder="Car ID" required />
+      <input type="text" id="updateName" placeholder="New Name" />
+      <input type="text" id="updateModel" placeholder="New Model" />
+      <input type="number" id="updatePrice" placeholder="New Price" />
+      <input type="text" id="updateEngine" placeholder="New Engine" />
+      <input type="text" id="updateColor" placeholder="New Color" />
+      <input type="text" id="updateImage" placeholder="New Image URL" />
+      <button type="submit" class="update-btn">Update</button>
+    </form>
+    <p id="update-message" class="message"></p>
+  </div>
+</div>
+
         <div id="removePopup" class="modal">
   <div class="modal-content">
     <span class="close">&times;</span>
