@@ -1,5 +1,4 @@
 // File: /public/js/login.js
-
 document.addEventListener('DOMContentLoaded', function() {
     const loginForm = document.getElementById('login-form');
     const errorMessageDiv = document.getElementById('error-message');
@@ -33,8 +32,14 @@ document.addEventListener('DOMContentLoaded', function() {
             const data = await response.json();
 
             if (response.ok && data.success) {
-                // On successful login, redirect to the homepage or dashboard
-                window.location.href = '/'; 
+                // Check user role and redirect accordingly
+                if (data.user && data.user.role === 'admin') {
+                    // Redirect to admin dashboard
+                    window.location.href = '/admin';
+                } else {
+                    // Redirect to regular user homepage
+                    window.location.href = '/';
+                }
             } else {
                 errorMessageDiv.textContent = data.error || 'An unknown error occurred.';
                 errorMessageDiv.style.display = 'block';
