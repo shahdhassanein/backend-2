@@ -9,18 +9,19 @@ const generateToken = (id) => {
     });
 };
 
-// Helper function to send token response
+// Helper function to send token response (slightly refined for clarity)
 const sendTokenResponse = (user, statusCode, res, isRegistration = false) => {
     const token = generateToken(user._id);
+    console.log('sendTokenResponse: Token generated for user ID:', user._id); // Log token generation
 
     const options = {
-        expires: new Date(Date.now() + (process.env.JWT_COOKIE_EXPIRE || 30) * 24 * 60 * 60 * 1000),
+        expires: new Date(Date.now() + (parseInt(process.env.JWT_COOKIE_EXPIRE) || 30) * 24 * 60 * 60 * 1000),
         httpOnly: true,
         secure: process.env.NODE_ENV === 'production',
         sameSite: 'Lax',
     };
+    console.log('sendTokenResponse: Cookie options set:', options); // Log cookie options
 
-    // Always send JSON response for API endpoints
     res.status(statusCode)
        .cookie('token', token, options)
        .json({
