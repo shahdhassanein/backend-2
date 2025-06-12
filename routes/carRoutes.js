@@ -2,14 +2,22 @@
 const express = require('express');
 const path = require('path');
 const router = express.Router();
-const { addCar, getAllCars ,deleteCar,updateCar } = require('../controllers/carController'); // Make sure getAllCars is imported!
+const { addCar, getAllCars ,deleteCar} = require('../controllers/carController'); // Make sure getAllCars is imported!
 
 // API route to handle adding a car
 router.post('/addcar', addCar); // This will be accessible at /cars/addcar (POST)
 router.post('/deletecar', deleteCar);
-router.post('/deletecar', updateCar );
+// Route to display the addcar form (if you want it under /cars/addcar)
+// If you access /addcar directly, this route is needed.
+// If your app.js handles /addcar, you might not need this here.
 router.get('/addcar', (req, res) => { // This will be accessible at /cars/addcar (GET)
   res.render('addcar', { title: 'Add Car' });
 });
+// DELETE route to remove a car by ID (using POST for simplicity)
+
+
+
+// API route to fetch ALL cars (this is your JSON endpoint!)
+// This will be accessible at /cars/all
 router.get('/all', getAllCars);
 module.exports = router;
