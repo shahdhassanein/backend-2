@@ -4,8 +4,8 @@ require('dotenv').config();
 // --- IMPORTS ---
 const express = require('express');
 const mongoose = require('mongoose');
-//const session = require ('express-session'); // Commented out in your original, keeping as is
-const MongoStore = require ('connect-mongo'); // Kept as is, though session is commented out
+//const session = require ('express-session');
+const MongoStore = require ('connect-mongo');
 const path = require('path');
 const connectDB = require('./config/db'); // Your database connection function
 
@@ -15,6 +15,7 @@ const app = express();
 
 // Connect to Database
 connectDB();
+app.use(express.json());
 
 const carRoutes = require('./routes/carRoutes');
 const bookingsalesroute = require('./routes/bookingsalesroute');
@@ -23,22 +24,20 @@ const cartRoutes = require('./routes/cart');
 const adminRoutes = require('./routes/adminRoutes'); // Assuming you have this route defined
 
 
-// --- MIDDLEWARE ---
-// Ensure these are before your routes that handle JSON/URL-encoded bodies
-app.use(express.json()); // To parse JSON request bodies
-app.use(express.urlencoded({ extended: true })); // To parse URL-encoded form submissions
+// --- USE API ROUTES ---
+// This tells Express to use your route files for any URL starting with the specified prefix.
+// This is the organized way to handle your APIs.
+app.use('/api/auth', authRoutes); // <-- USE THE AUTH ROUTES for URLs like /api/auth/login
+app.use('/addcars', carRoutes);
+app.use('/api/bookingsales', bookingsalesroute);
+app.use('/api/cart', cartRoutes);
+//to connect purchase to the database mfysh booking
 
-// Serve static files from 'public' directory
-app.use(express.static(path.join(__dirname,'public')));
-app.use(express.static('./public')); // Redundant with the line above but kept as per your original
-
-// EJS View Engine Setup
-app.set('view engine', 'ejs'); 
-app.set('views', path.join(__dirname,'views'));
-
-// Session middleware (kept commented out as in your original)
-/*
-app.use(session({
+/*console.log('carRoutes:', carRoutes);
+console.log('userRoutes:', userRoutes);
+console.log('bookingsalesroute:', bookingsalesroute);*/ //hsybo dlw ashan nhdd fyn el error da debugging bs
+//>>>>>>> fbfb4a4ee56a212ecd816ee22d367e9d84f45612
+/*app.use(session({
     secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
@@ -51,22 +50,12 @@ app.use(session({
     }
 }));
 */
-// Assuming you have this session middleware in a separate file
-const sessionMiddleware = require('./middleware/session');
-app.use(sessionMiddleware);
 
-
-// --- USE API ROUTES ---
-// This tells Express to use your route files for any URL starting with the specified prefix.
-app.use('/api/auth', authRoutes); 
-app.use('/addcars', carRoutes);
-app.use('/api/bookingsales', bookingsalesroute); // This mounts your bookingsales routes, including /api/bookingsales/view-my-purchases
-app.use('/api/cart', cartRoutes);
-
-
-// --- RENDER FRONTEND VIEWS (EJS Pages) ---
-
-// Home Page
+app.use(express.json());
+app.use(express.static(path.join(__dirname,'public')));
+app.use(express.static('./public'));
+app.set('view engine', 'ejs'); 
+app.set('views', path.join(__dirname,'views'));
 app.get('/', (req, res) => { res.render('homepage', { title: 'Home Page' }) });
 
 // Admin/User Management Pages

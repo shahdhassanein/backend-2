@@ -26,7 +26,9 @@ document.addEventListener('DOMContentLoaded', function() {
         const password = document.getElementById('password').value;
 
         try {
-            const response = await fetch('/api/users/register', {
+            // ****** EDITED LINE HERE ******
+            // Changed the endpoint from '/api/users/register' to '/api/auth/register'
+            const response = await fetch('/api/auth/register', { 
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ name, email, phone, password })
@@ -38,10 +40,12 @@ document.addEventListener('DOMContentLoaded', function() {
                 // On successful registration, redirect to the homepage
                 window.location.href = '/'; 
             } else {
+                // Use data.message if available, as that's what your backend sends for errors
                 errorMessageDiv.textContent = data.error || 'An unknown error occurred.';
                 errorMessageDiv.style.display = 'block';
             }
         } catch (error) {
+            console.error('Registration fetch error:', error); // Added for debugging
             errorMessageDiv.textContent = 'Could not connect to the server. Please try again later.';
             errorMessageDiv.style.display = 'block';
         }
