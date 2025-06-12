@@ -270,7 +270,7 @@ button[type="submit"] {
 button[type="submit"]:hover {
     background: red; 
 
-
+}
 .contact-container .info-text {
     margin-top: 25px; 
     font-size: 1em;
