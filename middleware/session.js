@@ -1,18 +1,19 @@
 const session = require('express-session');
 const MongoStore = require('connect-mongo');
 
-const sessionConfig = session({
-  secret: process.env.SESSION_SECRET,
+const mongoUrl = process.env.MONGO_URI || 'mongodb://localhost:27017/backend';
+
+module.exports = session({
+  secret: process.env.SESSION_SECRET || 'yourSecretKey',
   resave: false,
   saveUninitialized: false,
   store: MongoStore.create({
-    mongoUrl: process.env.MONGO_URI
+    mongoUrl, // ✅ Pass the correct URL here
+    ttl: 60 * 60, // 1 hour (optional)
   }),
   cookie: {
+    maxAge: 1000 * 60 * 60, // 1 hour
     httpOnly: true,
-    secure: process.env.NODE_ENV === 'production', // only HTTPS in production
-    maxAge: 1000 * 60 * 60 * 24 // 1 day
+    secure: false, // Set true if you're using HTTPS
   }
 });
-
-module.exports = sessionConfig;
