@@ -21,14 +21,27 @@ const sendTokenResponse = (user, statusCode, res) => {
 router.post('/register', async (req, res) => {
     try {
         const { name, email, password, phone } = req.body;
+
+        // Basic input validation
+        if (!name || !email || !password || !phone) {
+            return res.status(400).json({ success: false, error: 'All fields are required' });
+        }
+
+        // Check for existing user
         const userExists = await User.findOne({ email });
         if (userExists) {
             return res.status(400).json({ success: false, error: 'User with this email already exists' });
         }
+
+        // Create user
         const user = await User.create({ name, email, password, phone });
+
+        // Send JWT token
         sendTokenResponse(user, 201, res);
+
     } catch (err) {
-        res.status(400).json({ success: false, error: err.message });
+        console.error('Registration error:', err); // ✅ Debug error
+        res.status(400).json({ success: false, error: err.message || 'Registration failed' });
     }
 });
 
@@ -37,19 +50,24 @@ router.post('/register', async (req, res) => {
 router.post('/login', async (req, res) => {
     try {
         const { email, password } = req.body;
+
         if (!email || !password) {
             return res.status(400).json({ success: false, error: 'Please provide an email and password' });
         }
+
         const user = await User.findOne({ email }).select('+password');
         if (!user) {
             return res.status(401).json({ success: false, error: 'Invalid credentials' });
         }
+
         const isMatch = await user.matchPassword(password);
         if (!isMatch) {
             return res.status(401).json({ success: false, error: 'Invalid credentials' });
         }
+
         sendTokenResponse(user, 200, res);
     } catch (err) {
+        console.error('Login error:', err); // ✅ Debug error
         res.status(500).json({ success: false, error: 'Server error during login' });
     }
 });
@@ -63,7 +81,10 @@ router.get('/me', protect, async (req, res) => {
 // @desc    Log user out
 // @route   GET /api/auth/logout
 router.get('/logout', protect, (req, res) => {
-    res.cookie('token', 'none', { expires: new Date(Date.now() + 10 * 1000), httpOnly: true });
+    res.cookie('token', 'none', {
+        expires: new Date(Date.now() + 10 * 1000),
+        httpOnly: true
+    });
     res.status(200).json({ success: true, data: {} });
 });
 

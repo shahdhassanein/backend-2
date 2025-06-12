@@ -1,4 +1,4 @@
-// models/purchasesschema.js (RECOMMENDED UPDATES)
+// models/purchaseschema.js (RECOMMENDED UPDATES)
 
 const mongoose = require('mongoose');
 

@@ -4,7 +4,7 @@ require('dotenv').config();
 // --- IMPORTS ---
 const express = require('express');
 const mongoose = require('mongoose');
-//const session = require ('express-session');
+const session = require ('express-session');
 const MongoStore = require ('connect-mongo');
 const path = require('path');
 const connectDB = require('./config/db'); // Your database connection function
@@ -15,6 +15,7 @@ const app = express();
 
 // Connect to Database
 connectDB();
+app.use(express.json());
 
 const carRoutes = require('./routes/carRoutes');
 const bookingsalesroute = require('./routes/bookingsalesroute');
@@ -25,17 +26,20 @@ const adminRoutes = require('./routes/adminRoutes');
 // --- USE API ROUTES ---
 // This tells Express to use your route files for any URL starting with the specified prefix.
 // This is the organized way to handle your APIs.
+
 app.use('/api/auth', authRoutes); // <-- USE THE AUTH ROUTES for URLs like /api/auth/login
 app.use('/addcars', carRoutes);
 app.use('/api/bookingsales', bookingsalesroute);
 app.use('/api/cart', cartRoutes);
+
+
 //to connect purchase to the database mfysh booking
 
 /*console.log('carRoutes:', carRoutes);
 console.log('userRoutes:', userRoutes);
 console.log('bookingsalesroute:', bookingsalesroute);*/ //hsybo dlw ashan nhdd fyn el error da debugging bs
 //>>>>>>> fbfb4a4ee56a212ecd816ee22d367e9d84f45612
-/*app.use(session({
+app.use(session({
     secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
@@ -47,9 +51,9 @@ console.log('bookingsalesroute:', bookingsalesroute);*/ //hsybo dlw ashan nhdd f
         maxAge: 1000 * 60 * 60 * 24 // 1 day
     }
 }));
-*/
 
-app.use(express.json());
+
+//app.use(express.json());
 app.use(express.static(path.join(__dirname,'public')));
 app.use(express.static('./public'));
 app.set('view engine', 'ejs'); 
