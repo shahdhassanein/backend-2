@@ -1,210 +1,245 @@
-\/* General Body and Main Layout */
-body {
-    font-family: 'Arial', sans-serif;
-    background-color: #1a1a1a; /* Very dark background */
-    color: #f0f0f0; /* Light text for contrast */
+/* Global Reset */
+* {
     margin: 0;
-    line-height: 1.6;
-    display: flex;
-    flex-direction: column; /* For sticky footer or overall layout */
-    min-height: 100vh; /* Ensure full viewport height */
+    padding: 0;
+    box-sizing: border-box; /* Adopted from home page CSS */
 }
 
+/* General Body and Main Layout */
+body {
+    font-family: Arial, sans-serif; /* Adopted from home page CSS */
+    line-height: 1.6;
+    color: #fff; /* Changed to white for dark background */
+    /* background: url('https://placehold.co/1920x1080/000000/FFFFFF?text=Background+Image') no-repeat center center fixed; Removed background image */
+    /* background-size: cover; Removed background size */
+    position: relative;
+    min-height: 100vh;
+}
+
+/* Body Overlay from home page - Removed */
+/* body::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: -1;
+} */
+
 main {
-    flex-grow: 1; /* Allows main content to take available space */
-    padding: 20px;
-    max-width: 1200px; /* Max width for content */
-    margin: 0 auto; /* Center the content */
+    flex-grow: 1;
+    padding: 30px;
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
 h2 {
-    color: #e0e0e0; /* Slightly lighter heading color */
+    color: #fff; /* Adopted from featured-item h3 (white for prominent headings) */
+    text-shadow: 4px 4px 10px red, 0px 0px 15px red; /* Adopted from featured-item h3 */
     text-align: center;
     margin-bottom: 30px;
-    font-size: 2.5em;
-    font-weight: 700;
+    font-size: 2.5em; /* Adjusted to match home page h1 feel */
+    font-weight: bold; /* Adopted from home page h3 */
     text-transform: uppercase;
     letter-spacing: 1.5px;
 }
 
-/* Header/Navigation (This might be in main.css, but included for completeness) */
+/* Header/Navigation (Matching .navbar from home page) */
 header {
-    background-color: #222;
-    color: #fff;
-    padding: 15px 0;
-    border-bottom: 3px solid #ffc107; /* Accent line */
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
+    display: flex; /* Adopted from home page .navbar */
+    align-items: center; /* Adopted from home page .navbar */
+    background: #333; /* Adopted from home page .navbar */
+    padding: 15px 20px; /* Adopted from home page .navbar */
+    color: #fff; /* Adopted from home page .navbar */
+    border-bottom: none; /* Explicitly removed */
+    box-shadow: none; /* Explicitly removed */
 }
 
 nav ul {
     list-style: none;
     padding: 0;
-    margin: 0;
+    margin-left: 20px; /* Adopted from home page .navbar ul */
     display: flex;
     justify-content: center;
-    gap: 30px; /* Space between nav items */
+    gap: 20px; /* Adopted from home page .navbar ul */
 }
 
 nav ul li a {
-    color: #fff;
+    color: #fff; /* Adopted from home page .navbar a */
     text-decoration: none;
     font-weight: bold;
-    font-size: 1.1em;
-    padding: 5px 10px;
-    transition: color 0.3s ease, border-bottom 0.3s ease;
+    padding: 10px; /* Adopted from home page .navbar a */
+    transition: background 0.3s ease; /* Transition for background change */
 }
 
 nav ul li a:hover,
 nav ul li a.active {
-    color: #ffc107; /* Highlight color on hover/active */
-    border-bottom: 2px solid #ffc107;
+    background: rgb(170, 0, 0); /* Adopted from home page .navbar a:hover */
+    border-radius: 5px; /* Adopted from home page .navbar a:hover */
+    color: #fff; /* Ensure text remains white */
+    border-bottom: none; /* Explicitly remove the underline on hover/active */
 }
-
 
 /* Filter Section Styling */
 .filters-section {
-    background-color: #2b2b2b; /* Slightly lighter dark for filters */
+    background-color: rgba(0, 0, 0, 0.6); /* Semi-transparent dark background for better readability over image */
     padding: 25px 20px;
     margin-bottom: 40px;
-    border-radius: 10px;
-    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
-    text-align: center; /* Center filter elements */
+    border-radius: 8px; /* Consistent border-radius */
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.7); /* Darker shadow */
+    text-align: center;
 }
 
 .filters-container {
     display: flex;
-    flex-wrap: wrap; /* Allow items to wrap on smaller screens */
+    flex-wrap: wrap;
     justify-content: center;
-    gap: 15px; /* Space between filter elements */
+    gap: 15px;
 }
 
 .filters-container select,
 .filters-container button {
-    padding: 12px 20px;
-    margin: 0; /* Remove margin from individual elements now that gap handles it */
-    border-radius: 8px;
-    border: 1px solid #444;
+    font-family: Arial, sans-serif; /* Consistent font */
+    font-size: 1em; /* Consistent font size */
+    padding: 12px 20px; /* Adopted from home page filter elements */
+    border-radius: 8px; /* Consistent border-radius */
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease; /* Smoother transitions */
+    border: 1px solid #444; /* Added border for definition */
     background-color: #3a3a3a; /* Darker input background */
     color: #e0e0e0; /* Light text color */
-    font-size: 1em;
-    cursor: pointer;
-    appearance: none; /* Remove default select arrow */
+    appearance: none;
     -webkit-appearance: none;
     -moz-appearance: none;
     background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23e0e0e0%22%20d%3D%22M287%2C197.398L146.2%2C56.599L5.4%2C197.398h281.6z%22%2F%3E%3C%2Fsvg%3E'); /* Custom arrow for select */
     background-repeat: no-repeat;
     background-position: right 15px top 50%;
     background-size: 12px auto;
-    transition: all 0.3s ease;
 }
 
 .filters-container select:focus,
 .filters-container button:focus {
-    border-color: #ffc107;
+    border-color: darkred; /* Focus color */
     outline: none;
-    box-shadow: 0 0 0 3px rgba(255, 193, 7, 0.3);
+    box-shadow: 0 0 0 3px rgba(255, 0, 0, 0.3);
 }
 
 .filters-container button {
-    font-weight: bold;
+    background-color: darkred; /* Main button color */
+    color: white;
+    box-shadow: 0 4px 10px rgba(255, 0, 0, 0.4);
 }
 
 .filters-container button.reset-filters {
     background-color: #dc3545; /* Red button */
     border-color: #dc3545;
     color: #fff;
+    box-shadow: 0 4px 10px rgba(220, 53, 69, 0.4);
 }
 
+.filters-container button:hover:not(.reset-filters),
+.filters-container select:hover {
+    background-color: red; /* Hover color */
+    transform: translateY(-2px);
+}
 .filters-container button.reset-filters:hover {
     background-color: #c82333;
     border-color: #c82333;
-}
-
-.filters-container select:hover,
-.filters-container button:hover:not(.reset-filters) {
-    background-color: #4a4a4a;
-    border-color: #555;
+    transform: translateY(-2px);
 }
 
 
 /* Car Listings Grid */
-.cars-grid {
+#cars-container {
+    min-height: 200px;
     display: grid;
-    /* This will try to fit as many 280px wide columns as possible,
-       and each column will grow to fill the available space.
-       This will give you around 3-4 cars per line on larger screens. */
     grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 30px; /* More space between cards */
-    padding: 0; /* Remove padding here as main has it */
+    gap: 30px; /* Adopted from home page .cars-grid gap for more space */
+    padding: 0;
+    margin-top: 2rem;
 }
 
 .car-card {
-    background-color: #2b2b2b; /* Darker background for cards */
-    border-radius: 12px; /* Slightly more rounded corners */
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5); /* Stronger shadow */
+    background-color: rgba(255, 255, 255, 0.05); /* Slightly transparent white for cards, like featured-item */
+    border-radius: 12px; /* Slightly more rounded corners from home page */
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5); /* Stronger shadow from home page */
     overflow: hidden;
-    color: #e0e0e0; /* Light text */
+    color: #e0e0e0; /* Light text for consistency */
     text-align: center;
-    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
-    display: flex; /* Using flexbox for internal card layout */
-    flex-direction: column; /* Stack image and details vertically */
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out; /* From home page */
+    display: flex;
+    flex-direction: column;
 }
 
 .car-card:hover {
-    transform: translateY(-8px); /* More pronounced lift effect */
-    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.7); /* Stronger shadow on hover */
+    transform: translateY(-8px); /* More pronounced lift effect from home page */
+    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.7); /* Stronger shadow on hover from home page */
 }
 
 .car-image {
     width: 100%;
-    height: 200px; /* Slightly taller images */
+    height: 200px; /* Slightly taller images from home page */
     object-fit: cover;
-    border-bottom: 1px solid #444;
+    border-bottom: 1px solid #444; /* Added a subtle border */
+    border-radius: 12px 12px 0 0; /* Apply border radius only to top corners */
+    transition: transform 0.3s ease; /* Adopted from home page .featured-item img */
+}
+
+.car-image:hover {
+    transform: scale(1.1); /* Adopted from home page .featured-item img:hover */
 }
 
 .car-details {
-    padding: 20px;
-    flex-grow: 1; /* Allow details section to grow */
+    padding: 20px; /* Adopted from home page .car-details */
+    flex-grow: 1;
     display: flex;
     flex-direction: column;
-    justify-content: space-between; /* Push button to bottom */
+    justify-content: space-between;
 }
 
 .car-details h3 {
-    margin-top: 0;
-    margin-bottom: 12px;
-    font-size: 1.6em; /* Larger car name */
-    color: #ffc107;
+    margin-top: 15px; /* Adopted from home page .featured-item h2 */
+    margin-bottom: 5px;
+    font-size: 1.6em;
+    color: #fff; /* Adopted from home page .featured-item h3 */
+    text-shadow: 4px 4px 10px red, 0px 0px 15px red; /* Adopted from home page .featured-item h3 */
     text-transform: capitalize;
 }
 
 .car-details p {
-    margin: 8px 0;
-    font-size: 1em;
-    color: #bbb;
+    margin: 8px 0; /* Adopted from home page .car-details p */
+    font-size: 1.2em; /* Adopted from home page .featured-item p */
+    color: #fff; /* Adopted from home page .featured-item p */
+    text-shadow: 3px 3px 8px red, 0px 0px 12px red; /* Adopted from home page .featured-item p */
+    font-weight: bold; /* Adopted from home page .featured-item p */
 }
 
 .car-details strong {
-    color: #ffc107; /* Highlight property names */
+    color: #fff; /* Consistent with other text, or can be red if you prefer */
+    text-shadow: 2px 2px 5px red; /* Subtle shadow for emphasis */
 }
 
 .view-details-btn {
-    background-color: #ffc107;
-    color: #1a1a1a; /* Dark text on button */
+    background-color: darkred; /* Adopted from home page cart-text-button */
+    color: white;
     border: none;
-    padding: 12px 25px;
-    border-radius: 6px;
+    padding: 12px 25px; /* Adopted from home page .hero button */
+    border-radius: 5px; /* Adopted from home page .hero button */
     cursor: pointer;
     font-size: 1.1em;
     font-weight: bold;
-    margin-top: 20px; /* Space above button */
+    margin-top: 20px;
     transition: background-color 0.3s ease, transform 0.2s ease;
-    align-self: center; /* Center button in flex column */
+    align-self: center;
+    box-shadow: 0 4px 10px rgba(255, 0, 0, 0.4);
 }
 
 .view-details-btn:hover {
-    background-color: #e0a800;
-    transform: scale(1.05); /* Slightly enlarge button on hover */
+    background-color: red; /* Adopted from home page cart-text-button:hover */
+    transform: scale(1.05); /* Slightly enlarge button on hover from home page */
 }
 
 /* Messages (Loading, Error, No Cars) */
@@ -212,34 +247,35 @@ nav ul li a.active {
 #error-message,
 #no-cars-message {
     text-align: center;
-    grid-column: 1 / -1; /* Make messages span full width in the grid */
+    grid-column: 1 / -1;
     font-size: 1.4em;
-    color: #bbb;
+    color: #fff; /* Consistent with home page text */
     padding: 30px;
-    background-color: #2b2b2b;
+    background-color: rgba(0, 0, 0, 0.7); /* Darker, semi-transparent background */
     border-radius: 10px;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
     margin-top: 20px;
 }
 
 #error-message {
-    color: #dc3545; /* Red for error */
+    color: #dc3545; /* Consistent red for error */
     font-weight: bold;
 }
 
 #no-cars-message {
-    color: #6c757d; /* Grey for no cars */
+    color: #999; /* Slightly lighter grey for no cars */
     font-style: italic;
 }
 
 /* Footer Styling (simple) */
 footer {
-    background-color: #222;
-    color: #888;
-    text-align: center;
+    background: #333; /* Adopted from home page footer */
+    color: white; /* Adopted from home page footer */
     padding: 20px;
+    text-align: center;
+    font-size: 1em;
     margin-top: 40px;
-    border-top: 1px solid #333;
+    border-top: none; /* Removed border-top */
 }
 
 
@@ -255,26 +291,23 @@ footer {
     }
 
     .filters-container {
-        flex-direction: column; /* Stack filters vertically on small screens */
+        flex-direction: column;
         align-items: center;
     }
 
     .filters-container select,
     .filters-container button {
-        width: 100%; /* Full width for filter elements */
-        max-width: 300px; /* Limit max width */
+        width: 100%;
+        max-width: 300px;
     }
 
-    .cars-grid {
-        gap: 20px; /* Reduce gap on smaller screens */
-        /* If you wanted strictly 2 columns on tablet:
-        grid-template-columns: repeat(2, 1fr);
-        */
+    #cars-container {
+        gap: 20px;
     }
 
     .car-card {
-        max-width: 400px; /* Adjust max width for cards on medium screens */
-        margin: 0 auto; /* Center individual cards if grid doesn't fill entirely */
+        max-width: 400px;
+        margin: 0 auto;
     }
 }
 
@@ -282,7 +315,7 @@ footer {
     nav ul {
         flex-direction: column;
         gap: 15px;
-        align-items: center; /* Center nav items */
+        align-items: center;
     }
     nav ul li a {
         font-size: 1em;
@@ -301,24 +334,7 @@ footer {
         font-size: 1em;
     }
 
-    .cars-grid {
-        /* On very small screens, make it single column */
+    #cars-container {
         grid-template-columns: 1fr;
     }
-}#cars-container {
-    min-height: 200px;
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: 20px;
-}
-.car-card {
-    background-color: #fff;
-    padding: 15px;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0,0,0,0.1);
-}
-.car-image {
-    width: 100%;
-    height: auto;
-    border-radius: 10px;
 }
