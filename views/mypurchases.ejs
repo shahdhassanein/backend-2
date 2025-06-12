@@ -4,19 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Purchases</title>
-    <!-- IMPORTANT: Link to your external booking.css file for all custom styling. -->
     <link rel="stylesheet" href="/css/booking.css">
     
-    <!-- Tailwind CSS is kept for utility classes and responsive design. 
-         Your custom CSS in booking.css will override where rules conflict. -->
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    
-    <!-- >>>>>>>>>>>>>>>>>>>>> CRITICAL ACTION REQUIRED <<<<<<<<<<<<<<<<<<<<< -->
-    <!-- >>>>>>>>>>>>>>>>> THE <style> BLOCK WAS HERE AND IS NOW REMOVED. <<<<<<<<<<<<<<<<< -->
-    <!-- >>>>>>>>>>>>>>>>> DO NOT PUT IT BACK! ALL STYLES GO IN booking.css. <<<<<<<<<<<<<<<<< -->
-</head>
+   
+
 <body>
-    <!-- Navbar (styled by booking.css, links to correct Express routes) -->
     <nav class="w-full flex justify-center">
         <div class="navbar">
             <div class="logo">
@@ -39,15 +31,12 @@
         </div>
     </nav>
 
-    <!-- This is the CORRECT location for your standalone Back Button.
-         Its href is now set to go to the PREVIOUS PAGE in browser history. -->
     <a href="javascript:history.back()" class="back-button">⬅ Back</a>
 
     <div class="container">
         <h1>My Purchase History</h1>
 
         <div id="message" class="message info" style="display: none;">
-            <!-- Message will be displayed here if no purchases -->
         </div>
 
         <% if (purchases && purchases.length > 0) { %>
