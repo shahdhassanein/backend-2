@@ -33,6 +33,18 @@ const adminRoutes = require('./routes/adminRoutes');
 console.log('userRoutes:', userRoutes);
 console.log('bookingsalesroute:', bookingsalesroute);*/ //hsybo dlw ashan nhdd fyn el error da debugging bs
 //>>>>>>> fbfb4a4ee56a212ecd816ee22d367e9d84f45612
+app.use(session({
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: false,
+    store: MongoStore.create({ 
+        mongoUrl: process.env.MONGO_URI
+    }),
+    cookie: {
+        httpOnly: true,
+        maxAge: 1000 * 60 * 60 * 24 // 1 day
+    }
+}));
 
 app.use(express.json());
 app.use(express.static(path.join(__dirname,'public')));
