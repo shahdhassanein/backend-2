@@ -28,7 +28,7 @@ document.addEventListener("DOMContentLoaded", async () => {
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify(car)
+                body: JSON.stringify({ _id: car._id })
             });
 
             if (!response.ok) {
