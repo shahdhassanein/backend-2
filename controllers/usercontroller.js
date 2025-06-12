@@ -1,5 +1,5 @@
 // The path to your User model schema
-const User = require('../models/User'); // Corrected path to your user model file (e.g., User.js)
+const User = require('../models/usersschema'); // Corrected path to your user model file (e.g., User.js)
 
 // --- HELPER FUNCTION: Create token and send response ---
 // This function creates a signed JWT, sets it in a secure httpOnly cookie,
