@@ -1,3 +1,31 @@
+// ==== Access logged-in user data ====
+const currentUser = window.currentUser;
+console.log('Logged-in admin:', currentUser);
+
+// Display admin name if available
+if (currentUser && currentUser.name) {
+  const adminNameElement = document.getElementById('admin-name');
+  if (adminNameElement) {
+    adminNameElement.textContent = `Welcome, ${currentUser.name}`;
+  }
+}
+
+// ==== Logout functionality ====
+document.getElementById('logout').addEventListener('click', async function() {
+  try {
+    const response = await fetch('/api/auth/logout', {
+      method: 'GET',
+      credentials: 'include'
+    });
+
+    if (response.ok) {
+      window.location.href = '/login';
+    }
+  } catch (error) {
+    console.error('Logout error:', error);
+  }
+});
+
 // ==== Fetch Cars Function ====
 async function fetchCars() {
   try {
@@ -17,6 +45,7 @@ async function fetchCars() {
         <p>Price: $${car.price}</p>
         <p>Engine: ${car.engine}</p>
         <p>Color: ${car.color}</p>
+        <p style="font-size: 0.8em; color: #666;">ID: ${car._id}</p>
       `;
       carsGrid.appendChild(carCard);
     });
@@ -62,6 +91,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const res = await fetch('/addcars/addcars', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
+        credentials: 'include', // Include cookies for auth
         body: JSON.stringify(newCar)
       });
 
@@ -72,6 +102,10 @@ document.addEventListener('DOMContentLoaded', () => {
         addMessage.style.color = 'green';
         addForm.reset();
         fetchCars(); // Refresh car list
+        setTimeout(() => {
+          addPopup.style.display = 'none';
+          addMessage.textContent = '';
+        }, 2000);
       } else {
         addMessage.textContent = data.error || 'Failed to add car.';
         addMessage.style.color = 'red';
@@ -105,6 +139,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const response = await fetch("/addcars/deletecar", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
+        credentials: 'include', // Include cookies for auth
         body: JSON.stringify({ id: carId })
       });
 
@@ -115,7 +150,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
       messageEl.textContent = "✅ Car removed successfully!";
       messageEl.style.color = "green";
+      document.getElementById("carId").value = '';
       fetchCars();
+      setTimeout(() => {
+        removePopup.style.display = "none";
+        messageEl.textContent = '';
+      }, 2000);
     } catch (err) {
       messageEl.textContent = "❌ Error: " + err.message;
       messageEl.style.color = "red";
@@ -154,6 +194,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const res = await fetch("/addcars/updatecar", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
+        credentials: 'include', // Include cookies for auth
         body: JSON.stringify(updatedCar),
       });
 
@@ -161,7 +202,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
       messageEl.textContent = "✅ Car updated successfully!";
       messageEl.style.color = "green";
+      document.getElementById("update-car-form").reset();
       fetchCars();
+      setTimeout(() => {
+        updatePopup.style.display = "none";
+        messageEl.textContent = '';
+      }, 2000);
     } catch (err) {
       messageEl.textContent = "❌ Error: " + err.message;
       messageEl.style.color = "red";

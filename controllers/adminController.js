@@ -8,5 +8,6 @@ const getAllCars = async (req, res) => {
   }
 };
 
+
 // Export the function
 module.exports = {  getAllCars };
