@@ -17,10 +17,34 @@ connectDB(); // Call the database connection function
 // --- ROUTE IMPORTS ---
 const carRoutes = require('./routes/carRoutes');
 const bookingsalesroute = require('./routes/bookingsalesroute');
-// --- MIDDLEWARE ---
-// Parse URL-encoded bodies (as sent by HTML forms)
-app.use(express.urlencoded({ extended: true }));
-// Parse JSON bodies (as sent by API clients)
+const authRoutes = require('./routes/authRoutes'); // <-- IMPORT YOUR NEW AUTH ROUTES FILE
+
+// --- USE API ROUTES ---
+// This tells Express to use your route files for any URL starting with the specified prefix.
+// This is the organized way to handle your APIs.
+app.use('/api/auth', authRoutes); // <-- USE THE AUTH ROUTES for URLs like /api/auth/login
+app.use('/addcars', carRoutes);
+app.use('/api/bookingsales', bookingsalesroute);
+const adminRoutes = require('./routes/adminRoutes'); 
+//to connect purchase to the database mfysh booking
+
+/*console.log('carRoutes:', carRoutes);
+console.log('userRoutes:', userRoutes);
+console.log('bookingsalesroute:', bookingsalesroute);*/ //hsybo dlw ashan nhdd fyn el error da debugging bs
+//>>>>>>> fbfb4a4ee56a212ecd816ee22d367e9d84f45612
+app.use(session({
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: false,
+    store: MongoStore.create({ 
+        mongoUrl: process.env.MONGO_URI
+    }),
+    cookie: {
+        httpOnly: true,
+        maxAge: 1000 * 60 * 60 * 24 // 1 day
+    }
+}));
+
 app.use(express.json());
 // Serve static files from the 'public' directory
 app.use(express.static(path.join(__dirname, 'public')));
