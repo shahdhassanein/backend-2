@@ -1,77 +1,106 @@
 const express = require('express');
 const router = express.Router();
-const User = require('../models/usersschema');
+// Import the controller functions that will handle the logic for these routes
+const { register, login, getMe, logout } = require('../controllers/authController');
+// Import the 'protect' middleware (defined in middleware/auth.js)
 const { protect } = require('../middleware/auth');
 
-// Body parser middleware should be set up globally in app.js
-router.post('/register', async (req, res) => {
-    try {
-        const { name, email, password, phone } = req.body;
+// --- Previously, you might have had the User model imported here. It's no longer needed in this file: ---
+// const User = require('../models/usersschema');
 
-        // Basic input validation
-        if (!name || !email || !password || !phone) {
-            return res.status(400).json({ success: false, error: 'All fields are required' });
-        }
+/**
+ * @route   POST /api/auth/register
+ * @desc    Register a new user
+ * @access  Public
+ */
+router.post('/register', register); // This points to the 'register' function in authController.js
 
-        // Check for existing user
-        const userExists = await User.findOne({ email });
-        if (userExists) {
-            return res.status(400).json({ success: false, error: 'User with this email already exists' });
-        }
+/*
+// --- OLD INLINE LOGIC FOR /register ---
+// router.post('/register', async (req, res) => {
+//     try {
+//         const { name, email, password, phone } = req.body;
+//         if (!name || !email || !password || !phone) {
+//             return res.status(400).json({ success: false, error: 'All fields are required' });
+//         }
+//         const userExists = await User.findOne({ email });
+//         if (userExists) {
+//             return res.status(400).json({ success: false, error: 'User with this email already exists' });
+//         }
+//         const user = await User.create({ name, email, password, phone });
+//         sendTokenResponse(user, 201, res); // sendTokenResponse was also undefined here
+//     } catch (err) {
+//         console.error('Registration error:', err);
+//         res.status(400).json({ success: false, error: err.message || 'Registration failed' });
+//     }
+// });
+// --- END OLD INLINE LOGIC FOR /register ---
+*/
 
-        // Create user
-        const user = await User.create({ name, email, password, phone });
+/**
+ * @route   POST /api/auth/login
+ * @desc    Login user & get token (and handle redirect logic)
+ * @access  Public
+ */
+router.post('/login', login); // This points to the 'login' function in authController.js
 
-        // Send JWT token
-        sendTokenResponse(user, 201, res);
+/*
+// --- OLD INLINE LOGIC FOR /login ---
+// router.post('/login', async (req, res) => {
+//     try {
+//         const { email, password } = req.body;
+//         if (!email || !password) {
+//             return res.status(400).json({ success: false, error: 'Please provide an email and password' });
+//         }
+//         const user = await User.findOne({ email }).select('+password');
+//         if (!user) {
+//             return res.status(401).json({ success: false, error: 'Invalid credentials' });
+//         }
+//         const isMatch = await user.matchPassword(password);
+//         if (!isMatch) {
+//             return res.status(401).json({ success: false, error: 'Invalid credentials' });
+//         }
+//         sendTokenResponse(user, 200, res); // sendTokenResponse was also undefined here
+//     } catch (err) {
+//         console.error('Login error:', err);
+//         res.status(500).json({ success: false, error: 'Server error during login' });
+//     }
+// });
+// --- END OLD INLINE LOGIC FOR /login ---
+*/
 
-    } catch (err) {
-        console.error('Registration error:', err); // ✅ Debug error
-        res.status(400).json({ success: false, error: err.message || 'Registration failed' });
-    }
-});
+/**
+ * @route   GET /api/auth/me
+ * @desc    Get current logged in user's details
+ * @access  Private (requires authentication via 'protect' middleware)
+ */
+router.get('/me', protect, getMe); // This points to the 'getMe' function in authController.js
 
-// @desc    Login a user
-// @route   POST /api/auth/login
-router.post('/login', async (req, res) => {
-    try {
-        const { email, password } = req.body;
+/*
+// --- OLD INLINE LOGIC FOR /me ---
+// router.get('/me', protect, async (req, res) => {
+//     res.status(200).json({ success: true, data: req.user });
+// });
+// --- END OLD INLINE LOGIC FOR /me ---
+*/
 
-        if (!email || !password) {
-            return res.status(400).json({ success: false, error: 'Please provide an email and password' });
-        }
+/**
+ * @route   GET /api/auth/logout
+ * @desc    Log user out / clear JWT cookie
+ * @access  Private (best practice to be protected)
+ */
+router.get('/logout', logout); // This points to the 'logout' function in authController.js
 
-        const user = await User.findOne({ email }).select('+password');
-        if (!user) {
-            return res.status(401).json({ success: false, error: 'Invalid credentials' });
-        }
-
-        const isMatch = await user.matchPassword(password);
-        if (!isMatch) {
-            return res.status(401).json({ success: false, error: 'Invalid credentials' });
-        }
-
-        sendTokenResponse(user, 200, res);
-    } catch (err) {
-        console.error('Login error:', err); // ✅ Debug error
-        res.status(500).json({ success: false, error: 'Server error during login' });
-    }
-});
-
-// @desc    Get current logged-in user details
-// @route   GET /api/auth/me
-router.get('/me', protect, async (req, res) => {
-    res.status(200).json({ success: true, data: req.user });
-});
-
-// @desc    Log user out
-// @route   GET /api/auth/logout
-router.get('/logout', protect, (req, res) => {
-    res.cookie('token', 'none', {
-        expires: new Date(Date.now() + 10 * 1000),
-        httpOnly: true
-    });
-    res.status(200).json({ success: true, data: {} });
-});
+/*
+// --- OLD INLINE LOGIC FOR /logout ---
+// router.get('/logout', protect, (req, res) => {
+//     res.cookie('token', 'none', {
+//         expires: new Date(Date.now() + 10 * 1000),
+//         httpOnly: true
+//     });
+//     res.status(200).json({ success: true, data: {} });
+// });
+// --- END OLD INLINE LOGIC FOR /logout ---
+*/
 
 module.exports = router;
