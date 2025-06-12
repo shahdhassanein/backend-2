@@ -30,9 +30,21 @@
       <section id="cars" class="tab-content active">
         <div class="section-header">
           <a href="/addcar"><button class="add-btn" id="add-car-btn">Add New Car</button></a>
-          <a href="/removecar"><button class="add-btn" id="remove-car-btn">Remove Car</button></a>
+        <button class="add-btn" id="remove-car-btn">Remove Car</button>
           <a href="/api/cars" class="add-btn" id="update-car-btn">Update Car</a>
         </div>
+        <div id="removePopup" class="modal">
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <h3>Remove Car</h3>
+    <form id="remove-car-form">
+      <label for="carId">Enter Car ID:</label>
+      <input type="text" id="carId" name="id" required />
+      <button type="submit">Remove</button>
+    </form>
+    <p id="remove-message" class="message"></p>
+  </div>
+</div>
 
         <!-- Cars Inventory Grid -->
         <div class="cars-grid" id="cars-grid">
