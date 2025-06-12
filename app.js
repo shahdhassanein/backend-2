@@ -79,6 +79,8 @@ app.get ('/carllisting.ejs', (req, res)=> {res.render ('carllisting', {title:'Ca
 app.get ('/carllisting', (req, res)=> {res.render ('carllisting', {title:'Car Listing'})});
 app.get ('/admin-orders', (req,res)=>{res.render ('admin-orders', {title:'Admin Orders'})});
 const PORT = process.env.PORT || 3000;
+const sessionMiddleware = require('./middleware/session');
+app.use(sessionMiddleware);
 
 app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);

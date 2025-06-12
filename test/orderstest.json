@@ -1,72 +1,32 @@
 [
   {
-    "_id": "6666a7b7c8d9e0f1g2h3i4j1",
-    "userId": "654321098765432109876543", 
-    "carId": "porsche-911-turbo",
-    "carMake": "Porsche",
-    "carModel": "911 Turbo Gas",
-    "quantity": 1,
-    "totalPrice": 400000,
-    "purchaseDate": "2024-05-15T10:30:00.000Z",
-    "paymentInfo": {
-      "method": "Credit Card",
-      "status": "Paid"
-    }
+    "_id": { "$oid": "6666a7b7c8d9e0f1g2h3i4u1" },
+    "name": "Alice User",
+    "email": "alice@example.com",
+    "password": "password_alice_hashed_later", 
+    "phone": "111-222-3333",
+    "role": "user",
+    "createdAt": { "$date": "2025-01-01T08:00:00.000Z" },
+    "updatedAt": { "$date": "2025-01-01T08:00:00.000Z" }
   },
   {
-    "_id": "6666a7b7c8d9e0f1g2h3i4j2",
-    "userId": "654321098765432109876543", 
-    "carId": "mclaren-720s-gas",
-    "carMake": "McLaren",
-    "carModel": "720s Gas",
-    "quantity": 2,
-    "totalPrice": 400000,
-    "purchaseDate": "2024-05-20T14:00:00.000Z",
-    "paymentInfo": {
-      "method": "PayPal",
-      "status": "Paid"
-    }
+    "_id": { "$oid": "6666a7b7c8d9e0f1g2h3i4u2" },
+    "name": "Bob User",
+    "email": "bob@example.com",
+    "password": "password_bob_hashed_later",
+    "phone": "444-555-6666",
+    "role": "user",
+    "createdAt": { "$date": "2025-01-02T09:00:00.000Z" },
+    "updatedAt": { "$date": "2025-01-02T09:00:00.000Z" }
   },
   {
-    "_id": "6666a7b7c8d9e0f1g2h3i4j3",
-    "userId": "654321098765432109876543", 
-    "carId": "ferrari-laferrari-gas",
-    "carMake": "Ferrari",
-    "carModel": "LaFerrari",
-    "quantity": 1,
-    "totalPrice": 300000,
-    "purchaseDate": "2024-06-01T09:15:00.000Z",
-    "paymentInfo": {
-      "method": "Credit Card",
-      "status": "Paid"
-    }
-  },
-  {
-    "_id": "6666a7b7c8d9e0f1g2h3i4j4",
-    "userId": "654321098765432109876544", 
-    "carId": "lamborghini-urus-se-electric",
-    "carMake": "Lamborghini",
-    "carModel": "Urus SE",
-    "quantity": 1,
-    "totalPrice": 500000,
-    "purchaseDate": "2024-06-05T11:45:00.000Z",
-    "paymentInfo": {
-      "method": "Bank Transfer",
-      "status": "Paid"
-    }
-  },
-  {
-    "_id": "6666a7b7c8d9e0f1g2h3i4j5",
-    "userId": "654321098765432109876543", 
-    "carId": "porsche-panamera-hybrid",
-    "carMake": "Porsche",
-    "carModel": "Panamera Hybrid",
-    "quantity": 1,
-    "totalPrice": 350000,
-    "purchaseDate": "2024-06-08T16:20:00.000Z",
-    "paymentInfo": {
-      "method": "Credit Card",
-      "status": "Paid"
-    }
+    "_id": { "$oid": "6666a7b7c8d9e0f1g2h3i4u3" },
+    "name": "Charlie Admin",
+    "email": "admin@example.com",
+    "password": "password_admin_hashed_later", 
+    "phone": "000-000-0000",
+    "role": "admin",
+    "createdAt": { "$date": "2025-01-03T10:00:00.000Z" },
+    "updatedAt": { "$date": "2025-01-03T10:00:00.000Z" }
   }
 ]

@@ -1,57 +1,226 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>My Purchases</title>
-  <link rel="stylesheet" href="/public/css/booking.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Purchases</title>
+    <!-- Using Tailwind CSS for modern styling -->
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        /* Custom styles to enhance Tailwind or add specific adjustments */
+        body {
+            font-family: 'Inter', sans-serif; /* Recommended font */
+            background-color: #f3f4f6; /* Light gray background */
+            min-height: 100vh; /* Full viewport height */
+            display: flex;
+            flex-direction: column;
+            align-items: center; /* Center content horizontally */
+            justify-content: flex-start; /* Align content to the top */
+            padding-top: 40px; /* Padding from the top */
+        }
+        .container {
+            background-color: #ffffff; /* White background for the main content area */
+            padding: 32px; /* Padding inside the container */
+            border-radius: 12px; /* Rounded corners */
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+            width: 95%; /* Responsive width */
+            max-width: 1200px; /* Maximum width for larger screens */
+            margin-bottom: 40px; /* Space at the bottom */
+        }
+        table {
+            width: 100%;
+            border-collapse: separate; /* Allows border-spacing and rounded corners */
+            border-spacing: 0;
+            border-radius: 8px; /* Rounded corners for the table itself */
+            overflow: hidden; /* Ensures rounded corners on the table content */
+        }
+        th, td {
+            padding: 12px 15px; /* Padding for table cells */
+            text-align: left; /* Left align text in cells */
+            border-bottom: 1px solid #e5e7eb; /* Light border between rows */
+        }
+        th {
+            background-color: #1a202c; /* Dark background for table header */
+            color: #ffffff; /* White text for header */
+            font-weight: 600; /* Semi-bold font */
+            text-transform: uppercase; /* Uppercase text */
+            font-size: 0.85rem; /* Slightly smaller font size */
+        }
+        tr:nth-child(even) {
+            background-color: #f9fafb; /* Light stripe for even rows */
+        }
+        tr:hover {
+            background-color: #f3f4f6; /* Hover effect for rows */
+        }
+        td {
+            font-size: 0.9rem; /* Standard font size for data cells */
+            color: #374151; /* Dark gray text color */
+        }
+        .message {
+            padding: 1rem;
+            border-radius: 0.5rem;
+            margin-bottom: 1rem;
+            text-align: center;
+            font-weight: bold;
+        }
+        .info { background-color: #e0f2fe; color: #0284c7; border: 1px solid #7dd3fc; }
+
+        /* Styles for the navigation if you choose to keep it */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #333;
+            color: white;
+            padding: 10px 20px;
+            width: 100%;
+            max-width: 1200px; /* Match container max-width */
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+        .navbar .logo h2 {
+            margin: 0;
+            font-size: 1.5rem;
+        }
+        .navbar ul {
+            list-style: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            gap: 20px;
+        }
+        .navbar ul li a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            transition: color 0.3s ease;
+        }
+        .navbar ul li a:hover {
+            color: #007bff;
+        }
+        .cart-container {
+            position: relative;
+        }
+        .cart-text-button {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+        .cart-text-button .count {
+            background-color: #007bff;
+            border-radius: 50%;
+            padding: 2px 8px;
+            font-size: 0.8rem;
+        }
+        .back-button {
+            display: inline-block;
+            background-color: #6b7280; /* Gray background */
+            color: white;
+            padding: 8px 16px;
+            border-radius: 6px;
+            text-decoration: none;
+            margin-bottom: 20px;
+            transition: background-color 0.3s ease;
+        }
+        .back-button:hover {
+            background-color: #4b5563; /* Darker gray on hover */
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            .navbar {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+            .navbar ul {
+                flex-direction: column;
+                gap: 10px;
+            }
+            .container {
+                padding: 16px;
+            }
+            th, td {
+                padding: 8px 10px;
+                font-size: 0.8rem;
+            }
+        }
+    </style>
 </head>
 <body>
+    <!-- Navbar (from your provided EJS, adapted with some Tailwind classes) -->
+    <nav class="w-full flex justify-center">
+        <div class="navbar">
+            <div class="logo">
+                <h2 class="ml-4">Car Showroom</h2>
+            </div>
+            <ul>
+                <li><a href="/home page/homepage.html">Home</a></li>
+                <li><a href="/car listing/carlisting.html">Car Listings</a></li>
+                <li><a href="/Dashboard/Dashboard.html">Dashboard</a></li>
+                <li><a href="/contactus/Contact.html">Contact</a></li>
+                <li><a href="/login/login.html">Sign Up/Login</a></li>
+                <li><a href="/mypurchases">My Purchases</a></li>
+            </ul>
+            <div class="cart-container">
+                <a href="/cart/cart.html" class="cart-text-button">
+                    Cart <span class="count">0</span>
+                </a>
+            </div>
+        </div>
+    </nav>
 
+    <a href="/Dashboard/Dashboard.html" class="back-button">⬅ Back</a>
 
-  <nav>
-    <div class="navbar">
-      <div class="logo">
-        <h2 style="margin-left: 16px;">Car Showroom</h2>
-      </div>
-      <ul>
-        <li><a href="/home page/homepage.html">Home</a></li>
-        <li><a href="/car listing/carlisting.html">Car Listings</a></li>
-        <li><a href="/Dashboard/Dashboard.html">Dashboard</a></li>
-        <li><a href="/contactus/Contact.html">Contact</a></li>
-        <li><a href="/login/login.html">Sign Up/Login</a></li>
-        <li><a href="/mypurchases">My Purchases</a></li>
-      </ul>
-      <div class="cart-container">
-        <a href="/cart/cart.html" class="cart-text-button">
-          Cart <span class="count">0</span>
-        </a>
-      </div>
+    <div class="container">
+        <h1 class="text-3xl font-bold text-gray-800 mb-8 text-center">My Purchase History</h1>
+
+        <!-- Message div (similar to admin purchases page) -->
+        <div id="message" class="message info" style="display: none;">
+            <!-- Message will be displayed here if no purchases -->
+        </div>
+
+        <% if (purchases && purchases.length > 0) { %>
+            <div class="overflow-x-auto">
+                <table class="min-w-full divide-y divide-gray-200">
+                    <thead>
+                        <tr>
+                            <th>Car Name</th>
+                            <th>Model</th>
+                            <th>Quantity</th>
+                            <th>Unit Price</th>
+                            <th>Total Price</th>
+                            <th>Purchase Date</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody id="purchasesTableBody" class="bg-white divide-y divide-gray-200">
+                        <% purchases.forEach(purchase => { %>
+                            <tr>
+                                <!-- Access car and user details from the populated 'purchase' object -->
+                                <td><%= purchase.carId ? purchase.carId.name : 'N/A' %></td>
+                                <td><%= purchase.carId ? purchase.carId.model : 'N/A' %></td>
+                                <td><%= purchase.quantity %></td>
+                                <td>$<%= purchase.unitPrice ? purchase.unitPrice.toFixed(2) : '0.00' %></td>
+                                <td>$<%= purchase.totalPrice ? purchase.totalPrice.toFixed(2) : '0.00' %></td>
+                                <td><%= new Date(purchase.purchaseDate).toLocaleDateString() %></td>
+                                <td><%= purchase.status %></td>
+                            </tr>
+                        <% }); %>
+                    </tbody>
+                </table>
+            </div>
+        <% } else { %>
+            <!-- Message displayed if no purchases found -->
+            <p class="text-center text-gray-600 text-lg py-10">You have no purchase history yet.</p>
+        <% } %>
     </div>
-  </nav>
-
- 
-  <a href="/Dashboard/Dashboard.html" class="back-button">⬅ Back</a>
-
-  <div class="container">
-    <h1>My Purchases</h1>
-
-    <div id="purchase-page">
-      <% if (!purchases || purchases.length === 0) { %>
-        <p>You have not purchased any cars.</p>
-      <% } else { %>
-        <ul id="purchase-list">
-          <% purchases.forEach(purchase => { %>
-            <li class="purchase-item">
-              <strong>Car ID:</strong> <%= purchase.carId %> <br>
-              <strong>Payment Method:</strong> <%= purchase.paymentInfo.method %> <br>
-              <strong>Purchase Date:</strong> <%= new Date(purchase.purchaseDate).toLocaleString() %>
-            </li>
-          <% }) %>
-        </ul>
-      <% } %>
-    </div>
-  </div>
-
-  <script src="/js/booking.js" defer></script>
+    
+    <!-- If you have any specific JS for this page, keep it here or link it -->
+    <!-- <script src="/js/booking.js" defer></script> -->
 </body>
 </html>

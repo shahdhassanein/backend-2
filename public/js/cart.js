@@ -44,7 +44,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         const newQuantity = item.quantity + change;
         if (newQuantity < 1 || newQuantity > 4) return;
-        
+
         item.quantity = newQuantity;
         saveCart();
         renderCart();
@@ -57,43 +57,47 @@ document.addEventListener('DOMContentLoaded', function () {
 
     function renderCart() {
         if (!cartContainer) return;
-        
+
         if (cart.length === 0) {
             cartContainer.innerHTML = '<div class="empty-cart-message">Your cart is empty</div>';
-            if (document.querySelector('.cart-summary')) {
-                document.querySelector('.cart-summary').style.display = 'none';
-            }
+            const summary = document.querySelector('.cart-summary');
+            if (summary) summary.style.display = 'none';
             return;
         }
 
-        if (document.querySelector('.cart-summary')) {
-            document.querySelector('.cart-summary').style.display = 'block';
-        }
+        const summary = document.querySelector('.cart-summary');
+        if (summary) summary.style.display = 'block';
 
-        cartContainer.innerHTML = cart.map(item => `
-            <div class="cart-item" data-id="${item.id}">
-                <div class="cart-item-details">
-                    <h3>${item.name}</h3>
-                    <p class="item-price">Price: $${item.price.toLocaleString()}</p>
-                    <div class="quantity-controls">
-                        <button class="quantity-btn decrease" ${item.quantity <= 1 ? 'disabled' : ''}>-</button>
-                        <span class="quantity-display">${item.quantity}</span>
-                        <button class="quantity-btn increase" ${item.quantity >= 4 ? 'disabled' : ''}>+</button>
+        cartContainer.innerHTML = cart.map(item => {
+            const price = Number(item.price);
+            const quantity = Number(item.quantity);
+            const subtotal = price * quantity;
+
+            return `
+                <div class="cart-item" data-id="${item.id}">
+                    <div class="cart-item-details">
+                        <h3>${item.name}</h3>
+                        <p class="item-price">Price: $${price.toLocaleString()}</p>
+                        <div class="quantity-controls">
+                            <button class="quantity-btn decrease" ${quantity <= 1 ? 'disabled' : ''}>-</button>
+                            <span class="quantity-display">${quantity}</span>
+                            <button class="quantity-btn increase" ${quantity >= 4 ? 'disabled' : ''}>+</button>
+                        </div>
+                        <p class="item-subtotal">Subtotal: $${subtotal.toLocaleString()}</p>
                     </div>
-                    <p class="item-subtotal">Subtotal: $${(item.price * item.quantity).toLocaleString()}</p>
+                    <button class="remove-btn">✕</button>
                 </div>
-                <button class="remove-btn">✕</button>
-            </div>
-        `).join('');
+            `;
+        }).join('');
 
         updateCartTotal();
     }
 
     function updateCartTotal() {
         if (!subtotalElement || !totalElement) return;
-        
+
         const subtotal = cart.reduce((sum, item) => {
-            return sum + (item.price * item.quantity);
+            return sum + (Number(item.price) * Number(item.quantity));
         }, 0);
 
         subtotalElement.textContent = `$${subtotal.toLocaleString()}`;
@@ -101,7 +105,7 @@ document.addEventListener('DOMContentLoaded', function () {
     }
 
     function updateCartCount() {
-        const count = cart.reduce((total, item) => total + item.quantity, 0);
+        const count = cart.reduce((total, item) => total + Number(item.quantity), 0);
         document.querySelectorAll('.cart-count').forEach(el => {
             el.textContent = count;
         });
@@ -109,6 +113,11 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Make addToCart available globally
     window.addToCart = function (product) {
+        if (!product.id) {
+            console.error('Product must have an ID to be added to cart.');
+            return;
+        }
+
         const existingItem = cart.find(item => item.id === product.id);
 
         if (existingItem) {
@@ -132,6 +141,7 @@ document.addEventListener('DOMContentLoaded', function () {
     };
 });
 
+// ====== NOTIFICATION FUNCTION ======
 function showNotification(message) {
     const notification = document.createElement('div');
     notification.className = 'notification';

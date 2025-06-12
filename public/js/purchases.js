@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     // Function to show messages on the page
     function showMessage(msg, type = 'success') {
         messageDiv.textContent = msg;
-        messageDiv.className = `message ${type}`;
+        messageDiv.className = `message ${type}`; // Apply CSS class for styling (e.g., 'success', 'info', 'error')
         messageDiv.style.display = 'block';
     }
 
@@ -17,59 +17,62 @@ document.addEventListener('DOMContentLoaded', async () => {
         messageDiv.style.display = 'none';
     }
 
-    // Function to fetch and display ALL purchases for the admin view
+    // Function to fetch and display ALL purchases (typically for an Admin dashboard)
     async function fetchAllPurchases() {
-        loadingMessage.style.display = 'block'; // Show "Loading..."
-        purchasesTableBody.innerHTML = '';      // Clear any old data in the table body
-        hideMessage();                          // Hide any previous messages
+        loadingMessage.style.display = 'block'; // Show "Loading..." indicator
+        purchasesTableBody.innerHTML = '';        // Clear any existing rows in the table
+        hideMessage();                            // Hide any previous messages
 
         try {
-            // This is the correct API call to the unprotected route we set up
+            // Fetch all purchases from the backend API.
+            // This endpoint in bookingsalesroute.js calls getAllPurchases in bookingsalescontroller.js,
+            // which populates userId and carId fields.
             const response = await fetch('/api/bookingsales'); 
 
-            // Check if the request was successful
+            // Check if the HTTP response was successful (status code 200-299)
             if (!response.ok) {
-                const errorData = await response.json();
+                const errorData = await response.json(); // Attempt to parse error message from response
                 throw new Error(errorData.message || 'Failed to fetch all purchases.');
             }
 
-            const purchases = await response.json(); // Parse the JSON data received (it's an array directly)
+            const purchases = await response.json(); // Parse the JSON data received (should be an array of purchase objects)
 
             loadingMessage.style.display = 'none'; // Hide "Loading..."
 
-            // If no purchases are found, show a message (check purchases.length directly)
-            if (purchases.length === 0) {
-                showMessage('No purchase history found.', 'info');
-                return;
+            // If no purchases are returned, display an informative message
+            if (!purchases || purchases.length === 0) {
+                showMessage('No purchase history found for any user.', 'info');
+                return; // Stop execution if no data
             }
 
-            // Loop through each purchase and add it as a row to the table
+            // Iterate over each purchase object and render it as a table row
             purchases.forEach(purchase => {
                 const row = document.createElement('tr'); // Create a new table row element
 
-                // Populate cells based on the data structure in your MongoDB 'orders' collection
-                // and assuming your backend might populate 'userId' and 'carId' with object details.
+                // Populate the row with purchase details.
+                // We access populated 'userId.name' and 'carId.name', 'carId.model', etc.
+                // The 'purchase' object itself contains 'quantity', 'unitPrice', 'totalPrice', 'purchaseDate', 'status'.
                 row.innerHTML = `
-                    <td>${purchase.userId ? (purchase.userId.username || purchase.userId._id) : 'N/A'}</td>
-                    <td>${purchase.carId ? (purchase.carId.name || purchase.carId.id) : 'N/A'}</td>
-                    <td>${purchase.carId ? purchase.carId.brand : 'N/A'}</td>
+                    <td>${purchase.userId ? (purchase.userId.name || 'N/A') : 'N/A'}</td>
+                    <td>${purchase.carId ? purchase.carId.name : 'N/A'}</td>
                     <td>${purchase.carId ? purchase.carId.model : 'N/A'}</td>
                     <td>${purchase.quantity || 1}</td>
-                    <td>$${(purchase.carId && purchase.carId.price) ? purchase.carId.price.toFixed(2) : 'N/A'}</td>
+                    <td>$${(purchase.unitPrice || 0).toFixed(2)}</td>
                     <td>$${(purchase.totalPrice || 0).toFixed(2)}</td>
                     <td>${new Date(purchase.purchaseDate).toLocaleDateString()}</td>
-                    <td>${purchase.paymentInfo ? (purchase.paymentInfo.status || 'N/A') : 'N/A'}</td>
+                    <td>${purchase.status || 'N/A'}</td> <!-- Displays the overall purchase status -->
                 `;
-                purchasesTableBody.appendChild(row); // Add the populated row to the table body
+                purchasesTableBody.appendChild(row); // Add the newly created row to the table body
             });
 
         } catch (error) {
-            loadingMessage.style.display = 'none'; // Hide "Loading..."
+            loadingMessage.style.display = 'none'; // Ensure loading message is hidden on error
             console.error('Error fetching purchase history:', error);
-            showMessage(`Error: ${error.message}`, 'error'); // Display error message on the page
+            // Display a user-friendly error message on the page
+            showMessage(`Error fetching purchases: ${error.message}`, 'error'); 
         }
     }
 
-    // Call the fetchAllPurchases function when the page is fully loaded
+    // Call the function to fetch and display purchases when the page finishes loading
     fetchAllPurchases();
 });
