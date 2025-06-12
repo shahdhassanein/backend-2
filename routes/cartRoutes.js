@@ -1,13 +1,22 @@
 const express = require('express');
 const router = express.Router();
-const { protect } = require('../middleware/authMiddleware');
-const { getCart, addToCart, removeFromCart } = require('../controllers/cartController');
+const Cart = require('../models/Cart'); // Your cart schema
+// Optional: check if user is logged in
 
-router.route('/')
-    .get(protect, getCart)
-    .post(protect, addToCart);
+// POST /api/cart/add
+router.post('/add', async (req, res) => {
+    try {
+        const car = req.body;
 
-router.route('/:carId')
-    .delete(protect, removeFromCart);
+        // Optional: you could also check if the car is already in the cart
+        const newCartItem = new Cart(car);
+        await newCartItem.save();
+
+        res.status(200).json({ success: true, message: 'Car added to cart.' });
+    } catch (error) {
+        console.error('Error adding to cart:', error);
+        res.status(500).json({ success: false, message: 'Failed to add to cart.' });
+    }
+});
 
 module.exports = router;
