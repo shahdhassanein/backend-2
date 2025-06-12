@@ -240,3 +240,18 @@ body {
   border-radius: 4px;
   border: 1px solid #ddd;
 }
+.cars-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-top: 2rem;
+}
+
+.car-card {
+    background-color: #222;
+    color: #fff;
+    padding: 1rem;
+    border-radius: 8px;
+    width: 200px;
+    box-shadow: 0 0 10px rgba(255, 0, 0, 0.2);
+}

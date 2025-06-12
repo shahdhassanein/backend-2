@@ -46,6 +46,11 @@ usersschema.pre('save', async function (next) {
     try {
         const salt = await bcrypt.genSalt(10);
         this.password = await bcrypt.hash(this.password, salt);
+usersschema.pre('save', async function (next) {
+    if (!this.isModified('password')) return next(); // Only hash if password is new/modified
+    try {
+        const salt = await bcrypt.genSalt(10);
+        this.password = await bcrypt.hash(this.password, salt);
         next();
     } catch (err) {
         return next(err);
@@ -58,6 +63,10 @@ usersschema.methods.getSignedJwtToken = function () {
         expiresIn: process.env.JWT_EXPIRE
     });
 };
+    } catch (err) {
+        next(err);
+    }
+});
 
 // 🔁 Compare entered password with stored hash
 usersschema.methods.matchPassword = async function (enteredPassword) {

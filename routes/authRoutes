@@ -1,23 +1,9 @@
 const express = require('express');
 const router = express.Router();
-const User = require('../models/usersschema'); // Ensure this path is correct
-const { protect } = require('../middleware/auth'); // Ensure this path is correct
+const User = require('../models/usersschema');
+const { protect } = require('../middleware/auth');
 
-// --- HELPER FUNCTION: Sends a token in a secure, httpOnly cookie ---
-const sendTokenResponse = (user, statusCode, res) => {
-    const token = user.getSignedJwtToken();
-    const options = {
-        expires: new Date(Date.now() + process.env.JWT_COOKIE_EXPIRE * 24 * 60 * 60 * 1000),
-        httpOnly: true
-    };
-    if (process.env.NODE_ENV === 'production') {
-        options.secure = true;
-    }
-    res.status(statusCode).cookie('token', token, options).json({ success: true, token });
-};
-
-// @desc    Register a new user
-// @route   POST /api/auth/register
+// Body parser middleware should be set up globally in app.js
 router.post('/register', async (req, res) => {
     try {
         const { name, email, password, phone } = req.body;

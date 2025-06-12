@@ -1,29 +1,10 @@
-// File: /public/js/register.js
-
-document.addEventListener('DOMContentLoaded', function() {
-    const registerForm = document.getElementById('register-form');
-    const errorMessageDiv = document.getElementById('error-message');
-    const passwordField = document.getElementById('password');
-    const passwordToggle = document.querySelector('.password-toggle');
-
-    // Password visibility toggle
-    if (passwordToggle) {
-        passwordToggle.addEventListener('click', function() {
-            const type = passwordField.getAttribute('type') === 'password' ? 'text' : 'password';
-            passwordField.setAttribute('type', type);
-            this.classList.toggle('fa-eye');
-            this.classList.toggle('fa-eye-slash');
-        });
-    }
-
-    registerForm.addEventListener('submit', async function(e) {
-        e.preventDefault();
-        errorMessageDiv.style.display = 'none';
-
-        const name = document.getElementById('name').value;
-        const email = document.getElementById('email').value;
-        const phone = document.getElementById('phone').value;
-        const password = document.getElementById('password').value;
+document.getElementById('register-form').addEventListener('submit', async (e) => {
+    // مهمة جدًا علشان ما يعملش refresh
+ e.preventDefault();
+    const name = document.getElementById('name').value;
+    const email = document.getElementById('email').value;
+    const phone = document.getElementById('phone').value;
+    const password = document.getElementById('password').value;
 
         try {
             // ****** EDITED LINE HERE ******

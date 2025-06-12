@@ -1,36 +1,21 @@
-const Car = require('../models/carsschema');
+
+const Car = require('../models/carsschema'); // path must be correct
 
 const addCar = async (req, res) => {
-    try {
-        const { name, model, price, engine, color, image } = req.body;
+  try {
+    const { name, model, price, engine, color, image } = req.body;
 
-        // Basic validation
-        if (!name || !model || !price || !engine || !color || !image) {
-            // ALWAYS return after sending a response
-            return res.status(400).json({ success: false, message: 'All fields are required.' });
-        }
+    const newCar = new Car({ name, model, price, engine, color, image });
+    await newCar.save();
 
-        const newCar = new Car({ name, model, price, engine, color, image });
-        await newCar.save();
-
-        // ALWAYS return after sending a response
-        return res.status(201).json({ success: true, message: 'Car added successfully!', car: newCar });
-
-    } catch (err) {
-        console.error("Error saving car:", err.message);
-
-        // Handle specific MongoDB errors like validation failures
-        if (err.name === 'ValidationError') {
-            const errors = Object.values(err.errors).map(el => el.message);
-            // ALWAYS return after sending a response
-            return res.status(400).json({ success: false, message: 'Validation failed', errors: errors });
-        }
-
-        // Generic error response
-        // ALWAYS return after sending a response
-        return res.status(500).json({ success: false, message: 'Failed to add car.', error: err.message });
-    }
+    // Flash message-style logic using query parameter
+    res.redirect('/admin?message=Car+added+successfully');
+  } catch (err) {
+    console.error(err.message);
+    res.redirect('/admin?message=Failed+to+add+car');
+  }
 };
+
 const getAllCars = async (req, res) => {
     try {
         const cars = await Car.find();

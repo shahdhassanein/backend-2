@@ -1,8 +1,12 @@
+const express = require('express');
+const path = require('path');
+const router = express.Router();
+const { addCar } = require('../controllers/carController');
 document.addEventListener("DOMContentLoaded", () => {
   const form = document.querySelector("form");
 
   form.addEventListener("submit", async (e) => {
-    e.preventDefault();
+    e.preventDefault(); // prevent regular form submission
 
     const name = document.getElementById("name").value;
     const model = document.getElementById("model").value;
@@ -27,8 +31,10 @@ document.addEventListener("DOMContentLoaded", () => {
         throw new Error(`Failed to save car: ${errorText}`);
       }
 
+
+
       alert("✅ Car saved successfully!");
-      window.location.href = "/admin"; // ✅ redirect to admin after adding
+      form.reset();
     } catch (err) {
       console.error("❌ Error:", err.message);
       alert("❌ Could not save the car. Check console for details.");
