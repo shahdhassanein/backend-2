@@ -14,21 +14,16 @@ const usersschema = new mongoose.Schema({
     // I've removed the cart for simplicity in this login example, but you can keep it.
 });
 
-// Hash password before saving
-usersschema.pre('save', async function(next) {
-    if (!this.isModified('password')) {
+usersschema.pre('save', async function (next) {
+    if (!this.isModified('password')) return next(); // Only hash if password is new/modified
+    try {
+        const salt = await bcrypt.genSalt(10);
+        this.password = await bcrypt.hash(this.password, salt);
         next();
+    } catch (err) {
+        next(err);
     }
-    const salt = await bcrypt.genSalt(10);
-    this.password = await bcrypt.hash(this.password, salt);
 });
-
-// Sign JWT and return
-usersschema.methods.getSignedJwtToken = function() {
-    return jwt.sign({ id: this._id }, process.env.JWT_SECRET, {
-        expiresIn: process.env.JWT_EXPIRE
-    });
-};
 
 // Match user entered password to hashed password in database
 usersschema.methods.matchPassword = async function(enteredPassword) {

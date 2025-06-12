@@ -25,7 +25,7 @@ const adminRoutes = require('./routes/adminRoutes');
 // --- USE API ROUTES ---
 // This tells Express to use your route files for any URL starting with the specified prefix.
 // This is the organized way to handle your APIs.
-app.use('/api/auth', authRoutes); // <-- USE THE AUTH ROUTES for URLs like /api/auth/login
+app.use('/auth', authRoutes);// <-- USE THE AUTH ROUTES for URLs like /api/auth/login
 app.use('/addcars', carRoutes);
 app.use('/api/bookingsales', bookingsalesroute);
 app.use('/api/cart', cartRoutes);

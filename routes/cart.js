@@ -3,7 +3,10 @@ const router = express.Router();
 const cartController = require('../controllers/cartController');
 const auth = require('../middleware/auth'); // make sure the user is authenticated
 
-router.post('/add', auth, cartController.addToCart);
-router.get('/', auth, cartController.getCart);
+
+
+
+router.post('/add', cartController.addToCart); // ✅ ده لازم يكون دالة مش undefined
+
 
 module.exports = router;

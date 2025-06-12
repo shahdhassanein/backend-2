@@ -1,30 +1,24 @@
-const Cart = require('../models/Cart');
-const Car = require('../models/Car');
+const Cart = require('../models/cartschema');
+const Car = require('../models/carsschema');
 
 exports.addToCart = async (req, res) => {
+    const { _id } = req.body;
+    const userId = 'test-user'; // for now
+
     try {
-        const userId = req.user._id; // assuming you're using authentication middleware
-        const { _id: carId } = req.body;
+        const existing = await Cart.findOne({ car: _id, user: userId });
 
-        let cart = await Cart.findOne({ userId });
-
-        if (!cart) {
-            cart = new Cart({ userId, items: [] });
-        }
-
-        const itemIndex = cart.items.findIndex(item => item.carId.toString() === carId);
-
-        if (itemIndex > -1) {
-            cart.items[itemIndex].quantity += 1;
+        if (existing) {
+            existing.quantity += 1;
+            await existing.save();
         } else {
-            cart.items.push({ carId, quantity: 1 });
+            await Cart.create({ car: _id, user: userId, quantity: 1 });
         }
 
-        await cart.save();
-        res.status(200).json({ success: true, cart });
-
-    } catch (error) {
-        res.status(500).json({ success: false, message: error.message });
+        res.status(200).json({ success: true, message: 'Car added to cart' });
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ success: false, message: 'Error adding to cart' });
     }
 };
 
