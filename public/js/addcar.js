@@ -1,4 +1,7 @@
-
+const express = require('express');
+const path = require('path');
+const router = express.Router();
+const { addCar } = require('../controllers/carController');
 document.addEventListener("DOMContentLoaded", () => {
   const form = document.querySelector("form");
 
@@ -27,6 +30,8 @@ document.addEventListener("DOMContentLoaded", () => {
         const errorText = await response.text();
         throw new Error(`Failed to save car: ${errorText}`);
       }
+
+
 
       alert("✅ Car saved successfully!");
       form.reset();

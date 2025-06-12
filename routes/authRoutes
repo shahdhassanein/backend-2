@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const User = require('../models/usersschema');
+const { protect } = require('../middleware/auth');
 
 // Body parser middleware should be set up globally in app.js
 router.post('/register', async (req, res) => {

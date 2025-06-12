@@ -12,10 +12,12 @@ const connectDB = require('./config/db'); // Your database connection function
 
 // --- INITIALIZATION ---
 const app = express();
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 // Connect to Database
 connectDB();
-app.use(express.json());
+
 
 const carRoutes = require('./routes/carRoutes');
 const bookingsalesroute = require('./routes/bookingsalesroute');
@@ -28,7 +30,7 @@ const adminRoutes = require('./routes/adminRoutes'); // Assuming you have this r
 // This tells Express to use your route files for any URL starting with the specified prefix.
 // This is the organized way to handle your APIs.
 app.use('/auth', authRoutes);// <-- USE THE AUTH ROUTES for URLs like /api/auth/login
-app.use('/addcars', carRoutes);
+app.use('/cars', carRoutes);
 app.use('/api/bookingsales', bookingsalesroute);
 app.use('/api/cart', cartRoutes);
 //to connect purchase to the database mfysh booking
@@ -50,8 +52,6 @@ console.log('bookingsalesroute:', bookingsalesroute);*/ //hsybo dlw ashan nhdd f
     }
 }));
 */
-
-app.use(express.json());
 app.use(express.static(path.join(__dirname,'public')));
 app.use(express.static('./public'));
 app.set('view engine', 'ejs'); 
@@ -62,17 +62,6 @@ app.get('/', (req, res) => { res.render('homepage', { title: 'Home Page' }) });
 app.get('/usersmangment', (req, res) => { res.render('usersmangment', { title: 'usersmangment' }) });
 app.get('/admin', (req, res) => { res.render('admin', { title: 'admin page' }) });
 app.get('/admin-orders', (req, res) => { res.render('admin-orders', { title: 'Admin Orders' }) });
-
-//app.get('/mypurchases', (req, res) => { res.render('mypurchases', { title: 'Purchases' }) });
-// PROBLEM LINE FROM YOUR ORIGINAL CODE (previously line 60):
-// This route was trying to render a view named "purchases" which does not exist,
-// and it did not fetch dynamic purchase data.
-// The correct dynamic route for "My Purchases" is '/view-my-purchases' 
-// which is handled by your bookingsalesroute.js (mounted above).
-// This line is commented out to prevent the "Failed to lookup view" error.
-// If you navigate to '/mypurchases' now, it will likely result in a 404.
-// Make sure your frontend navigation links to '/view-my-purchases' for dynamic data.
-// app.get('/mypurchases', (req, res) => { res.render('purchases', { title: 'Purchases' }) }); 
 
 
 // Other Frontend Pages
