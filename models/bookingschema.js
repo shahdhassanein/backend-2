@@ -1,3 +1,4 @@
+/*
 // models/bookingsaleschema.js (or similar)
 
 const mongoose = require('mongoose');
@@ -38,4 +39,4 @@ const bookingSaleSchema = new mongoose.Schema({
 
 const BookingSale = mongoose.model('BookingSale', bookingSaleSchema);
 
-module.exports = BookingSale;
+module.exports = BookingSale;*/
