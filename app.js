@@ -15,20 +15,19 @@ const connectDB = require('./config/db'); // Your database connection function
 
 // >>> IMPORTANT: Ensure 'cookie-parser' is imported here. This is why it might not be colored if it's missing or misspelled.
 const cookieParser = require('cookie-parser'); // For parsing HTTP-only cookies like the JWT token
+const cors = require('cors');
 
 // Import your route files
 const carRoutes = require('./routes/carRoutes');
 const bookingsalesroute = require('./routes/bookingsalesroute');
 const authRoutes = require('./routes/authRoutes'); // From Step 2
 const cartRoutes = require('./routes/cart');
-const adminRoutes = require('./routes/adminRoutes'); // Assuming you have this route defined
-
 // --- INITIALIZATION ---
 const app = express();
 
 // Connect to Database
 connectDB();
-
+app.use(cors());
 
 // --- MIDDLEWARE ---
 // Order of middleware matters here:
