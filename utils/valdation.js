@@ -40,6 +40,18 @@ const validation = {
         return urlRegex.test(url);
     },
 
+    isLength(text, min, max) { // For message length check
+        const trimmedText = String(text).trim();
+        return trimmedText.length >= min && (max ? trimmedText.length <= max : true);
+    },
+    isEmpty(text) { // For checking if a field is empty
+        return String(text).trim() === '';
+    },
+    isValidPhoneNumber(phone) { // For phone number validation
+        // A common regex for various phone formats. Adjust as needed.
+        return /^\+?\d{1,4}?[-.\s]?\(?\d{3}\)?[-.\s]?\d{3}[-.\s]?\d{4,6}$/.test(String(phone).trim());
+    },
+
     // Form validation messages
     getValidationMessage(field, value) {
         switch (field) {
@@ -63,5 +75,11 @@ const validation = {
     }
 };
 
+
+module.exports = validation;
+
+
 // Export the validation object
-window.validation = validation;
+if (typeof window !== 'undefined') {
+    window.validation = validation;
+}
