@@ -5,24 +5,24 @@
     box-sizing: border-box;
 }
 
-/* Body styling with background image and overlay */
+/* Body styling with blurred background image and overlay */
 body {
     font-family: Arial, sans-serif;
     line-height: 1.6;
     color: white; /* General text color for readability on dark background */
-    /* IMPORTANT: Place your image in 'public/assets/image/backg.jpg' or adjust this path */
-    background: url('/assets/image/backg.jpg') no-repeat center center fixed;
+    /* IMPORTANT: Adjust this path and filename if your image is elsewhere in public/img/ */
+    background: url('/img/backg.jpg') no-repeat center center fixed;
     background-size: cover;
-    position: relative; /* Needed for the ::before pseudo-element */
-    min-height: 100vh; /* Ensure body takes full viewport height */
+    position: relative; 
+    min-height: 100vh;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: flex-start;
-    padding-top: 40px; /* Space for content below top navbar */
+    padding-top: 40px; 
 }
 
-/* Overlay for readability on top of background image */
+/* Apply blur to the background image *before* the overlay */
 body::before {
     content: "";
     position: absolute;
@@ -30,9 +30,24 @@ body::before {
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.5); /* 50% black overlay */
-    z-index: -1; /* Puts it behind content but above background image */
+    background: url('/img/backg.jpg') no-repeat center center fixed; /* Repeat image for blur */
+    background-size: cover;
+    filter: blur(5px); /* <<< ADDED: Blur effect */
+    z-index: -2; /* Place behind overlay and content */
 }
+
+/* Dark overlay on top of the blurred background, but behind content */
+body::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5); /* 50% black overlay */
+    z-index: -1; /* Place behind content but on top of blurred background */
+}
+
 
 /* Navbar styling */
 .navbar {
@@ -104,7 +119,6 @@ body::before {
 }
 
 .cart-text-button .count {
-    /* CHANGED: Removed blue, now uses crimson for count bubble */
     background-color: crimson;
     border-radius: 50%;
     padding: 2px 8px;
@@ -120,7 +134,7 @@ body::before {
     text-decoration: none;
     font-size: 18px;
     font-weight: bold;
-    color: white; /* Explicitly set to white */
+    color: white !important; /* <<< FORCED WHITE COLOR for arrow */
     background: darkred;
     padding: 10px 20px;
     border-radius: 5px;
@@ -185,7 +199,6 @@ td {
 
 /* Message styling (e.g., "No purchase history yet.") */
 .message {
-    /* CHANGED: Removed blue, now uses a subtle transparent gray/white */
     padding: 1rem;
     border-radius: 0.5rem;
     margin-bottom: 1rem;
@@ -196,7 +209,6 @@ td {
     border: 1px solid rgba(255, 255, 255, 0.2); /* Subtle transparent white border */
 }
 .info {
-    /* CHANGED: Removed blue, matches .message now for consistency */
     background-color: rgba(255, 255, 255, 0.1); 
     color: #f0f0f0; 
     border: 1px solid rgba(255, 255, 255, 0.2); 
