@@ -4,171 +4,33 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Purchases</title>
-    <!-- Using Tailwind CSS for modern styling -->
+    <!-- IMPORTANT: Link to your external booking.css file for all custom styling. -->
+    <link rel="stylesheet" href="/css/booking.css">
+    
+    <!-- Tailwind CSS is kept for utility classes and responsive design. 
+         Your custom CSS in booking.css will override where rules conflict. -->
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    <style>
-        /* Custom styles to enhance Tailwind or add specific adjustments */
-        body {
-            font-family: 'Inter', sans-serif; /* Recommended font */
-            background-color: #f3f4f6; /* Light gray background */
-            min-height: 100vh; /* Full viewport height */
-            display: flex;
-            flex-direction: column;
-            align-items: center; /* Center content horizontally */
-            justify-content: flex-start; /* Align content to the top */
-            padding-top: 40px; /* Padding from the top */
-        }
-        .container {
-            background-color: #ffffff; /* White background for the main content area */
-            padding: 32px; /* Padding inside the container */
-            border-radius: 12px; /* Rounded corners */
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Subtle shadow */
-            width: 95%; /* Responsive width */
-            max-width: 1200px; /* Maximum width for larger screens */
-            margin-bottom: 40px; /* Space at the bottom */
-        }
-        table {
-            width: 100%;
-            border-collapse: separate; /* Allows border-spacing and rounded corners */
-            border-spacing: 0;
-            border-radius: 8px; /* Rounded corners for the table itself */
-            overflow: hidden; /* Ensures rounded corners on the table content */
-        }
-        th, td {
-            padding: 12px 15px; /* Padding for table cells */
-            text-align: left; /* Left align text in cells */
-            border-bottom: 1px solid #e5e7eb; /* Light border between rows */
-        }
-        th {
-            background-color: #1a202c; /* Dark background for table header */
-            color: #ffffff; /* White text for header */
-            font-weight: 600; /* Semi-bold font */
-            text-transform: uppercase; /* Uppercase text */
-            font-size: 0.85rem; /* Slightly smaller font size */
-        }
-        tr:nth-child(even) {
-            background-color: #f9fafb; /* Light stripe for even rows */
-        }
-        tr:hover {
-            background-color: #f3f4f6; /* Hover effect for rows */
-        }
-        td {
-            font-size: 0.9rem; /* Standard font size for data cells */
-            color: #374151; /* Dark gray text color */
-        }
-        .message {
-            padding: 1rem;
-            border-radius: 0.5rem;
-            margin-bottom: 1rem;
-            text-align: center;
-            font-weight: bold;
-        }
-        .info { background-color: #e0f2fe; color: #0284c7; border: 1px solid #7dd3fc; }
-
-        /* Styles for the navigation if you choose to keep it */
-        .navbar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            background-color: #333;
-            color: white;
-            padding: 10px 20px;
-            width: 100%;
-            max-width: 1200px; /* Match container max-width */
-            border-radius: 8px;
-            margin-bottom: 20px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
-        }
-        .navbar .logo h2 {
-            margin: 0;
-            font-size: 1.5rem;
-        }
-        .navbar ul {
-            list-style: none;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            gap: 20px;
-        }
-        .navbar ul li a {
-            color: white;
-            text-decoration: none;
-            font-weight: bold;
-            transition: color 0.3s ease;
-        }
-        .navbar ul li a:hover {
-            color: #007bff;
-        }
-        .cart-container {
-            position: relative;
-        }
-        .cart-text-button {
-            color: white;
-            text-decoration: none;
-            font-weight: bold;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-        }
-        .cart-text-button .count {
-            background-color: #007bff;
-            border-radius: 50%;
-            padding: 2px 8px;
-            font-size: 0.8rem;
-        }
-        .back-button {
-            display: inline-block;
-            background-color: #6b7280; /* Gray background */
-            color: white;
-            padding: 8px 16px;
-            border-radius: 6px;
-            text-decoration: none;
-            margin-bottom: 20px;
-            transition: background-color 0.3s ease;
-        }
-        .back-button:hover {
-            background-color: #4b5563; /* Darker gray on hover */
-        }
-
-        /* Responsive adjustments */
-        @media (max-width: 768px) {
-            .navbar {
-                flex-direction: column;
-                gap: 15px;
-                text-align: center;
-            }
-            .navbar ul {
-                flex-direction: column;
-                gap: 10px;
-            }
-            .container {
-                padding: 16px;
-            }
-            th, td {
-                padding: 8px 10px;
-                font-size: 0.8rem;
-            }
-        }
-    </style>
+    
+    <!-- >>> CRITICAL: The <style> block that was previously here MUST BE REMOVED ENTIRELY. 
+         All custom styles are now expected to be in public/css/booking.css. -->
 </head>
 <body>
-    <!-- Navbar (from your provided EJS, adapted with some Tailwind classes) -->
+    <!-- Navbar (styled by booking.css, links to correct Express routes) -->
     <nav class="w-full flex justify-center">
         <div class="navbar">
             <div class="logo">
-                <h2 class="ml-4">Car Showroom</h2>
+                <h2>Car Showroom</h2>
             </div>
             <ul>
                 <li><a href="/home page/homepage.html">Home</a></li>
                 <li><a href="/car listing/carlisting.html">Car Listings</a></li>
-                <li><a href="/Dashboard">Dashboard</a></li> <!-- Corrected link -->
-                <li><a href="/Contact">Contact</a></li> <!-- Corrected link -->
-                <li><a href="/login">Sign Up/Login</a></li> <!-- Corrected link -->
-                <li><a href="/api/bookingsales/view-my-purchases">My Purchases</a></li> <!-- CRITICAL: This is the dynamically loaded, protected link -->
-                <li><a href="/api/auth/logout">Logout</a></li> <!-- Added logout link -->
+                <li><a href="/Dashboard">Dashboard</a></li> 
+                <li><a href="/Contact">Contact</a></li> 
+                <li><a href="/login">Sign Up/Login</a></li> 
+                <li><a href="/api/bookingsales/view-my-purchases">My Purchases</a></li> 
+                <li><a href="/api/auth/logout">Logout</a></li> 
             </ul>
             <div class="cart-container">
-                <!-- CRITICAL: Corrected link from '/cart/cart.html' -->
                 <a href="/cart" class="cart-text-button">
                     Cart <span class="count">0</span>
                 </a>
@@ -176,11 +38,12 @@
         </div>
     </nav>
 
-    <!-- CRITICAL: Corrected back button link -->
-    <a href="/Dashboard" class="back-button">⬅ Back</a>
+    <!-- This is the CORRECT location for your standalone Back Button.
+         Its href is now set to go to the PREVIOUS PAGE in browser history. -->
+    <a href="javascript:history.back()" class="back-button">⬅ Back</a>
 
     <div class="container">
-        <h1 class="text-3xl font-bold text-gray-800 mb-8 text-center">My Purchase History</h1>
+        <h1>My Purchase History</h1>
 
         <div id="message" class="message info" style="display: none;">
             <!-- Message will be displayed here if no purchases -->
@@ -188,7 +51,7 @@
 
         <% if (purchases && purchases.length > 0) { %>
             <div class="overflow-x-auto">
-                <table class="min-w-full divide-y divide-gray-200">
+                <table class="min-w-full">
                     <thead>
                         <tr>
                             <th>Car Name</th>
@@ -200,10 +63,9 @@
                             <th>Status</th>
                         </tr>
                     </thead>
-                    <tbody id="purchasesTableBody" class="bg-white divide-y divide-gray-200">
+                    <tbody id="purchasesTableBody">
                         <% purchases.forEach(purchase => { %>
                             <tr>
-                                <!-- Access car and user details from the populated 'purchase' object -->
                                 <td><%= purchase.carId ? purchase.carId.name : 'N/A' %></td>
                                 <td><%= purchase.carId ? purchase.carId.model : 'N/A' %></td>
                                 <td><%= purchase.quantity %></td>
@@ -217,11 +79,8 @@
                 </table>
             </div>
         <% } else { %>
-            <!-- Message displayed if no purchases found -->
-            <p class="text-center text-gray-600 text-lg py-10">You have no purchase history yet.</p>
+            <p class="text-center text-white text-lg py-10">You have no purchase history yet.</p> 
         <% } %>
     </div>
-    
-    <!-- No client-side JS for fetching data needed here, as the backend passes it directly -->
 </body>
 </html>
