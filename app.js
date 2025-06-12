@@ -57,12 +57,20 @@ app.use(sessionMiddleware);
 
 
 // --- MOUNT API ROUTES ---
-app.use('/api/auth', authRoutes);
-app.use('/addcars', carRoutes);
-app.use('/api/bookingsales', bookingsalesroute);
-app.use('/api/cart', cartRoutes);
-// Mount admin routes IF they exist. Keep commented if you don't have 'adminRoutes.js'.
-// app.use('/admin', adminRoutes);
+// This tells Express to use your route files for any URL starting with the specified prefix.
+// The order here also matters for specificity.
+app.use('/api/auth', authRoutes); // Auth routes (e.g., /api/auth/login, /api/auth/logout)
+app.use('/addcars', carRoutes); // For adding cars
+app.use('/api/bookingsales', bookingsalesroute); // For bookings and sales (includes /api/bookingsales/view-my-purchases)
+app.use('/api/cart', cartRoutes); // For cart functionality
+// app.use('/admin', require('./routes/adminRoutes')); // If you have admin routes, ensure this is correct
+// --- USE API ROUTES ---
+app.use('/api/auth', require('./routes/authRoutes')); 
+app.use('/addcars', require('./routes/carRoutes')); 
+app.use('/api/bookingsales', require('./routes/bookingsalesroute')); 
+app.use('/api/cart', require('./routes/cart')); // Directly require here
+app.use('/api/contact', require('./routes/contactRoutes')); 
+//app.use('/admin', require('./routes/adminRoutes')); // Ensure this route is handled by adminRoutes for /admin/xyz
 
 
 // --- RENDER FRONTEND VIEWS (EJS Pages for direct browser navigation) ---
