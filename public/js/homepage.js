@@ -1,67 +1,39 @@
-/*const video = document.getElementById("hero-video");
-const videos = [
-    "assests/videos/videoonespeed.mp4",
-    "assests/videos/lambodriving.mp4"
-];
-let currentVideoIndex = 0;
+const videoElement= document.getElementById('hero-video');
+const videos=["/img/videoonespeed.mp4", "/img/lambodriving.mp4"];
+let currentVideoIndex=0;
 
-video.addEventListener("ended", () => {
-    currentVideoIndex = (currentVideoIndex + 1) % videos.length;
-    video.src = videos[currentVideoIndex];
-video.play(); 
-});
+if(videoElement){
+    videoElement.addEventListener("ended",()=>{
+        currentVideoIndex=(currentVideoIndex+1) % videos.length;
+        videoElement.src =videos[currentVideoIndex];
+        videoElement.play();
+    });
+} else {
+    console.error("Hero video element not found");
+}
 
-function playSound(soundFile) {
-const sound = new Audio(`assests/sounds/${soundFile}.mp3`); 
-    sound.play();
+
+function playSound(soundId){
+    const sound =new Audio('/img/${soundId}.mp3');
+        spund.play();
 }
 
 const bestSellerImages = [
-    "car2.png",  
-    "car12.png",
-    "car9.png" 
+    "/img/car12.png", 
+    "/img/car9.png",  
+    "/img/car13.png"  
+    
 ];
 
-let currentBestSellerIndex = 0; 
+let currentBestSellerIndex = 0;
 
 function changeBestSellerImage() {
     const bestSellerImg = document.getElementById("best-seller-image");
-    
-    currentBestSellerIndex = (currentBestSellerIndex + 1) % bestSellerImages.length;
 
-    bestSellerImg.src = bestSellerImages[currentBestSellerIndex];
-}*/
-
-const video = document.getElementById("hero-video");
-const videos = [
-    "assests/videos/videoonespeed.mp4",
-    "assests/videos/lambodriving.mp4"
-];
-let currentVideoIndex = 0;
-
-video.addEventListener("ended", () => {
-    currentVideoIndex = (currentVideoIndex + 1) % videos.length;
-    video.src = videos[currentVideoIndex];
-video.play(); 
-});
-
-function playSound(soundFile) {
-const sound = new Audio(`assests/sounds/${soundFile}.mp3`); 
-    sound.play();
-}
-
-const bestSellerImages = [
-    "car2.png",  
-    "car12.png",
-    "car9.png" 
-];
-
-let currentBestSellerIndex = 0; 
-
-function changeBestSellerImage() {
-    const bestSellerImg = document.getElementById("best-seller-image");
-    
-    currentBestSellerIndex = (currentBestSellerIndex + 1) % bestSellerImages.length;
-
-    bestSellerImg.src = bestSellerImages[currentBestSellerIndex];
+    if (bestSellerImg) { // Check if the image element exists
+        currentBestSellerIndex = (currentBestSellerIndex + 1) % bestSellerImages.length;
+        bestSellerImg.src = bestSellerImages[currentBestSellerIndex];
+    } else {
+        console.error("Best seller image element not found!");
+    }
 }

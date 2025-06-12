@@ -15,7 +15,6 @@ const path = require('path');
 const connectDB = require('./config/db'); // Your database connection function
 const sessionAuth = require('./middleware/sessionAuth'); // <--- ADD THIS IMPORT!
 
-
 // --- INITIALIZATION ---
 const app = express();
 
