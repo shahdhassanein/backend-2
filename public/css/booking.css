@@ -1,27 +1,28 @@
-/* Global Reset from your provided CSS */
+/* Global Reset */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
-/* Body styling with background image and overlay from your provided CSS */
+/* Body styling with blurred background image and overlay */
 body {
     font-family: Arial, sans-serif;
     line-height: 1.6;
     color: white; /* General text color for readability on dark background */
-    /* IMPORTANT: Place your image in 'public/assets/image/backg.jpg' or adjust this path */
-    background: url('/assets/image/backg.jpg') no-repeat center center fixed;
+    /* IMPORTANT: Adjust this path and filename if your image is elsewhere in public/img/ */
+    background: url('/img/backg.jpg') no-repeat center center fixed;
     background-size: cover;
-    position: relative;
+    position: relative; 
     min-height: 100vh;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: flex-start;
-    padding-top: 40px; /* Space for content below top navbar */
+    padding-top: 40px; 
 }
 
+/* Apply blur to the background image *before* the overlay */
 body::before {
     content: "";
     position: absolute;
@@ -29,65 +30,80 @@ body::before {
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.5); /* 50% black overlay */
-    z-index: -1;
+    background: url('/img/backg.jpg') no-repeat center center fixed; /* Repeat image for blur */
+    background-size: cover;
+    filter: blur(5px); /* <<< ADDED: Blur effect */
+    z-index: -2; /* Place behind overlay and content */
 }
 
-/* Navbar styling from your provided CSS */
+/* Dark overlay on top of the blurred background, but behind content */
+body::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5); /* 50% black overlay */
+    z-index: -1; /* Place behind content but on top of blurred background */
+}
+
+
+/* Navbar styling */
 .navbar {
     display: flex;
     align-items: center;
-    background: #333;
+    background: #333; /* Dark background for navbar */
     padding: 15px 20px;
-    color: #fff;
+    color: #fff; /* White text */
     width: 100%;
-    max-width: 1200px; /* Keep consistent with container max-width */
-    border-radius: 8px;
+    max-width: 1200px; /* Max width to match container */
+    border-radius: 8px; /* Rounded corners */
     margin-bottom: 20px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Subtle shadow */
 }
 
-.navbar .logo h2 { /* Targeting h2 within .logo for consistency */
+.navbar .logo h2 {
     margin: 0;
     font-size: 24px;
-    margin-right: 40px; 
+    margin-right: 40px; /* Space after logo */
 }
 
 .navbar ul {
     list-style: none;
     display: flex;
-    gap: 20px;
+    gap: 20px; /* Space between nav items */
     margin: 0;
     padding: 0;
-    margin-left: 20px; 
+    margin-left: 20px;
 }
 
 .navbar ul li a {
-    color: #fff;
+    color: #fff; /* White link text */
     text-decoration: none;
     font-weight: bold;
     padding: 10px;
-    transition: background 0.3s ease;
+    transition: background 0.3s ease; /* Smooth hover transition */
 }
 
 .navbar ul li a.active {
-    background: darkred;
+    background: darkred; /* Highlight for active link */
     border-radius: 5px;
 }
 
 .navbar ul li a:hover {
-    background: rgb(170, 0, 0);
+    background: rgb(170, 0, 0); /* Darker red on hover */
     border-radius: 5px;
 }
 
 .cart-container {
-    margin-left: auto;
+    margin-left: auto; /* Pushes cart to the right */
     display: flex;
     align-items: center;
     gap: 10px;
 }
 
-.cart-text-button { /* From your provided CSS */
+.cart-text-button {
     padding: 8px 15px;
     background-color: darkred;
     color: white;
@@ -98,74 +114,74 @@ body::before {
     transition: background-color 0.3s ease;
 }
 
-.cart-text-button:hover { /* From your provided CSS */
-    background-color: red;
+.cart-text-button:hover {
+    background-color: red; /* Brighter red on hover */
 }
 
-.cart-text-button .count { /* Keep count styling */
-    background-color: #007bff;
+.cart-text-button .count {
+    background-color: crimson;
     border-radius: 50%;
     padding: 2px 8px;
     font-size: 0.8rem;
     margin-left: 5px;
 }
 
-/* Back Button Styling from your provided CSS */
+/* Back Button Styling */
 .back-button {
-    position: fixed;
+    position: fixed; /* Fixed position relative to viewport */
     top: 100px;
     left: 20px;
     text-decoration: none;
     font-size: 18px;
     font-weight: bold;
-    color: white;
+    color: white !important; /* <<< FORCED WHITE COLOR for arrow */
     background: darkred;
     padding: 10px 20px;
     border-radius: 5px;
     transition: background 0.3s ease, transform 0.2s;
     border: none;
-    z-index: 1000;
+    z-index: 1000; /* Ensure it's above other content */
 }
 
 .back-button:hover {
     background: crimson;
-    transform: scale(1.05);
+    transform: scale(1.05); /* Slightly enlarge on hover */
 }
 
-/* Container Styling - Adjusted for the purchase history table */
+/* Main Content Container Styling */
 .container {
-    max-width: 1000px; /* Adjust max-width to fit content better */
-    margin: 60px auto;
+    max-width: 1000px; /* Max width for content area */
+    margin: 60px auto; /* Center horizontally with vertical margin */
     padding: 30px;
-    background: rgba(0, 0, 0, 0.7); /* Darker, semi-transparent background */
+    background: rgba(0, 0, 0, 0.7); /* Semi-transparent dark background */
     border-radius: 12px;
     text-align: center;
-    backdrop-filter: blur(10px);
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
-    width: 95%;
+    backdrop-filter: blur(10px); /* Frosted glass effect */
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4); /* Stronger shadow */
+    width: 95%; /* Responsive width */
 }
 
 .container h1 {
-    color: crimson;
+    color: crimson; /* Red heading color */
     margin-bottom: 30px;
 }
 
-/* Table styling - Adapted to work well with dark theme */
+/* Table styling for purchase history */
 table {
     width: 100%;
-    border-collapse: separate;
+    border-collapse: separate; /* Allows border-spacing and rounded corners */
     border-spacing: 0;
     border-radius: 8px;
-    overflow: hidden;
+    overflow: hidden; /* Ensures content respects border-radius */
 }
 th, td {
     padding: 12px 15px;
     text-align: left;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.2); /* Lighter border for dark theme */
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2); /* Light border for dark theme */
     color: #e0e0e0; /* Default text color for table cells */
 }
 th {
-    background-color: rgba(255, 0, 0, 0.6); /* Semi-transparent red header */
+    background-color: rgba(255, 0, 0, 0.6); /* Semi-transparent red header background */
     color: #ffffff;
     font-weight: 600;
     text-transform: uppercase;
@@ -175,27 +191,27 @@ tr:nth-child(even) {
     background-color: rgba(255, 255, 255, 0.05); /* Very slight tint for even rows */
 }
 tr:hover {
-    background-color: rgba(255, 255, 255, 0.15); /* More visible hover */
+    background-color: rgba(255, 255, 255, 0.15); /* More visible hover effect */
 }
 td {
     font-size: 0.9rem;
 }
 
-/* Message styling for "no purchases" */
+/* Message styling (e.g., "No purchase history yet.") */
 .message {
     padding: 1rem;
     border-radius: 0.5rem;
     margin-bottom: 1rem;
     text-align: center;
     font-weight: bold;
-    color: #eee;
-    background-color: rgba(2, 132, 199, 0.2); /* Light blue background with transparency */
-    border: 1px solid rgba(125, 211, 252, 0.3); /* Light blue border */
+    color: #f0f0f0; /* Light text for visibility */
+    background-color: rgba(255, 255, 255, 0.1); /* Subtle transparent white */
+    border: 1px solid rgba(255, 255, 255, 0.2); /* Subtle transparent white border */
 }
 .info {
-    background-color: rgba(2, 132, 199, 0.2); 
-    color: #e0f2fe; 
-    border: 1px solid rgba(125, 211, 252, 0.3); 
+    background-color: rgba(255, 255, 255, 0.1); 
+    color: #f0f0f0; 
+    border: 1px solid rgba(255, 255, 255, 0.2); 
 }
 
 /* Responsive adjustments for smaller screens */
@@ -222,8 +238,9 @@ td {
         padding: 8px 10px;
         font-size: 0.8rem;
     }
+    /* Adjust back button for smaller screens to be centered and not fixed */
     .back-button {
-        position: static; /* Change to static or relative on small screens */
+        position: static; /* Remove fixed positioning */
         margin-bottom: 20px;
         top: auto;
         left: auto;
