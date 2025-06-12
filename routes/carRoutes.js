@@ -1,12 +1,13 @@
 const express = require('express');
 const router = express.Router();
-const { addCar, getAllCars, deleteCar, updateCar } = require('../controllers/carController');
-
+const { addCar,deleteCar, updateCar } = require('../controllers/carController');
+const {   getAllCars } = require('../controllers/adminController');
 // List cars (JSON)
 router.get('/all', getAllCars);
 
 // Add a car
-router.post('/addcar', addCar);
+// Route in carRoutes.js
+router.post('/addcars', addCar);
 
 // Delete a car
 router.post('/deletecar', deleteCar);
