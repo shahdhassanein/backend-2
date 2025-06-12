@@ -1,8 +1,12 @@
 {
-  "name": "car-show-rrom",
+  "name": "car-showroom",
   "version": "1.0.0",
   "main": "node.js",
   "scripts": {
+<<<<<<< Updated upstream
+=======
+    "start": "node app.js",
+>>>>>>> Stashed changes
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
@@ -10,6 +14,29 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+<<<<<<< Updated upstream
     "express": "^5.1.0"
   }
+=======
+    "bcryptjs": "^2.4.3",
+    "connect-mongo": "^5.1.0",
+    "cookie-parser": "^1.4.6",
+    "dotenv": "^16.5.0",
+    "ejs": "^3.1.10",
+    "express": "^4.19.2",
+    "express-session": "^1.18.1",
+    "jsonwebtoken": "^9.0.2",
+    "mongodb": "^6.6.1",
+    "mongoose": "^8.3.3"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/shahdhassanein/backend-2.git"
+  },
+  "bugs": {
+    "url": "https://github.com/shahdhassanein/backend-2/issues"
+  },
+  "homepage": "https://github.com/shahdhassanein/backend-2#readme",
+  "description": ""
+>>>>>>> Stashed changes
 }

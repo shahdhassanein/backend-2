@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Car Showroom</title>
+    <link rel="stylesheet" href="/css/admin.css">
+</head>
+<body>
+    <div class="admin-container">
+        <aside class="sidebar">
+            <h2>Admin Panel</h2>
+            <nav>
+                <ul>
+                    <li class="active" data-tab="cars"><i class="fas fa-car"></i> Cars Management</li>
+                    <li><a href="/usersmangment"><i class="fas fa-users"></i> Users Management</a></li>
+                   
+                    <li id="logout"><i class="fas fa-sign-out-alt"></i> Logout</li>
+                </ul>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <header>
+                <h2>Cars Management</h2>
+                <div class="admin-info">
+                    <span id="admin-name"></span>
+                </div>
+            </header>
+
+            <section id="cars" class="tab-content active">
+                <div class="section-header">
+                    <a href="/addcar"> <button class="add-btn" id="add-car-btn">Add New Car</button></a>
+                <a href="/removecar"> <button class="add-btn" id="remove-car-btn">Remove Car</button></a>
+                  <a href="/api/cars" class="add-btn" id="update-car-btn">Update Car</a>
+                </div>
+                <div class="cars-grid" id="cars-grid">
+                    <!-- Car cards will be rendered here -->
+                </div>
+            </section>
+
+            <section id="users" class="tab-content">
+                <h2>Users Management</h2>
+                <div class="users-list" id="users-list"></div>
+            </section>
+
+            <section id="orders" class="tab-content">
+                <h2>Orders Management</h2>
+                <div class="orders-list" id="orders-list"></div>
+            </section>
+        </main>
+    </div>
+
+    <!-- External JavaScript -->
+    <script src="/js/admin.js"></script>
+</body>
+</html>

@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= title %></title>
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet" href="/css/carlisting.css">
+</head>
+<body>
+
+  <header>
+    <nav>
+      <ul>
+        <li><a href="/">Home</a></li>
+        <li><a href="/carllisting" class="active">Car Listings</a></li>
+        <li><a href="/Dashboard">Dashboard</a></li>
+        <li><a href="/Contact">Contact</a></li>
+        <li><a href="/login">Sign Up/Login</a></li>
+        <li><a href="/mypurchases">My Purchases</a></li>
+        <li><a href="/cart">Cart 0</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <main>
+    <section class="filters-section">
+      <div class="filters-container">
+        <select>
+          <option>All Categories</option>
+          </select>
+        <select>
+          <option>All Prices</option>
+          </select>
+        <select>
+          <option>All Brands</option>
+          </select>
+        <button class="reset-filters">Reset Filters</button>
+      </div>
+    </section>
+
+    <section class="car-listings-section">
+      <h2>Available Cars</h2>
+      <div id="cars-container" class="cars-grid">
+        <p id="loading-message">Loading cars...</p>
+        </div>
+      <p id="error-message" style="display: none;">Failed to load cars. Please check your server and network connection.</p>
+      <p id="no-cars-message" style="display: none;">No cars available at the moment.</p>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 Car Showroom. All rights reserved.</p>
+  </footer>
+
+  <script src="/js/carListing.js"></script>
+</body>
+</html>

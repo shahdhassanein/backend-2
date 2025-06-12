@@ -1,323 +1,308 @@
-/* Single Container Car Listing CSS */
-
-/* Reset and base styles */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
+\/* General Body and Main Layout */
 body {
-    font-family: 'Segoe UI', Arial, sans-serif;
+    font-family: 'Arial', sans-serif;
+    background-color: #1a1a1a; /* Very dark background */
+    color: #f0f0f0; /* Light text for contrast */
+    margin: 0;
     line-height: 1.6;
-    color: #333;
-    background: #333;
+    display: flex;
+    flex-direction: column; /* For sticky footer or overall layout */
+    min-height: 100vh; /* Ensure full viewport height */
 }
 
-/* Navbar styling */
-.navbar {
-    display: flex;
-    align-items: center;
-    background: #222;
-    padding: 15px 20px;
+main {
+    flex-grow: 1; /* Allows main content to take available space */
+    padding: 20px;
+    max-width: 1200px; /* Max width for content */
+    margin: 0 auto; /* Center the content */
+}
+
+h2 {
+    color: #e0e0e0; /* Slightly lighter heading color */
+    text-align: center;
+    margin-bottom: 30px;
+    font-size: 2.5em;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+}
+
+/* Header/Navigation (This might be in main.css, but included for completeness) */
+header {
+    background-color: #222;
     color: #fff;
+    padding: 15px 0;
+    border-bottom: 3px solid #ffc107; /* Accent line */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.4);
 }
 
-.logo {
-    margin-right: 40px;
-}
-
-.navbar ul {
+nav ul {
     list-style: none;
+    padding: 0;
+    margin: 0;
     display: flex;
-    gap: 20px;
-    margin-left: 20px;
+    justify-content: center;
+    gap: 30px; /* Space between nav items */
 }
 
-.navbar a {
+nav ul li a {
     color: #fff;
     text-decoration: none;
     font-weight: bold;
-    padding: 10px;
+    font-size: 1.1em;
+    padding: 5px 10px;
+    transition: color 0.3s ease, border-bottom 0.3s ease;
 }
 
-.navbar a.active {
-    background: darkred;
-    border-radius: 5px;
+nav ul li a:hover,
+nav ul li a.active {
+    color: #ffc107; /* Highlight color on hover/active */
+    border-bottom: 2px solid #ffc107;
 }
 
-.navbar a:hover {
-    background: rgb(170, 0, 0);
-    border-radius: 5px;
+
+/* Filter Section Styling */
+.filters-section {
+    background-color: #2b2b2b; /* Slightly lighter dark for filters */
+    padding: 25px 20px;
+    margin-bottom: 40px;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+    text-align: center; /* Center filter elements */
 }
 
-/* Filter bar styling */
-.filter-bar {
+.filters-container {
     display: flex;
+    flex-wrap: wrap; /* Allow items to wrap on smaller screens */
     justify-content: center;
-    padding: 15px;
-    background: #555;
-    gap: 15px;
-    flex-wrap: wrap;
+    gap: 15px; /* Space between filter elements */
 }
 
-.filter-dropdown {
+.filters-container select,
+.filters-container button {
     padding: 12px 20px;
-    font-size: 16px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    background-color: white;
-    min-width: 180px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-}
-
-#resetFilters {
-    background-color: darkred;
-    color: white;
-    font-weight: bold;
-    transition: background-color 0.3s;
-}
-
-#resetFilters:hover {
-    background-color: red;
-}
-
-/* Car listing container */
-.flex-container {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 30px;
-    padding: 30px;
-    justify-content: center;
-}
-
-/* Car card styling - SINGLE CONTAINER PER CAR */
-.car-card {
-    flex: 0 1 400px;
-    background-color: white;
+    margin: 0; /* Remove margin from individual elements now that gap handles it */
     border-radius: 8px;
+    border: 1px solid #444;
+    background-color: #3a3a3a; /* Darker input background */
+    color: #e0e0e0; /* Light text color */
+    font-size: 1em;
+    cursor: pointer;
+    appearance: none; /* Remove default select arrow */
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23e0e0e0%22%20d%3D%22M287%2C197.398L146.2%2C56.599L5.4%2C197.398h281.6z%22%2F%3E%3C%2Fsvg%3E'); /* Custom arrow for select */
+    background-repeat: no-repeat;
+    background-position: right 15px top 50%;
+    background-size: 12px auto;
+    transition: all 0.3s ease;
+}
+
+.filters-container select:focus,
+.filters-container button:focus {
+    border-color: #ffc107;
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(255, 193, 7, 0.3);
+}
+
+.filters-container button {
+    font-weight: bold;
+}
+
+.filters-container button.reset-filters {
+    background-color: #dc3545; /* Red button */
+    border-color: #dc3545;
+    color: #fff;
+}
+
+.filters-container button.reset-filters:hover {
+    background-color: #c82333;
+    border-color: #c82333;
+}
+
+.filters-container select:hover,
+.filters-container button:hover:not(.reset-filters) {
+    background-color: #4a4a4a;
+    border-color: #555;
+}
+
+
+/* Car Listings Grid */
+.cars-grid {
+    display: grid;
+    /* This will try to fit as many 280px wide columns as possible,
+       and each column will grow to fill the available space.
+       This will give you around 3-4 cars per line on larger screens. */
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 30px; /* More space between cards */
+    padding: 0; /* Remove padding here as main has it */
+}
+
+.car-card {
+    background-color: #2b2b2b; /* Darker background for cards */
+    border-radius: 12px; /* Slightly more rounded corners */
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5); /* Stronger shadow */
     overflow: hidden;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    position: relative;
-    max-width: 500px;
-    margin-bottom: 20px;
+    color: #e0e0e0; /* Light text */
+    text-align: center;
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+    display: flex; /* Using flexbox for internal card layout */
+    flex-direction: column; /* Stack image and details vertically */
 }
 
 .car-card:hover {
-    transform: translateY(-10px);
-    box-shadow: 0 15px 30px rgba(0,0,0,0.4);
+    transform: translateY(-8px); /* More pronounced lift effect */
+    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.7); /* Stronger shadow on hover */
 }
 
 .car-image {
     width: 100%;
-    height: 250px;
+    height: 200px; /* Slightly taller images */
     object-fit: cover;
-    border-bottom: 3px solid darkred;
+    border-bottom: 1px solid #444;
 }
 
 .car-details {
     padding: 20px;
+    flex-grow: 1; /* Allow details section to grow */
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* Push button to bottom */
 }
 
-.car-name {
-    font-size: 24px;
-    color: #222;
-    margin-bottom: 15px;
-    font-weight: bold;
+.car-details h3 {
+    margin-top: 0;
+    margin-bottom: 12px;
+    font-size: 1.6em; /* Larger car name */
+    color: #ffc107;
     text-transform: capitalize;
-    border-bottom: 2px solid #eee;
-    padding-bottom: 10px;
 }
 
-.car-info {
-    margin-bottom: 20px;
+.car-details p {
+    margin: 8px 0;
+    font-size: 1em;
+    color: #bbb;
 }
 
-.car-info p {
-    margin: 10px 0;
-    color: #444;
-    font-size: 16px;
+.car-details strong {
+    color: #ffc107; /* Highlight property names */
 }
 
-.car-info strong {
-    color: #222;
-    font-weight: bold;
-    margin-right: 5px;
-}
-
-/* Add to cart button styling */
-.add-to-cart {
-    display: block;
-    width: 100%;
-    padding: 12px 20px;
-    background-color: darkred;
-    color: white;
+.view-details-btn {
+    background-color: #ffc107;
+    color: #1a1a1a; /* Dark text on button */
     border: none;
-    border-radius: 5px;
-    font-weight: bold;
-    font-size: 16px;
+    padding: 12px 25px;
+    border-radius: 6px;
     cursor: pointer;
-    transition: background-color 0.3s, transform 0.2s;
+    font-size: 1.1em;
+    font-weight: bold;
+    margin-top: 20px; /* Space above button */
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    align-self: center; /* Center button in flex column */
+}
+
+.view-details-btn:hover {
+    background-color: #e0a800;
+    transform: scale(1.05); /* Slightly enlarge button on hover */
+}
+
+/* Messages (Loading, Error, No Cars) */
+#loading-message,
+#error-message,
+#no-cars-message {
     text-align: center;
-    margin-top: 10px;
+    grid-column: 1 / -1; /* Make messages span full width in the grid */
+    font-size: 1.4em;
+    color: #bbb;
+    padding: 30px;
+    background-color: #2b2b2b;
+    border-radius: 10px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+    margin-top: 20px;
 }
 
-.add-to-cart:hover {
-    background-color: #a00;
-    transform: scale(1.02);
-}
-
-.added-to-cart {
-    background-color: #28a745 !important;
-    transform: scale(1.02);
-}
-
-/* Category badge */
-.category-badge {
-    position: absolute;
-    top: 20px;
-    right: 20px;
-    padding: 8px 15px;
-    background-color: rgba(0, 0, 0, 0.7);
-    color: white;
-    border-radius: 20px;
-    font-size: 14px;
+#error-message {
+    color: #dc3545; /* Red for error */
     font-weight: bold;
 }
 
-/* Responsive design */
+#no-cars-message {
+    color: #6c757d; /* Grey for no cars */
+    font-style: italic;
+}
+
+/* Footer Styling (simple) */
+footer {
+    background-color: #222;
+    color: #888;
+    text-align: center;
+    padding: 20px;
+    margin-top: 40px;
+    border-top: 1px solid #333;
+}
+
+
+/* Responsive Adjustments */
 @media (max-width: 768px) {
-    .flex-container {
+    main {
         padding: 15px;
     }
-    
-    .car-card {
-        flex: 1 1 100%;
-        max-width: none;
+
+    h2 {
+        font-size: 2em;
+        margin-bottom: 25px;
     }
-    
-    .filter-bar {
-        flex-direction: column;
+
+    .filters-container {
+        flex-direction: column; /* Stack filters vertically on small screens */
         align-items: center;
     }
-    
-    .filter-dropdown {
-        width: 90%;
+
+    .filters-container select,
+    .filters-container button {
+        width: 100%; /* Full width for filter elements */
+        max-width: 300px; /* Limit max width */
+    }
+
+    .cars-grid {
+        gap: 20px; /* Reduce gap on smaller screens */
+        /* If you wanted strictly 2 columns on tablet:
+        grid-template-columns: repeat(2, 1fr);
+        */
+    }
+
+    .car-card {
+        max-width: 400px; /* Adjust max width for cards on medium screens */
+        margin: 0 auto; /* Center individual cards if grid doesn't fill entirely */
     }
 }
 
-/* Add a cart notification */
-.cart-notification {
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    background-color: rgba(40, 167, 69, 0.9);
-    color: white;
-    padding: 15px 25px;
-    border-radius: 5px;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
-    z-index: 1000;
-    transition: transform 0.3s ease, opacity 0.3s ease;
-}
-/* Add this to your carlisting.css file */
-
-/* Container for all car listings */
-.flex-container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 20px;
-    padding: 20px;
-}
-
-/* Individual car card styling */
-.flex-box, .car-card {
-    flex: 0 1 calc(33.333% - 20px);
-    max-width: calc(33.333% - 20px);
-    margin-bottom: 20px;
-    background-color: white;
-    border-radius: 8px;
-    overflow: hidden;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-}
-
-.flex-box:hover, .car-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-}
-
-/* Car image styling */
-.car-image {
-    width: 100%;
-    height: 200px;
-    object-fit: cover;
-}
-
-/* Car details container */
-.car-info, .car-details, .car-content {
-    padding: 15px;
-}
-
-/* Car name styling */
-h3 {
-    font-size: 18px;
-    margin-bottom: 10px;
-    color: #333;
-    border-bottom: 1px solid #eee;
-    padding-bottom: 8px;
-}
-
-/* Car specs styling */
-p {
-    margin: 8px 0;
-    color: #555;
-}
-
-/* Add to cart button styling */
-.add-to-cart {
-    display: block;
-    width: 100%;
-    padding: 10px;
-    background-color: darkred;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-weight: bold;
-    margin-top: 10px;
-    transition: background-color 0.3s;
-}
-
-.add-to-cart:hover {
-    background-color: #a00;
-}
-
-/* Category label styling */
-.category-label {
-    position: absolute;
-    top: 10px;
-    right: 10px;
-    padding: 5px 10px;
-    background-color: #333;
-    color: white;
-    border-radius: 20px;
-    font-size: 14px;
-}
-
-/* Responsive adjustments */
-@media (max-width: 992px) {
-    .flex-box, .car-card {
-        flex: 0 1 calc(50% - 20px);
-        max-width: calc(50% - 20px);
+@media (max-width: 480px) {
+    nav ul {
+        flex-direction: column;
+        gap: 15px;
+        align-items: center; /* Center nav items */
     }
-}
+    nav ul li a {
+        font-size: 1em;
+    }
 
-@media (max-width: 768px) {
-    .flex-box, .car-card {
-        flex: 0 1 100%;
-        max-width: 100%;
+    h2 {
+        font-size: 1.8em;
+    }
+
+    .car-details h3 {
+        font-size: 1.4em;
+    }
+
+    .view-details-btn {
+        padding: 10px 20px;
+        font-size: 1em;
+    }
+
+    .cars-grid {
+        /* On very small screens, make it single column */
+        grid-template-columns: 1fr;
     }
 }

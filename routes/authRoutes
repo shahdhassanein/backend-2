@@ -1,0 +1,75 @@
+const express = require('express');
+const router = express.Router();
+const User = require('../models/User'); // CORRECTED: Path to User model
+const { protect } = require('../middleware/auth'); // Ensure this path is correct
+
+// --- HELPER FUNCTION: This is specific to JWTs, let's adapt it for sessions ---
+// We will modify the login/register to use sessions directly.
+
+// @desc    Register a new user and create a session
+// @route   POST /api/auth/register
+router.post('/register', async (req, res) => {
+    try {
+        const { name, email, password, phone } = req.body;
+        const userExists = await User.findOne({ email });
+        if (userExists) {
+            return res.status(400).json({ success: false, error: 'User with this email already exists' });
+        }
+        const user = await User.create({ name, email, password, phone });
+        
+        // Create the session
+        req.session.user = { id: user._id, name: user.name, role: user.role };
+        res.status(201).json({ success: true });
+
+    } catch (err) {
+        res.status(400).json({ success: false, error: err.message });
+    }
+});
+
+// @desc    Login a user and create a session
+// @route   POST /api/auth/login
+router.post('/login', async (req, res) => {
+    try {
+        const { email, password } = req.body;
+        if (!email || !password) {
+            return res.status(400).json({ success: false, error: 'Please provide an email and password' });
+        }
+        const user = await User.findOne({ email }).select('+password');
+        if (!user) {
+            return res.status(401).json({ success: false, error: 'Invalid credentials' });
+        }
+        const isMatch = await user.matchPassword(password);
+        if (!isMatch) {
+            return res.status(401).json({ success: false, error: 'Invalid credentials' });
+        }
+        
+        // Create the session
+        req.session.user = { id: user._id, name: user.name, role: user.role };
+        res.status(200).json({ success: true });
+
+    } catch (err) {
+        res.status(500).json({ success: false, error: 'Server error during login' });
+    }
+});
+
+// @desc    Get current logged-in user details
+// @route   GET /api/auth/profile
+router.get('/profile', protect, (req, res) => {
+    // The protect middleware attaches the user to req.user
+    res.status(200).json({ success: true, data: req.user });
+});
+
+// @desc    Log user out
+// @route   GET /api/auth/logout
+router.get('/logout', protect, (req, res) => {
+    req.session.destroy((err) => {
+        if (err) {
+            return res.status(500).json({ success: false, error: 'Could not log out' });
+        }
+        res.clearCookie('connect.sid'); // The default session cookie name
+        res.status(200).json({ success: true, data: {} });
+    });
+});
+
+// DO NOT FORGET THIS LINE
+module.exports = router;
