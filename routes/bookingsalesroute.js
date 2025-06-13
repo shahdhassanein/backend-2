@@ -1,57 +1,34 @@
-const express = require('express');
-const router = express.Router();
-const controller = require('../controllers/bookingsalescontroller');
-const { protect } = require('../middleware/auth');  // Import protect middleware
+    const express = require('express');
+    const router = express.Router();
+    const controller = require('../controllers/bookingsalescontroller');
+    // Ensure this path to your auth middleware (containing 'protect' and 'authorize') is correct.
+    const { protect, authorize } = require('../middleware/auth'); 
 
-router.post('/purchase', controller.purchaseCar);
+    // Route to create a new purchase (requires user to be logged in and token verified)
+    router.post('/purchase', protect, controller.purchaseCar);
 
-router.get('/my-purchases', controller.getMyPurchases);
+    // Route to get purchases for the logged-in user (API endpoint for frontend Fetch)
+    // This will be called by your /public/js/myPurchases.js file
+    // It requires the user to be logged in (via JWT token checked by 'protect' middleware)
+    router.get('/my-purchases', protect, controller.getMyPurchases); 
 
-router.get('/',  async (req, res) => {
-    try {
-        const purchases = await controller.getAllPurchases(); // Call a controller function to get ALL purchases
-        res.json(purchases); // Send the data as JSON
-    } catch (error) {
-        console.error('Error fetching all purchases:', error);
-        res.status(500).json({ message: 'Server error while fetching all purchases' });
-    }
-});
+    // Route to get all purchases (typically for Admin dashboard)
+    // This should be protected for admin roles.
+    router.get('/', protect, authorize('admin'), controller.getAllPurchases); 
 
-router.get('/view-my-purchases', protect, async (req, res) => {
-  try {
-    const purchases = await controller.getMyPurchasesData(req.user._id);
-    res.render('mypurchases', { purchases });  
-  } catch (error) {
-    console.error('Error fetching purchases:', error);
-    res.status(500).send('Server error while fetching purchases');
-  }
-});
+    // Route for rendering the mypurchases EJS page (server-side render version)
+    // This route is separate from the API endpoint for fetch.
+    // It uses 'protect' to ensure req.user is available for rendering.
+    router.get('/view-my-purchases', protect, async (req, res) => {
+        try {
+            // This calls the controller function that gets data for EJS rendering
+            const purchases = await controller.getMyPurchasesData(req.user._id);
+            res.render('mypurchases', { purchases: purchases, title: 'My Purchases', user: req.user || null }); 
+        } catch (error) {
+            console.error('Error fetching purchases for EJS view:', error);
+            res.status(500).send('Server error while fetching purchases for view');
+        }
+    });
 
-module.exports = router;
-
-
-/*const express = require('express');
-const router = express.Router();
-const controller = require('../controllers/bookingsalescontroller');
-//const auth = require('../middleware/auth');
-const { protect } = require('../middleware/auth');
-
-console.log('auth:', typeof auth);
-console.log('purchaseCar:', typeof controller.purchaseCar);
-
-
-router.post('/purchase', protect, controller.purchaseCar);
-
-router.get('/my-purchases', auth, controller.getMyPurchases);
-
-router.get('/view-my-purchases', auth, async (req, res) => {
-  try {
-    const purchases = await controller.getMyPurchasesData(req.user._id);
-    res.render('mypurchases', { purchases });  
-  } catch (error) {
-    console.error('Error fetching purchases:', error);
-    res.status(500).send('Server error while fetching purchases');
-  }
-});
-
-module.exports = router; */
+    module.exports = router;
+    

@@ -1,6 +1,7 @@
-// public/js/myPurchases.js
+// tttttttttttestttttttt will be deleted 
+//  public/js/myPurchases.js
 
-document.addEventListener('DOMContentLoaded', async () => {
+/*document.addEventListener('DOMContentLoaded', async () => {
     const purchasesTableBody = document.getElementById('purchasesTableBody');
     // Ensure these message elements exist in your mypurchases.ejs, or remove/adapt them
     const loadingMessage = document.getElementById('loadingMessage'); // You might need to add this ID to an element in mypurchases.ejs
@@ -80,4 +81,4 @@ document.addEventListener('DOMContentLoaded', async () => {
 
     // Call the function when the page loads
     fetchMyPurchases();
-});
+});*/
