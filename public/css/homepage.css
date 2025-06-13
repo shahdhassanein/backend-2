@@ -5,12 +5,13 @@
     box-sizing: border-box;
 }
 
-/* ORIGINAL BODY STYLES (AS PER YOUR REQUEST - LOCAL PATH WILL STILL NOT LOAD IN BROWSER) */
+/* ORIGINAL BODY STYLES - CRITICAL CORRECTION TO IMAGE PATH */
 body {
     font-family: Arial, sans-serif;
     line-height: 1.6;
     color: #333;
-    background: url('C:/Users/express/OneDrive/Documents/car-showroom-projj1/assests/image/backg.jpg') no-repeat center center fixed; /* ORIGINAL PATH */
+    /* >>> CRITICAL CORRECTION HERE: Changed local path to server-relative path <<< */
+    background: url('/img/backg.jpg') no-repeat center center fixed; /* CORRECTED PATH */
     background-size: cover;
     position: relative;
     /* Keeping original body styles; no blur filter applied here for consistency with your request */
@@ -110,7 +111,6 @@ body::before {
     text-align: center;
     color: white;
     overflow: hidden;
-    /* z-index adjusted to work with body::before and cookie banner */
     z-index: 1; 
 }
 
@@ -155,12 +155,10 @@ body::before {
 
 /* Original .featured section styling, overridden by .main-content-area below for layout */
 .featured {
-    /* Keeping this block as is from your original, but its display/justify-content
-       will be overridden by .main-content-area for layout */
     display: flex;
     justify-content: space-around;
     padding: 50px 20px;
-    background: rgba(255, 255, 255, 0.2); /* This background will be overridden by .main-content-area */
+    background: rgba(255, 255, 255, 0.2); 
 }
 
 /* Original .featured-item, overridden by .content-section-card below */
@@ -221,7 +219,7 @@ body::before {
     margin-top: 10px; 
 }
 
-.featured-item h3 { /* This h3 rule seems unused in your HTML, keeping for completeness */
+.featured-item h3 { 
     color: white;
     font-weight: bold;
     text-shadow: 4px 4px 10px red, 0px 0px 15px red;
@@ -232,15 +230,13 @@ body::before {
 }
 
 /* Original .featured-item p styling for white text and text-shadow */
-/* This will be specific for .featured-item when it's not a .content-section-card */
 .featured-item p {
-    color: white; /* ORIGINAL: For these specific text-shadow rules */
+    color: white; 
     font-size: 1.2em;
     text-shadow: 3px 3px 8px red, 0px 0px 12px red;
     font-weight: bold;
     margin-top: 5px;
 }
-
 
 /* Footer Styling */
 footer {
@@ -249,8 +245,8 @@ footer {
     padding: 20px;
     text-align: center;
     font-size: 1em;
-    position: relative; /* Ensure footer is above other elements/blurs if needed */
-    z-index: 20; /* Higher than normal content */
+    position: relative; 
+    z-index: 20; 
 }
 
 .footer-content p {
@@ -266,46 +262,42 @@ footer {
     text-decoration: underline;
 }
 
-/* >>> IMPORTANT: OLD .cookie-banner RULES REMOVED HERE TO AVOID CONFLICTS <<< */
-/* The rules below for .cookie-consent-banner will replace this functionality. */
-
-
 /* --- START OF NEW/MODIFIED STYLES (Keep from here onwards) --- */
 
 /* Styling for the overall container of the featured sections (like 'featured' with 'main-content-area') */
 .main-content-area {
-    display: flex; /* Use flexbox for layout */
-    flex-wrap: wrap; /* Allow cards to wrap to next line on smaller screens */
-    justify-content: center; /* Center cards horizontally */
-    align-items: flex-start; /* Align cards to the top */
-    gap: 20px; /* Space between flex items */
-    max-width: 1200px; /* Max width for the content area */
-    margin: 40px auto; /* Center the entire block with vertical spacing */
-    width: 95%; /* Responsive width */
-    position: relative; /* Ensure these sections are above background pseudo-elements */
-    z-index: 10; /* Bring content above the background overlays */
+    display: flex; 
+    flex-wrap: wrap; 
+    justify-content: center; 
+    align-items: flex-start; 
+    gap: 20px; 
+    max-width: 1200px; 
+    margin: 40px auto; 
+    width: 95%; 
+    position: relative; 
+    z-index: 10; 
 }
 
 /* Styling for individual content cards (like 'featured-item' with 'content-section-card') */
 .content-section-card {
-    background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent dark background for cards */
-    backdrop-filter: blur(10px); /* <<< THE FROSTED GLASS EFFECT: Blurs content *behind* this element */
-    -webkit-backdrop-filter: blur(10px); /* Safari support */
+    background-color: rgba(0, 0, 0, 0.7); 
+    backdrop-filter: blur(10px); 
+    -webkit-backdrop-filter: blur(10px); 
     padding: 25px;
     border-radius: 12px;
-    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4); /* Stronger shadow for depth */
-    color: #e0e0e0; /* Light text color for readability */
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4); 
+    color: #e0e0e0; 
     text-align: center;
-    flex: 1; /* Allows cards to grow within flex container */
-    min-width: 280px; /* Minimum width before wrapping */
-    max-width: 350px; /* Max width to control size */
-    border: 1px solid rgba(255, 255, 255, 0.1); /* Subtle border for frosted look */
-    transition: all 0.3s ease; /* Keep transition for hover effects */
+    flex: 1; 
+    min-width: 280px; 
+    max-width: 350px; 
+    border: 1px solid rgba(255, 255, 255, 0.1); 
+    transition: all 0.3s ease; 
 }
 
 /* Adjust headings within these cards if needed */
 .content-section-card h2 {
-    color: crimson; /* Retain crimson color */
+    color: crimson; 
     margin-top: 0; 
     margin-bottom: 15px;
     font-size: 1.8em;
@@ -314,69 +306,67 @@ footer {
 .content-section-card p {
     font-size: 1.1em;
     line-height: 1.6;
-    /* If you want text-shadow on these, ensure your original rule applies or add here */
-    /* text-shadow: 3px 3px 8px red, 0px 0px 12px red; */
 }
 
 /* New Cookie Consent Banner Styling */
 .cookie-consent-banner {
-    position: fixed; /* <<< CRITICAL: This makes it stay on scroll */
+    position: fixed; 
     bottom: 0;
     left: 0;
     width: 100%;
-    background-color: rgba(0, 0, 0, 0.9); /* Darker, more opaque background */
+    background-color: rgba(0, 0, 0, 0.9); 
     color: #fff;
     padding: 15px 25px;
-    display: flex; /* Use flexbox for layout */
+    display: flex; 
     justify-content: space-between;
     align-items: center;
-    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.5); /* Stronger shadow at the top */
-    z-index: 1000; /* Ensure it's on top of almost everything else */
-    flex-wrap: wrap; /* Allow wrapping on smaller screens */
-    gap: 15px; /* Space between text and button container */
-    backdrop-filter: blur(5px); /* Add a subtle blur to the banner itself */
-    -webkit-backdrop-filter: blur(5px); /* Safari support */
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.5); 
+    z-index: 1000; 
+    flex-wrap: wrap; 
+    gap: 15px; 
+    backdrop-filter: blur(5px); 
+    -webkit-backdrop-filter: blur(5px); 
 }
 
 .cookie-consent-banner p {
     margin: 0;
-    flex-grow: 1; /* Allows text to take available horizontal space */
+    flex-grow: 1; 
     font-size: 0.95em;
     line-height: 1.4;
 }
 
 .cookie-consent-banner p a {
-    color: #87CEEB; /* Lighter blue for the link */
+    color: #87CEEB; 
     text-decoration: underline;
 }
 
 .cookie-consent-banner .cookie-buttons {
     display: flex;
-    gap: 10px; /* Space between the 'Accept' and 'Deny' buttons */
+    gap: 10px; 
 }
 
 .cookie-consent-banner button {
-    background-color: #b909094e; /* Your preferred button color from last provided CSS */
+    background-color: #b909094e; 
     color: white;
     border: none;
     padding: 10px 20px;
     border-radius: 5px;
     cursor: pointer;
     font-size: 1em;
-    transition: background-color 0.3s ease, transform 0.2s ease; /* Smooth transitions */
+    transition: background-color 0.3s ease, transform 0.2s ease; 
 }
 
 .cookie-consent-banner button:hover {
-    background-color: #b909094e; /* Keeping hover color consistent with your preferred base */
+    background-color: #b909094e; 
     transform: translateY(-2px); 
 }
 
 .cookie-consent-banner .deny-button {
-    background-color: #f44336; /* Your preferred Deny button color */
+    background-color: #f44336; 
 }
 
 .cookie-consent-banner .deny-button:hover {
-    background-color: #da190b; /* Darker red on hover */
+    background-color: #da190b; 
 }
 
 /* Responsive adjustments for homepage elements */
@@ -402,4 +392,3 @@ footer {
         width: 100%; 
     }
 }
-/* --- END OF NEW/MODIFIED STYLES --- */
