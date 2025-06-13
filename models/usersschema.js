@@ -1,3 +1,4 @@
+// models/usersschema.js
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
@@ -26,8 +27,14 @@ const userSchema = new mongoose.Schema({
     enum: ['user', 'admin'],
     default: 'user',
   },
+  
+  sessionInfo: {
+    lastLogin: { type: Date },
+    ipAddress: { type: String },
+    device: { type: String }
+  }
 }, {
-  timestamps: true,
+  timestamps: true, // This automatically adds `createdAt` and `updatedAt` fields to your document
 });
 
 // Method to compare passwords

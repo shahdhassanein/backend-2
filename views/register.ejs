@@ -11,9 +11,15 @@
 <body> 
     <div class="auth-container">
         <h1>Create Account</h1>
-        <div id="error-message" class="error-message"></div>
+        <% if (typeof error !== 'undefined' && error) { %>
+            <div id="error-message" class="error-message" style="display: block;">
+                <%= error %>
+            </div>
+        <% } else { %>
+            <div id="error-message" class="error-message" style="display: none;"></div>
+        <% } %>
         
-        <form id="register-form"  method="POST">
+        <form method="POST" action="/api/auth/register"> <!-- ADDED action="/api/auth/register" HERE -->
             <div class="form-group">
                 <label for="name">Full Name</label>
                 <input type="text" id="name" name="name" required>
@@ -22,7 +28,7 @@
                 <label for="email">Email</label>
                 <input type="email" id="email" name="email" required>
             </div>
-             <div class="form-group">
+               <div class="form-group">
                 <label for="phone">Phone Number</label>
                 <input type="tel" id="phone" name="phone" required>
             </div>

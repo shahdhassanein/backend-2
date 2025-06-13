@@ -1,42 +1,43 @@
+// controllers/authcontroller.js
 const User = require('../models/usersschema');
 const jwt = require('jsonwebtoken');
-const bcrypt = require('bcryptjs'); // <<< ADDED: For password hashing
 
-// Helper function to generate JWT token
-const generateToken = (id) => {
-    return jwt.sign({ id }, process.env.JWT_SECRET, {
-        expiresIn: process.env.JWT_EXPIRE || '30d',
-    });
-};
+// Helper function to handle response for EJS views
+// Sets session, optional JWT cookie, and redirects
+const sendAuthResponse = async (user, statusCode, req, res, isRegistration = false) => { // Added req
+    // Set user ID in the session (CRITICAL for Dashboard.ejs dynamic data)
+    req.session.userId = user._id;
+    console.log(`[Auth Controller] Session userId set to: ${req.session.userId}`);
 
-// Helper function to send token response (slightly refined for clarity)
-const sendTokenResponse = (user, statusCode, res, isRegistration = false) => {
-    const token = generateToken(user._id);
-    console.log('sendTokenResponse: Token generated for user ID:', user._id); // Log token generation
-
-    const options = {
-        expires: new Date(Date.now() + (parseInt(process.env.JWT_COOKIE_EXPIRE) || 30) * 24 * 60 * 60 * 1000),
-        httpOnly: true,
-        secure: process.env.NODE_ENV === 'production',
-        sameSite: 'Lax',
+    // Update last login details on the user document
+    // Ensure this matches the sessionInfo schema in your User model
+    user.sessionInfo = {
+        lastLogin: new Date(),
+        ipAddress: req.ip, // req.ip gets client's IP address
+        device: req.headers['user-agent'] // User-Agent string
     };
-    console.log('sendTokenResponse: Cookie options set:', options); // Log cookie options
+    await user.save(); // Save the updated session info to the database
+    console.log(`[Auth Controller] User sessionInfo updated and saved to DB.`);
 
-    res.status(statusCode)
-       .cookie('token', token, options)
-       .json({
-           success: true,
-           message: isRegistration ? 'Registration successful!' : 'Login successful!',
-           // Removed token from direct JSON response for security, it's in cookie
-           user: {
-               _id: user._id,
-               name: user.name,
-               email: user.email,
-               role: user.role,
-               phone: user.phone
-           }
-       });
-    console.log(`sendTokenResponse: Sent ${statusCode} status for ${isRegistration ? 'registration' : 'login'}.`); // Log final send
+
+    // Optional: Also set a JWT cookie if your app uses JWTs for other API calls
+    const token = user.getSignedJwtToken(); // Get JWT token from User model method
+    const options = {
+        expires: new Date(Date.now() + (process.env.JWT_COOKIE_EXPIRE || 30) * 24 * 60 * 60 * 1000), // Convert days to ms
+        httpOnly: true, // HTTP-only for security
+        secure: process.env.NODE_ENV === 'production', // Send cookie only over HTTPS in production
+        sameSite: 'Lax', // Protects against CSRF in some cases
+    };
+    res.cookie('token', token, options); // Set the JWT in the cookie
+    console.log(`[Auth Controller] JWT Cookie set for user: ${user.email}`);
+
+    // Determine where to redirect after successful login/registration
+    const redirectAfterLogin = req.cookies.redirectAfterLogin || '/Dashboard';
+    res.clearCookie('redirectAfterLogin'); // Clear the redirect cookie after use
+    console.log(`[Auth Controller] Redirecting to: ${redirectAfterLogin}`);
+
+    // Redirect the browser to the appropriate EJS page
+    res.redirect(redirectAfterLogin);
 };
 
 /**
@@ -44,59 +45,48 @@ const sendTokenResponse = (user, statusCode, res, isRegistration = false) => {
  * @route   POST /api/auth/register
  * @access  Public
  */
-exports.register = async (req, res) => {
+exports.register = async (req, res, next) => {
     try {
         const { name, email, password, phone } = req.body;
+        console.log(`[Auth Controller] Register attempt for: ${email}`);
 
-        console.log('Registration attempt:', { name, email, phone });
-
+        // Basic validation (more robust validation should be in a separate middleware/library)
         if (!name || !email || !password || !phone) {
-            return res.status(400).json({ 
-                success: false, 
-                message: 'Please provide all required fields: name, email, password, and phone' 
-            });
+            console.log('[Auth Controller] Register: Missing fields.');
+            return res.render('register', { title: 'Register', error: 'Please provide all required fields: name, email, password, and phone.' });
         }
 
+        // Check if user already exists
         const existingUser = await User.findOne({ email });
         if (existingUser) {
-            return res.status(400).json({ 
-                success: false, 
-                message: 'User with this email already exists' 
-            });
+            console.log('[Auth Controller] Register: Email already exists.');
+            return res.render('register', { title: 'Register', error: 'User with this email already exists.' });
         }
 
-        // <<< CRITICAL FIX: HASH PASSWORD BEFORE SAVING >>>
-        const salt = await bcrypt.genSalt(10);
-        const hashedPassword = await bcrypt.hash(password, salt);
-        console.log('Register: Hashed password for new user.');
-
+        // Create new user in the database
+        // The pre('save') hook in the schema will hash the password
         const user = await User.create({
             name,
             email,
-            password: hashedPassword, // <<< IMPORTANT: Save the HASHED password
+            password, // Plain text password passed here, schema hook will hash it
             phone,
-            role: 'user'
+            role: 'user' // Default role
         });
+        console.log(`[Auth Controller] User registered successfully with ID: ${user._id}`);
 
-        console.log('User created successfully:', user._id);
-
-        sendTokenResponse(user, 201, res, true);
+        // Use the new helper to set session/cookie and redirect
+        // Pass req as an argument
+        await sendAuthResponse(user, 201, req, res, true); // Added 'req' and 'await'
 
     } catch (error) {
-        console.error('Registration error (Caught exception):', error);
-        
-        if (error.code === 11000) {
-            return res.status(400).json({ 
-                success: false, 
-                message: 'Email already exists' 
-            });
+        console.error('[Auth Controller] Registration error:', error);
+        let errorMessage = 'Registration failed. Please try again.';
+        if (error.code === 11000) { // Duplicate key error (e.g., email already exists)
+            errorMessage = 'An account with this email already exists.';
+        } else if (error.name === 'ValidationError') {
+            errorMessage = Object.values(error.errors).map(val => val.message).join(', ');
         }
-        
-        res.status(500).json({ 
-            success: false, 
-            message: 'Server error during registration',
-            error: process.env.NODE_ENV === 'development' ? error.message : undefined
-        });
+        res.render('register', { title: 'Register', error: errorMessage });
     }
 };
 
@@ -105,101 +95,66 @@ exports.register = async (req, res) => {
  * @route   POST /api/auth/login
  * @access  Public
  */
-exports.login = async (req, res) => {
-    console.log('*** Login function called ***');
-    const { email, password } = req.body;
-    console.log('Login attempt for email:', email);
-    // console.log('Login attempt with password (raw input - do not log in production!):', password); // KEEP COMMENTED FOR SECURITY
-
+exports.login = async (req, res, next) => {
     try {
+        const { email, password } = req.body;
+        console.log(`[Auth Controller] Login attempt for email: ${email}`);
+
         // Validate input
         if (!email || !password) {
-            console.log('Login failed: Missing email or password.');
-            return res.status(400).json({ 
-                success: false, 
-                message: 'Please provide email and password' 
-            });
+            console.log('[Auth Controller] Login: Missing email or password.');
+            return res.render('login', { title: 'Login', error: 'Please provide email and password' });
         }
 
-        // Find user, explicitly select password
+        // Find user by email, explicitly select password for comparison
         const user = await User.findOne({ email }).select('+password');
-        console.log('Login: User found in DB for email:', user ? user.email : 'None');
+        console.log(`[Auth Controller] Login: User found in DB for email: ${user ? user.email : 'N/A'}`);
 
         if (!user) {
-            console.log('Login failed: User NOT found for email:', email);
-            return res.status(401).json({ 
-                success: false, 
-                message: 'Invalid credentials' 
-            });
+            console.log('[Auth Controller] Login: User not found.');
+            return res.render('login', { title: 'Login', error: 'Invalid credentials' });
         }
 
-        // Check password using the method on the User model
-        console.log('Login: Comparing entered password with stored hash for user:', user.email);
-        // CRITICAL: Ensure `matchPassword` is defined on your `usersschema.js`
-        // e.g., userSchema.methods.matchPassword = async function (enteredPassword) { return await bcrypt.compare(enteredPassword, this.password); };
-        const isMatch = await user.matchPassword(password); 
-        console.log('Login: Password comparison result (isMatch):', isMatch);
+        // Check if password matches
+        console.log(`[Auth Controller] Login: Comparing entered password with stored hash for user: ${user.email}`);
+        const isMatch = await user.matchPassword(password); // Call method on user instance
+        console.log(`[Auth Controller] Login: Password comparison result (isMatch): ${isMatch}`);
 
         if (!isMatch) {
-            console.log('Login failed: Password mismatch for user:', user.email);
-            return res.status(401).json({ 
-                success: false, 
-                message: 'Invalid credentials' 
-            });
+            console.log('[Auth Controller] Login failed: Password mismatch for user:', user.email);
+            return res.render('login', { title: 'Login', error: 'Invalid credentials' });
         }
 
-        // Send success response with token in cookie
-        console.log('Login successful: Sending token response for user:', user.email);
-        sendTokenResponse(user, 200, res);
+        // Use the new helper to set session/cookie and redirect
+        // Pass req as an argument
+        await sendAuthResponse(user, 200, req, res); // Added 'req' and 'await'
 
     } catch (error) {
-        console.error('Login error (Caught exception):', error); // Log the actual error for debugging
-        res.status(500).json({ 
-            success: false, 
-            message: 'Server error during login',
-            error: process.env.NODE_ENV === 'development' ? error.message : undefined // Only show full error in dev
-        });
+        console.error('[Auth Controller] Login error:', error);
+        res.render('login', { title: 'Login', error: 'Login failed. Please try again.' });
     }
 };
 
 /**
- * @desc    Get current user
+ * @desc    Get current logged in user (for API calls)
  * @route   GET /api/auth/me
  * @access  Private
  */
-exports.getMe = async (req, res) => {
+exports.getMe = async (req, res, next) => {
     try {
-        // req.user is populated by 'protect' middleware
-        console.log('getMe: req.user:', req.user ? req.user._id : 'Not available');
-        if (!req.user || !req.user._id) {
-             console.log('getMe: Not authorized, no user ID from token.');
-            return res.status(401).json({ success: false, message: 'Not authorized, no user ID from token' });
+        // req.user is populated by either 'protect' (for JWTs) or 'sessionAuth' middleware
+        if (!req.user) {
+            return res.status(401).json({ success: false, message: 'Not authenticated' });
         }
-
-        const user = await User.findById(req.user._id).select('-password');
-        if (!user) {
-            console.log('getMe: User not found in DB for ID:', req.user._id);
-            return res.status(404).json({ success: false, message: 'User not found' });
-        }
-
-        res.status(200).json({ 
-            success: true, 
-            user: {
-                _id: user._id,
-                name: user.name,
-                email: user.email,
-                role: user.role,
-                phone: user.phone
-            }
+        res.status(200).json({
+            success: true,
+            data: req.user
         });
-        console.log('getMe: User data retrieved for:', user.email);
-
     } catch (error) {
-        console.error('GetMe error (Caught exception):', error);
-        res.status(500).json({ 
-            success: false, 
-            message: 'Failed to fetch user data',
-            error: process.env.NODE_ENV === 'development' ? error.message : undefined
+        console.error('[Auth Controller] GetMe error:', error);
+        res.status(500).json({
+            success: false,
+            message: 'Failed to fetch user data'
         });
     }
 };
@@ -209,18 +164,19 @@ exports.getMe = async (req, res) => {
  * @route   GET /api/auth/logout
  * @access  Public
  */
-exports.logout = (req, res) => {
-    console.log('Logout attempt.');
-    res.cookie('token', 'none', {
-        expires: new Date(Date.now() + 10 * 1000), // Expire in 10 seconds (short for logout)
-        httpOnly: true,
-        secure: process.env.NODE_ENV === 'production',
-        sameSite: 'Lax',
+exports.logout = (req, res, next) => {
+    // Destroy the session
+    req.session.destroy(err => {
+        if (err) {
+            console.error('[Auth Controller] Error destroying session:', err);
+            // Even if session destroy fails, we still try to clear the cookie and redirect
+        }
+        // Clear the JWT cookie if it exists
+        res.clearCookie('token');
+        // Clear the redirectAfterLogin cookie if it exists (should have been cleared, but good practice)
+        res.clearCookie('redirectAfterLogin');
+
+        console.log('[Auth Controller] User logged out, redirecting to /login');
+        res.redirect('/login');
     });
-    
-    res.status(200).json({ 
-        success: true, 
-        message: 'Logged out successfully' 
-    });
-    console.log('Logged out successfully, token cookie cleared.');
 };
