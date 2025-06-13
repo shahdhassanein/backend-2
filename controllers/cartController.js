@@ -1,63 +1,52 @@
-// controllers/cartController.js
-
-const Cart = require('../models/cartschema'); // Adjust path if your cart schema is named differently
-const Car = require('../models/carsschema');   // Make sure you have a Car model
-const Purchase = require('../models/purchaseschema'); // Make sure you have a Purchase model
-const User = require('../models/usersschema');   // Make sure you have a User model
+const Cart = require('../models/cartschema');
+const Car = require('../models/carsschema');
+const Purchase = require('../models/purchaseschema');
+const User = require('../models/usersschema');
 
 
 exports.addToCart = async (req, res) => {
     try {
-        // Assuming userId comes from authenticated request (e.g., from a 'protect' middleware)
-        const userId = req.user._id; // Ensure req.user._id is available
-        const { carId, quantity = 1 } = req.body; // Default quantity to 1 if not provided
+        const userId = req.user._id;
+        const { carId, quantity = 1 } = req.body;
 
-        // Input Validation
         if (!carId) {
             return res.status(400).json({ success: false, message: 'Car ID is required.' });
         }
-        if (typeof quantity !== 'number' || quantity < 1 || quantity > 4) { // Max quantity 4 as per your frontend
+        if (typeof quantity !== 'number' || quantity < 1 || quantity > 4) {
             return res.status(400).json({ success: false, message: 'Quantity must be a number between 1 and 4.' });
         }
 
-        // Find the car to ensure it exists and get its details for the cart item
         const car = await Car.findById(carId);
         if (!car) {
             return res.status(404).json({ success: false, message: 'Car not found.' });
         }
 
-        // Find or create the user's cart
-        let cart = await Cart.findOne({ userId });
+        let cart = await Cart.findOne({ user: userId }); // Assuming 'user' field in Cart schema
 
         if (!cart) {
-            cart = new Cart({ userId, items: [] });
+            cart = new Cart({ user: userId, items: [] });
         }
 
-        // Check if the car is already in the cart
         const itemIndex = cart.items.findIndex(item => item.carId.toString() === carId);
 
         if (itemIndex > -1) {
-            // Car exists in cart, update quantity
             const newQuantity = cart.items[itemIndex].quantity + quantity;
-            if (newQuantity > 10) {
-                return res.status(400).json({ success: false, message: 'Adding this quantity would exceed the maximum (10) for this item in your cart.' });
-            } else {
-                return res.status(200).json ({success:true, message: "item added successfully!"});
+            if (newQuantity > 4) { // Max quantity 4 matches frontend
+                return res.status(400).json({ success: false, message: 'Adding this quantity would exceed the maximum (4) for this item in your cart.' });
             }
             cart.items[itemIndex].quantity = newQuantity;
         } else {
-            // Car not in cart, add new item
             cart.items.push({
                 carId: car._id,
                 quantity: quantity,
-                name: car.name,      // Denormalized fields
-                model: car.model,    // Denormalized fields
-                price: car.price,    // Denormalized fields
-                image: car.image     // Denormalized fields
+                name: car.name,
+                model: car.model,
+                price: car.price,
+                image: car.image
             });
         }
 
-        await cart.save(); // Save the updated or new cart
+        await cart.save();
 
         res.status(200).json({ success: true, message: 'Item added to cart successfully!', cart });
 
@@ -70,21 +59,15 @@ exports.addToCart = async (req, res) => {
 
 exports.getCartItems = async (req, res) => {
     try {
-        // Assuming userId comes from authenticated request
         const userId = req.user._id;
-
-        // Find the user's cart and populate the 'carId' for full car details
-        const cart = await Cart.findOne({ userId }).populate('items.carId');
+        const cart = await Cart.findOne({ user: userId }).populate('items.carId');
 
         if (!cart) {
-            return res.status(200).json({ success: true, cart: { userId, items: [] }, message: 'Cart is empty for this user.' });
+            return res.status(200).json({ success: true, cart: { user: userId, items: [] }, message: 'Cart is empty for this user.' });
         }
 
-        // Filter out any items where carId population failed (e.g., car was deleted)
-        // And ensure quantities are within limits (e.g., if a car was added with quantity 0 somehow)
         cart.items = cart.items.filter(item => item.carId !== null && item.quantity >= 1 && item.quantity <= 4);
 
-        // Re-save if items were filtered to ensure consistent state
         if (cart.isModified('items')) {
             await cart.save();
         }
@@ -99,15 +82,14 @@ exports.getCartItems = async (req, res) => {
 
 exports.removeFromCart = async (req, res) => {
     try {
-        // Assuming userId from authenticated request
         const userId = req.user._id;
-        const { carId } = req.params; // carId from URL parameter (e.g., /api/cart/remove/60c72b2f9f1b2c001f8e4d3a)
+        const { carId } = req.params;
 
         if (!carId) {
             return res.status(400).json({ success: false, message: 'Car ID is required for removal.' });
         }
 
-        let cart = await Cart.findOne({ userId });
+        let cart = await Cart.findOne({ user: userId });
 
         if (!cart) {
             return res.status(404).json({ success: false, message: 'Cart not found for this user.' });
@@ -133,14 +115,14 @@ exports.removeFromCart = async (req, res) => {
 exports.updateCartItemQuantity = async (req, res) => {
     try {
         const userId = req.user._id;
-        const { carId } = req.params; // carId from URL
-        const { quantity } = req.body; // New quantity from request body
+        const { carId } = req.params;
+        const { quantity } = req.body;
 
         if (!carId || typeof quantity !== 'number' || quantity < 1 || quantity > 4) {
             return res.status(400).json({ success: false, message: 'Invalid Car ID or quantity (must be between 1 and 4).' });
         }
 
-        let cart = await Cart.findOne({ userId });
+        let cart = await Cart.findOne({ user: userId });
 
         if (!cart) {
             return res.status(404).json({ success: false, message: 'Cart not found for this user.' });
@@ -164,68 +146,93 @@ exports.updateCartItemQuantity = async (req, res) => {
 };
 
 
-exports.checkoutCart = async (req, res) => {
+exports.checkoutCart = async (req, res, next) => {
+    console.log('--- BACKEND CHECKOUT START ---');
     try {
         const userId = req.user._id;
-        // Assuming paymentInfo (e.g., token, card details) is passed from frontend
-        // For a real app, this would integrate with a payment gateway (Stripe, PayPal)
-        const { paymentInfo } = req.body;
+        console.log('Backend: Authenticated User ID:', userId);
 
-        if (!paymentInfo) { // Basic check, expand with detailed validation for actual payment
-             return res.status(400).json({ success: false, message: 'Payment information is required.' });
+        const { paymentInfo } = req.body;
+        console.log('Backend: Received paymentInfo:', paymentInfo);
+
+        if (!paymentInfo || Object.keys(paymentInfo).length === 0) {
+            console.warn('Backend: Payment information is required but not provided or is empty.');
+            return res.status(400).json({ success: false, message: 'Payment information is required.' });
         }
 
-        const cart = await Cart.findOne({ userId }).populate('items.carId');
+        const cart = await Cart.findOne({ user: userId }).populate('items.carId');
+        console.log('Backend: Cart retrieved from DB:', cart);
 
         if (!cart || cart.items.length === 0) {
+            console.warn('Backend: Attempted checkout with an empty or non-existent cart for user:', userId);
             return res.status(400).json({ success: false, message: 'Cannot checkout an empty cart.' });
         }
 
-        const purchasedItems = [];
-        let totalOrderValue = 0;
-
-        for (const item of cart.items) {
-            const car = item.carId; // Populated car object
-
+        const purchaseItems = cart.items.map(item => {
+            const car = item.carId;
             if (!car) {
-                console.warn(`Car with ID ${item.carId} not found during checkout. Skipping this item.`);
-                continue; // Skip if car was deleted from inventory
+                console.warn(`Car with ID ${item.carId} not found during checkout for item. Skipping.`);
+                return null;
             }
-
-            const itemTotalPrice = car.price * item.quantity;
-            totalOrderValue += itemTotalPrice;
-
-            const newPurchase = new Purchase({
-                userId: userId,
-                carId: car._id,
+            return {
+                car: car._id,
                 quantity: item.quantity,
                 unitPrice: car.price,
-                totalPrice: itemTotalPrice,
-                // Store payment info relevant to this specific purchase,
-                // or just reference the overall transaction if payment is handled once.
-                paymentInfo: { /* store relevant secure payment info here */ },
-                purchaseDate: new Date(),
-                status: 'Completed'
-            });
+                totalPrice: car.price * item.quantity,
+                name: car.name,
+                model: car.model,
+                engine: car.engine,
+                color: car.color,
+                image: car.image
+            };
+        }).filter(item => item !== null); // Filter out any nulls if cars were not found
 
-            await newPurchase.save();
-            purchasedItems.push(newPurchase);
-
-            
+        if (purchaseItems.length === 0) {
+            console.warn('Backend: No valid items found in cart after filtering for purchase.');
+            return res.status(400).json({ success: false, message: 'No valid items to purchase in cart.' });
         }
 
-        // After successful checkout, clear the user's cart
-        await Cart.deleteOne({ userId });
+        const totalOrderAmount = purchaseItems.reduce((sum, item) => sum + item.totalPrice, 0);
+
+        const newPurchase = new Purchase({
+            user: userId, // Ensure this matches your Purchase schema's field name
+            items: purchaseItems,
+            totalAmount: totalOrderAmount,
+            paymentInfo: paymentInfo, // This now directly maps to your updated paymentSchema
+            purchaseDate: new Date(),
+            status: 'Completed'
+        });
+
+        const savedPurchase = await newPurchase.save();
+        console.log('Backend: Purchase saved successfully:', savedPurchase);
+
+        await Cart.deleteOne({ user: userId });
+        console.log('Backend: User cart cleared after successful checkout.');
 
         res.status(201).json({
             success: true,
-            message: 'Checkout completed successfully! Your purchases have been recorded.',
-            purchases: purchasedItems,
-            totalOrderValue: totalOrderValue
+            message: 'Checkout completed successfully! Your purchase has been recorded.',
+            purchase: savedPurchase,
+            totalOrderValue: totalOrderAmount
         });
+        console.log('--- BACKEND CHECKOUT END (SUCCESS) ---');
 
     } catch (error) {
-        console.error('Error during checkout:', error);
-        res.status(500).json({ success: false, message: 'Failed to complete checkout.', error: error.message });
+        console.error('--- BACKEND CHECKOUT ERROR ---');
+        console.error('Error in checkoutCart:', error);
+        console.error('Error name:', error.name);
+        console.error('Error message:', error.message);
+        if (error.errors) {
+            console.error('Validation errors:', error.errors);
+            for (let field in error.errors) {
+                console.error(`Field '${field}': ${error.errors[field].message}`);
+            }
+        }
+        res.status(500).json({
+            success: false,
+            message: error.message || 'Failed to complete checkout.',
+            error: error
+        });
+        console.log('--- BACKEND CHECKOUT END (ERROR) ---');
     }
 };
