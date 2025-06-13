@@ -257,6 +257,35 @@ nav ul li a.active {
     margin-top: 20px;
 }
 
+.notification {
+    position: fixed; /* Stays in place relative to the viewport */
+    bottom: 20px;    /* 20px from the bottom */
+    right: 20px;     /* 20px from the right */
+    background-color: #4CAF50; /* Green background for success */
+    color: white;    /* White text */
+    padding: 15px 25px; /* Padding inside */
+    border-radius: 8px; /* Slightly rounded corners */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Subtle shadow */
+    opacity: 0;      /* Start invisible */
+    visibility: hidden; /* Hide from screen readers when not visible */
+    transform: translateY(50px); /* Start off-screen below */
+    transition: opacity 0.3s ease-out, transform 0.3s ease-out, visibility 0.3s ease-out; /* Smooth transition */
+    z-index: 1000; /* Ensure it's on top of other content */
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.notification.show {
+    opacity: 1;      /* Fade in */
+    visibility: visible; /* Make visible */
+    transform: translateY(0); /* Slide up to position */
+}
+
+/* Optional: Add styles for error notifications if you want different colors */
+.notification.error {
+    background-color: #f44336; /* Red for errors */
+}
+
 #error-message {
     color: #dc3545; /* Consistent red for error */
     font-weight: bold;
