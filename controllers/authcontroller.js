@@ -42,10 +42,12 @@ const sendAuthResponse = async (user, statusCode, req, res, isRegistration = fal
     // Determine where to redirect after successful login/registration based on user role
     let redirectUrl;
     if (user.role === 'admin') {
-        redirectUrl = '/admin'; // Redirect admin users to /admin page
+        // You would typically have a specific admin dashboard, e.g., '/admin/dashboard'
+        // For now, using '/admin' as a placeholder based on your previous mention
+        redirectUrl = '/admin'; 
     } else {
-        // Default for 'user' role is now /homepage, unless redirectAfterLogin cookie exists
-        redirectUrl = req.cookies.redirectAfterLogin || '/homepage'; 
+        // Default for 'user' role is now homepage ('/'), unless redirectAfterLogin cookie exists
+        redirectUrl = req.cookies.redirectAfterLogin || '/'; // Corrected to '/' for home page
     }
     res.clearCookie('redirectAfterLogin'); // Clear the redirect cookie after use
     console.log(`[Auth Controller] Redirecting user with role '${user.role}' to: ${redirectUrl}`);
@@ -81,7 +83,7 @@ const register = async (req, res, next) => { // Defined as const here, exported 
         const user = await User.create({
             name,
             email,
-            password, // Plain text password passed here, schema hook will hash it
+            password,
             phone,
             role: 'user' // Default role for public registration
         });
@@ -108,10 +110,10 @@ const register = async (req, res, next) => { // Defined as const here, exported 
  */
 const login = async (req, res, next) => { // Defined as const here, exported at the end
     console.log('*** [Auth Controller] Login function called ***');
-    const { email, password } = req.body;
-    console.log(`[Auth Controller] Login attempt for email: ${email}`);
-
     try {
+        const { email, password } = req.body;
+        console.log(`[Auth Controller] Login attempt for email: ${email}`);
+
         if (!email || !password) {
             console.log('[Auth Controller] Login: Missing email or password.');
             return res.render('login', { title: 'Login', error: 'Please provide email and password' });
