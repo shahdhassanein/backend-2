@@ -338,3 +338,22 @@ footer {
         grid-template-columns: 1fr;
     }
 }
+/* Add to carlisting.css */
+#loading-message, 
+#error-message, 
+#no-cars-message {
+  text-align: center;
+  font-size: 1.2em;
+  padding: 20px;
+  margin: 20px 0;
+  background-color: rgba(0, 0, 0, 0.7);
+  border-radius: 8px;
+}
+
+#error-message {
+  color: #ff6b6b;
+}
+
+#no-cars-message {
+  color: #f8f9fa;
+}
