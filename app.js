@@ -16,18 +16,26 @@ const cookieParser = require('cookie-parser'); // For parsing HTTP-only cookies 
 const cors = require('cors'); // For enabling Cross-Origin Resource Sharing
 const session = require('express-session'); // Import express-session
 const MongoStore = require('connect-mongo'); // Import connect-mongo
-const consentRoutes = require('./routes/consentRoutes'); 
 
-// Import your route files (define them once)
+// Import all your route files once and clearly
+const authRoutes = require('./routes/authRoutes');
 const carRoutes = require('./routes/carRoutes');
 const bookingsalesroute = require('./routes/bookingsalesroute');
-const authRoutes = require('./routes/authRoutes');
 const cartRoutes = require('./routes/cart');
+<<<<<<< HEAD
+const contactRoutes = require('./routes/contactRoutes'); // Assuming this file exists
+const userManagementRoutes = require('./routes/userManagementRoutes'); // NEW: Import user management routes
+
+// If you have adminRoutes.js and intend to use it, uncomment and import here:
+// const adminRoutes = require('./routes/adminRoutes');
+=======
+const consentRoutes = require('./routes/consentRoutes'); // Correctly imported
 // Uncomment the following line ONLY if you have an 'adminRoutes.js' file
-// const adminRoutes = require('./routes/adminRoutes'); // Assuming you define this here if used
+// const adminRoutes = require('./routes/adminRoutes'); 
 
 // If you have 'contactRoutes.js' and intend to use it:
-const contactRoutes = require('./routes/contactRoutes'); // Assuming this file exists
+const contactRoutes = require('./routes/contactRoutes');
+>>>>>>> bbe9b010b24927714abb37678aa629b7beceb316
 
 
 // --- INITIALIZATION ---
@@ -35,6 +43,11 @@ const app = express();
 
 // Connect to Database
 connectDB();
+
+// --- MIDDLEWARE ---
+// Order of middleware matters here:
+
+// 1. CORS Middleware (should be one of the first to handle cross-origin requests)
 app.use(cors());
 
 // 2. Body parsers (for JSON and URL-encoded data from forms)
@@ -65,7 +78,7 @@ app.use(session({
         autoRemoveInterval: 10 // In minutes
     }),
     cookie: {
-        maxAge: 1000 * 60 * 60 * 24 * (process.env.SESSION_COOKIE_EXPIRE_DAYS || 1), // e.g., 1 day (default 1 day if not set in .env)
+        maxAge: 1000 * 60 * 60 * 24 * (parseInt(process.env.SESSION_COOKIE_EXPIRE_DAYS) || 1), // e.g., 1 day (default 1 day if not set in .env)
         httpOnly: true, // Prevents client-side JS from accessing the cookie
         secure: process.env.NODE_ENV === 'production', // Only send cookie over HTTPS in production
         sameSite: 'Lax' // Protects against CSRF in some cases
@@ -76,35 +89,25 @@ app.use(session({
 const sessionAuth = require('./middleware/sessionAuth');
 
 
-// --- MOUNT API ROUTES (Define routes once) ---
+// --- MOUNT API ROUTES ---
 // This tells Express to use your route files for any URL starting with the specified prefix.
-<<<<<<< Updated upstream
+<<<<<<< HEAD
+// Each route module should be mounted only ONCE.
+=======
+>>>>>>> bbe9b010b24927714abb37678aa629b7beceb316
 app.use('/api/auth', authRoutes);
-app.use('/addcars', carRoutes);
+app.use('/addcars', carRoutes); // For adding cars (assuming this is an API route)
 app.use('/api/bookingsales', bookingsalesroute);
 app.use('/api/cart', cartRoutes);
 app.use('/api/contact', contactRoutes); // Only if contactRoutes.js exists
-
-// Uncomment this if you have adminRoutes.js and define adminRoutes variable above
-// app.use('/admin', adminRoutes);
+<<<<<<< HEAD
+app.use('/api/users', userManagementRoutes); // NEW: Mount user management routes here
 =======
-// The order here also matters for specificity.
-app.use('/api/auth', authRoutes); // Auth routes (e.g., /api/auth/login, /api/auth/logout)
-app.use('/addcars', carRoutes); // For adding cars
-app.use('/api/bookingsales', bookingsalesroute); // For bookings and sales (includes /api/bookingsales/view-my-purchases)
-app.use('/api/cart', cartRoutes); // For cart functionality
-// app.use('/admin', require('./routes/adminRoutes')); // If you have admin routes, ensure this is correct
-// --- USE API ROUTES ---
-app.use('/api/auth', require('./routes/authRoutes')); 
-app.use('/api/cart', require('./routes/cart'));
-app.use('/addcars', require('./routes/carRoutes')); 
-app.use('/api/bookingsales', require('./routes/bookingsalesroute')); 
-app.use('/api/cart', require('./routes/cart')); // Directly require here
-app.use('/api/contact', require('./routes/contactRoutes')); 
+app.use('/api/consent', consentRoutes); // <<< CRITICAL: MOUNT THE CONSENT ROUTES HERE
+>>>>>>> bbe9b010b24927714abb37678aa629b7beceb316
 
-app.use('/api/consent', consentRoutes);
-//app.use('/admin', require('./routes/adminRoutes')); // Ensure this route is handled by adminRoutes for /admin/xyz
->>>>>>> Stashed changes
+// If you have adminRoutes.js, uncomment this line:
+// app.use('/admin', adminRoutes);
 
 
 // --- RENDER FRONTEND VIEWS (EJS Pages for direct browser navigation) ---
@@ -125,11 +128,10 @@ app.get('/Dashboard', sessionAuth, (req, res) => {
     res.render('Dashboard', { title: 'Dashboard', user: req.user || null });
 });
 app.get('/usersmangment', sessionAuth, (req, res) => {
-    res.render('usersmangment', { title: 'usersmangment', user: req.user || null });
+    res.render('usersmangment', { title: 'User Management', user: req.user || null });
 });
-// This is the admin page route. It's already protected with sessionAuth.
 app.get('/admin', sessionAuth, (req, res) => {
-    res.render('admin', { title: 'Admin Page', user: req.user || null }); // Ensure title is 'Admin Page' or similar
+    res.render('admin', { title: 'Admin Page', user: req.user || null });
 });
 app.get('/admin-orders', sessionAuth, (req, res) => {
     res.render('admin-orders', { title: 'Admin Orders', user: req.user || null });
@@ -155,5 +157,5 @@ const PORT = process.env.PORT || 3000;
 
 // Start the Express server
 app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
+    console.log(`Server running on port ${PORT}`); // Corrected console.log syntax
 });
