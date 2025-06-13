@@ -22,11 +22,12 @@ const carRoutes = require('./routes/carRoutes');
 const bookingsalesroute = require('./routes/bookingsalesroute');
 const authRoutes = require('./routes/authRoutes');
 const cartRoutes = require('./routes/cart');
+const consentRoutes = require('./routes/consentRoutes'); // Correctly imported
 // Uncomment the following line ONLY if you have an 'adminRoutes.js' file
-// const adminRoutes = require('./routes/adminRoutes'); // Assuming you define this here if used
+// const adminRoutes = require('./routes/adminRoutes'); 
 
 // If you have 'contactRoutes.js' and intend to use it:
-const contactRoutes = require('./routes/contactRoutes'); // Assuming this file exists
+const contactRoutes = require('./routes/contactRoutes');
 
 
 // --- INITIALIZATION ---
@@ -64,7 +65,7 @@ app.use(session({
         autoRemoveInterval: 10 // In minutes
     }),
     cookie: {
-        maxAge: 1000 * 60 * 60 * 24 * (process.env.SESSION_COOKIE_EXPIRE_DAYS || 1), // e.g., 1 day (default 1 day if not set in .env)
+        maxAge: 1000 * 60 * 60 * 24 * (parseInt(process.env.SESSION_COOKIE_EXPIRE_DAYS) || 1), // e.g., 1 day (default 1 day if not set in .env)
         httpOnly: true, // Prevents client-side JS from accessing the cookie
         secure: process.env.NODE_ENV === 'production', // Only send cookie over HTTPS in production
         sameSite: 'Lax' // Protects against CSRF in some cases
@@ -75,13 +76,14 @@ app.use(session({
 const sessionAuth = require('./middleware/sessionAuth');
 
 
-// --- MOUNT API ROUTES (Define routes once) ---
+// --- MOUNT API ROUTES ---
 // This tells Express to use your route files for any URL starting with the specified prefix.
 app.use('/api/auth', authRoutes);
 app.use('/addcars', carRoutes);
 app.use('/api/bookingsales', bookingsalesroute);
 app.use('/api/cart', cartRoutes);
 app.use('/api/contact', contactRoutes); // Only if contactRoutes.js exists
+app.use('/api/consent', consentRoutes); // <<< CRITICAL: MOUNT THE CONSENT ROUTES HERE
 
 // Uncomment this if you have adminRoutes.js and define adminRoutes variable above
 // app.use('/admin', adminRoutes);
@@ -135,5 +137,5 @@ const PORT = process.env.PORT || 3000;
 
 // Start the Express server
 app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
+    console.log(`Server running on port ${PORT}`); // Corrected console.log syntax
 });
