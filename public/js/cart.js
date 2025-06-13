@@ -1,4 +1,7 @@
 
+
+// public/js/cart.js
+
 document.addEventListener('DOMContentLoaded', function() {
     console.log("Cart.js: Script loaded.");
 
@@ -9,7 +12,7 @@ document.addEventListener('DOMContentLoaded', function() {
     const subtotalElement = document.querySelector('.subtotal-amount');
     const totalElement = document.querySelector('.total-amount');
     const cartSummary = document.querySelector('.cart-summary');
-    const checkoutButton = document.getElementById('checkout-button');
+    const checkoutButton = document.getElementById('checkout-button'); // Ensure this ID matches your HTML button
 
     // --- Core Function: Fetch cart from backend ---
     async function fetchCartFromBackend() {
@@ -99,13 +102,28 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
+    // --- MODIFIED SECTION FOR PROCEED TO CHECKOUT BUTTON ---
     if (checkoutButton) {
-        checkoutButton.addEventListener('click', async function() {
-            // For a real app, you'd collect payment info here (e.g., from a form)
-            alert('Initiating checkout process! (This is a placeholder for payment collection)');
-            await checkoutCartOnBackend();
+        checkoutButton.addEventListener('click', async function(event) { // Added 'event' parameter
+            event.preventDefault(); // <--- This is crucial to stop default form/link behavior
+
+            // First, check if the cart is empty before proceeding
+            if (cart.length === 0) {
+                showNotification('Your cart is empty. Please add items before checking out.', 'error');
+                return; // Stop the process if cart is empty
+            }
+
+            // Redirect the user to the checkout page.
+            // The actual checkout process (collecting payment info, sending to backend)
+            // will happen on the /checkout page via checkout.js.
+            window.location.href = '/checkout';
+
+            // Removed the alert and direct call to checkoutCartOnBackend() from here.
+            // alert('Initiating checkout process! (This is a placeholder for payment collection)');
+            // await checkoutCartOnBackend();
         });
     }
+    // --- END MODIFIED SECTION ---
 
 
     // --- Backend Interaction Functions (from frontend) ---
@@ -165,9 +183,13 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
+    // The checkoutCartOnBackend function should now be handled by the checkout.js
+    // file on the actual checkout page, where payment details are collected.
+    // I am commenting it out here as it's no longer triggered by the cart page's button.
+    /*
     async function checkoutCartOnBackend() {
         // Placeholder for payment info - replace with actual form data
-        const paymentInfo = { /* ... your payment details ... */ };
+        const paymentInfo = { // ... your payment details ... };
 
         try {
             const token = localStorage.getItem('token');
@@ -201,6 +223,7 @@ document.addEventListener('DOMContentLoaded', function() {
             showNotification(`Checkout failed: ${error.message}`);
         }
     }
+    */
 
 
     // --- Utility Functions ---
@@ -320,7 +343,7 @@ document.addEventListener('DOMContentLoaded', function() {
             showNotification('Error adding item to cart. Please log in or try again.');
         }
     };
-});
+}); // <--- This closing brace was misplaced before, now it correctly closes DOMContentLoaded
 
 // Helper function to show temporary notifications (can remain outside DOMContentLoaded)
 function showNotification(message) {
