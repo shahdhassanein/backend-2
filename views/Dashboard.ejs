@@ -4,20 +4,19 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Car Gallery - User Dashboard</title>
-    <link rel="stylesheet" href="/css/Dashboard.css"> 
-    <!-- Removed <script src="/js/Dashboard.js"></script> as its functionality is removed -->
+    <link rel="stylesheet" href="/css/Dashboard.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
     <nav>
-        <div class="navbar"> 
+        <div class="navbar">
             <div class="logo">
-                <h2 style="margin-left: 16px;">Car Showroom</h2> 
+                <h2 style="margin-left: 16px;">Car Showroom</h2>
             </div>
             <ul>
                 <li><a href="/" class="active">Home</a></li>
                 <li><a href="/carllisting">Car Listings</a></li>
-                <li><a href="/Dashboard">Dashboard</a></li> 
+                <li><a href="/Dashboard">Dashboard</a></li>
                 <li><a href="/Contact">Contact</a></li>
                 <% if (user) { %>
                     <li><a href="/api/auth/logout">Logout</a></li>
@@ -32,7 +31,7 @@
         </div>
     </nav>
     <div class="dashboard-container">
-    
+
         <div class="sidebar">
             <div class="user-info">
                 <div class="profile-img">
@@ -41,8 +40,7 @@
                 <h3><%= user ? user.name : 'Guest User' %></h3>
                 <p><%= user ? user.email : 'Not logged in' %></p>
                 <p>Role: <%= user ? user.role : 'N/A' %></p>
-                <p>Phone: <%= user ? user.phone : 'N/A' %></p> <!-- Explicitly added phone number -->
-                <% if (user && user.createdAt) { %>
+                <p>Phone: <%= user ? user.phone : 'N/A' %></p> <% if (user && user.createdAt) { %>
                     <p>Member since: <%= new Date(user.createdAt).getFullYear() %></p>
                 <% } else { %>
                     <p>Member since: N/A</p>
@@ -66,9 +64,7 @@
             </div>
             <nav class="nav-menu">
                 <ul>
-                    <!-- User Profile is now the main content, so it's always "active" and doesn't need data-tab -->
                     <li class="active"><i class="fas fa-user"></i> User Profile</li>
-                    <!-- Removed: Activity History, Personalization, My Vehicles -->
                     <li><a href="/api/auth/logout" style="color: inherit; text-decoration: none;"><i class="fas fa-sign-out-alt"></i> Logout</a></li>
                 </ul>
             </nav>
@@ -76,36 +72,26 @@
 
         <div class="main-content">
             <header>
-                <div class="search-bar">
-                    <input type="text" placeholder="Search for vehicles...">
-                    <button><i class="fas fa-search"></i></button>
-                </div>
                 <div class="header-icons">
                     <div class="notification">
                         <i class="fas fa-bell"></i>
                         <span class="badge">3</span>
                     </div>
-                    <div class="messages">
-                        <i class="fas fa-envelope"></i>
-                        <span class="badge">5</span>
                     </div>
-                </div>
             </header>
 
-            <!-- Simplified main content section -->
             <section class="dashboard-section active">
                 <h2>Welcome to Your Dashboard</h2>
                 <div class="card">
                     <div class="card-body">
-                    
+
                         <p>Your key personal and session details are displayed in the sidebar.</p>
-                       
+
                     </div>
                 </div>
             </section>
         </div>
     </div>
 
-    <!-- Removed the entire JavaScript script block from here, as it's no longer needed -->
-</body>
+    </body>
 </html>
