@@ -34,11 +34,6 @@ const app = express();
 
 // Connect to Database
 connectDB();
-
-// --- MIDDLEWARE ---
-// Order of middleware matters here:
-
-// 1. CORS Middleware (if needed for cross-origin requests)
 app.use(cors());
 
 // 2. Body parsers (for JSON and URL-encoded data from forms)

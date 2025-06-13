@@ -190,9 +190,9 @@ exports.checkoutCart = async (req, res) => {
     }
 };
 */
-const Cart = require('../models/carsschema');
+const Cart = require('../models/cartschema');
 
-exports.addToCart = async (req, res) => {
+const addToCart = async (req, res) => {
   try {
     const { name, model, price, engine, color, image } = req.body;
 
@@ -201,7 +201,7 @@ exports.addToCart = async (req, res) => {
     }
 
     const newCartItem = new Cart({
-      userId: req.userId,
+      userId:'684bdf12343c8cf9b022efa8' ,
       name,
       model,
       price,
@@ -219,12 +219,14 @@ exports.addToCart = async (req, res) => {
   }
 };
 
-exports.getCartItems = async (req, res) => {
+const getCartItems = async (req, res) => {
   try {
-    const cartItems = await Cart.find({ userId: req.userId });
+    const cartItems = await Cart.find();
     res.status(200).json(cartItems);
   } catch (error) {
     console.error('Error fetching cart items:', error);
     res.status(500).json({ message: 'Server error' });
   }
 };
+
+module.exports = { addToCart, getCartItems };

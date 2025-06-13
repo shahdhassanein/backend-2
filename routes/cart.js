@@ -15,9 +15,9 @@ const { addToCart, getCartItems } = require('../controllers/cartController');
 const protect = require('../middleware/protect'); // Auth middleware
 
 // POST /api/cart → Adds a car to the user's cart
-router.post('/', protect, addToCart);
+router.post('/', addToCart);
 
 // Optional: GET /api/cart → Gets the user's cart
-router.get('/', protect, getCartItems);
+router.get('/',  getCartItems);
 
 module.exports = router;
