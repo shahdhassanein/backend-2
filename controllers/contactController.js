@@ -49,7 +49,7 @@ exports.submitContactForm = async (req, res) => {
             return res.status(400).json({ success: false, message: 'Validation failed', errors: errors });
         }
 
-        /
+        
         return res.status(500).json({ success: false, message: 'Internal server error. Could not send message at this time.' });
     }
 };
