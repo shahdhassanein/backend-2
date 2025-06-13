@@ -24,11 +24,8 @@ const authRoutes = require('./routes/authRoutes');
 const cartRoutes = require('./routes/cart');
 const consentRoutes = require('./routes/consentRoutes');
 const userManagementRoutes = require('./routes/userManagementRoutes');
+const viewRoutes = require('./routes/viewRoutes'); // for terms and privacy
 
-// Uncomment the following line ONLY if you have an 'adminRoutes.js' file
-// const adminRoutes = require('./routes/adminRoutes');
-
-// If you have 'contactRoutes.js' and intend to use it:
 const contactRoutes = require('./routes/contactRoutes');
 
 
@@ -49,6 +46,7 @@ app.use(cookieParser());
 // 4. Serve static files (HTML, CSS, JS, images from 'public' directory)
 app.use(express.static(path.join(__dirname,'public')));
 app.use(express.static('./public'));
+
 
 // 5. EJS View Engine Setup
 app.set('view engine', 'ejs');
@@ -77,33 +75,51 @@ app.use(session({
 // Import your sessionAuth middleware. We apply it selectively below.
 const sessionAuth = require('./middleware/sessionAuth');
 
+// NEW GLOBAL MIDDLEWARE: Make 'user' available to all EJS templates via res.locals
+app.use((req, res, next) => {
+    // sessionAuth middleware might populate req.user for protected pages/API.
+    // For public pages like homepage, req.user might be undefined if not logged in.
+    // This ensures 'user' is always defined in EJS context (as logged-in user or null).
+    res.locals.user = req.user || null; 
+    next(); // Pass control to the next middleware or route handler
+});
 
-// --- MOUNT API ROUTES ---
-// This tells Express to use your route files for any URL starting with the specified prefix.
+
+// --- MOUNT ROUTES ---
+// IMPORTANT ORDERING:
+// 1. Mount static page view routes first (like /Term, /Privacy) that don't need heavy API logic.
+app.use('/', viewRoutes); // <--- THIS LINE IS CRUCIAL AND PLACED EARLY
+
+// 2. Then mount your API routes
 app.use('/api/auth', authRoutes);
-app.use('/addcars', carRoutes);
-app.use('/api/users', userManagementRoutes); // NEW: Mount user management routes here
+app.use('/addcars', carRoutes); // Check if this should be /api/addcars or directly /addcars
+app.use('/api/users', userManagementRoutes);
 app.use('/api/bookingsales', bookingsalesroute);
 app.use('/api/cart', cartRoutes);
 app.use('/api/contact', contactRoutes); // Only if contactRoutes.js exists
+app.use('/api/consent', consentRoutes);
 
-app.use('/api/consent', consentRoutes); // <<< CRITICAL: MOUNT THE CONSENT ROUTES HERE
-app.get('/', (req, res) => { res.render('homepage', { title: 'Home Page', user: req.user || null }) });
-app.get('/Contact', (req, res) => { res.render('Contact', { title: 'Contact', user: req.user || null }) });
-app.get('/login', (req, res) => { res.render('login', { title: 'Login', user: req.user || null }) });
-app.get('/Privacy', (req, res) => { res.render('Privacy', { title: 'Privacy', user: req.user || null }) });
-app.get('/Term', (req, res) => { res.render('Term', { title: 'Term', user: req.user || null }) });
-app.get('/register', (req, res) => {res.render('register', { title: 'Register', user: req.user || null }) });
-app.get ('/carllisting', (req, res)=> {res.render ('carllisting', {title:'Car Listing', user: req.user || null})});
+
+// 3. Finally, define your direct EJS page rendering routes.
+// The app.get('/Privacy', ...) and app.get('/Term', ...) routes
+// are REMOVED here because viewRoutes.js handles them correctly.
+app.get('/', (req, res) => { res.render('homepage', { title: 'Home Page' }) }); // Removed user from here
+app.get('/Contact', (req, res) => { res.render('Contact', { title: 'Contact' }) }); // Removed user from here
+app.get('/login', (req, res) => { res.render('login', { title: 'Login' }) }); // Removed user from here
+app.get('/register', (req, res) => {res.render('register', { title: 'Register' }) }); // Removed user from here
+app.get ('/carllisting', (req, res)=> {res.render ('carllisting', {title:'Car Listing'})}); // Removed user from here
+
+// Authenticated/Protected EJS Page Routes (using sessionAuth middleware)
+// These routes still pass user explicitly, although res.locals.user will also be available.
+// It's good practice for protected routes to ensure user is handled.
 app.get('/Dashboard', sessionAuth, (req, res) => {
     res.render('Dashboard', { title: 'Dashboard', user: req.user || null });
 });
 app.get('/usersmangment', sessionAuth, (req, res) => {
     res.render('usersmangment', { title: 'usersmangment', user: req.user || null });
 });
-// This is the admin page route. It's already protected with sessionAuth.
 app.get('/admin', sessionAuth, (req, res) => {
-    res.render('admin', { title: 'Admin Page', user: req.user || null }); // Ensure title is 'Admin Page' or similar
+    res.render('admin', { title: 'Admin Page', user: req.user || null });
 });
 app.get('/admin-orders', sessionAuth, (req, res) => {
     res.render('admin-orders', { title: 'Admin Orders', user: req.user || null });
@@ -127,7 +143,7 @@ app.get('/mypurchases', sessionAuth, (req, res) => {
 
 const PORT = process.env.PORT || 3000;
 
-// Start the Express server
+
 app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`); // <<< CRITICAL: Corrected console.log syntax here
+    console.log(`Server running on port ${PORT}`);
 });
