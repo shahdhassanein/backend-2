@@ -5,54 +5,51 @@ const bcrypt = require('bcryptjs'); // Needed for password hashing (used by User
 
 // Helper function to handle response for EJS views
 // Sets session, optional JWT cookie, and redirects
+
 const sendAuthResponse = async (user, statusCode, req, res, isRegistration = false) => {
-    // Set user ID in the session (CRITICAL for Dashboard.ejs dynamic data)
     req.session.userId = user._id;
     console.log(`[Auth Controller] Session userId set to: ${req.session.userId}`);
 
-    // --- NEW LOGIC: Dynamically add consentAccepted if missing ---
-    // This ensures all existing users automatically get the field on their next login/registration
-    if (user.consentAccepted === undefined) { // Check if the field is explicitly undefined/missing
-        user.consentAccepted = false; // Set default to false, requiring user to accept
-        await user.save(); // Save the user to add this new field
+    // Auto-create missing consent field
+    if (user.consentAccepted === undefined) {
+        user.consentAccepted = false;
+        await user.save();
         console.log(`[Auth Controller] Added 'consentAccepted: false' to user ${user.email} as it was missing.`);
     }
-    // --- END NEW LOGIC ---
 
-    // Update last login details on the user document
+    // Update session info
     user.sessionInfo = {
         lastLogin: new Date(),
-        ipAddress: req.ip, // req.ip gets client's IP address
-        device: req.headers['user-agent'] // User-Agent string
+        ipAddress: req.ip,
+        device: req.headers['user-agent']
     };
-    await user.save(); // Save the updated session info to the database
+    await user.save();
     console.log(`[Auth Controller] User sessionInfo updated and saved to DB.`);
 
-    // Optional: Also set a JWT cookie if your app uses JWTs for other API calls
-    const token = user.getSignedJwtToken(); // Get JWT token from User model method
+    // ✅ CREATE JWT that includes role
+    const token = jwt.sign(
+        { id: user._id, role: user.role },
+        process.env.JWT_SECRET,
+        { expiresIn: '1h' }
+    );
+
+    // ✅ COOKIE OPTIONS (unchanged)
     const options = {
-        expires: new Date(Date.now() + (parseInt(process.env.JWT_COOKIE_EXPIRE) || 30) * 24 * 60 * 60 * 1000), // Convert days to ms
-        httpOnly: true, // HTTP-only for security
-        secure: process.env.NODE_ENV === 'production', // Send cookie only over HTTPS in production
-        sameSite: 'Lax', // Protects against CSRF in some cases
+        expires: new Date(Date.now() + (parseInt(process.env.JWT_COOKIE_EXPIRE) || 30) * 24 * 60 * 60 * 1000),
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        sameSite: 'Lax',
     };
-    res.cookie('token', token, options); // Set the JWT in the cookie
+
+    // ✅ Set JWT in cookie
+    res.cookie('token', token, options);
     console.log(`[Auth Controller] JWT Cookie set for user: ${user.email}`);
 
-    // Determine where to redirect after successful login/registration based on user role
-    let redirectUrl;
-    if (user.role === 'admin') {
-        // You would typically have a specific admin dashboard, e.g., '/admin/dashboard'
-        // For now, using '/admin' as a placeholder based on your previous mention
-        redirectUrl = '/admin'; 
-    } else {
-        // Default for 'user' role is now homepage ('/'), unless redirectAfterLogin cookie exists
-        redirectUrl = req.cookies.redirectAfterLogin || '/'; // Corrected to '/' for home page
-    }
-    res.clearCookie('redirectAfterLogin'); // Clear the redirect cookie after use
+    // ✅ REDIRECT based on role
+    let redirectUrl = (user.role === 'admin') ? '/admin' : (req.cookies.redirectAfterLogin || '/');
+    res.clearCookie('redirectAfterLogin');
     console.log(`[Auth Controller] Redirecting user with role '${user.role}' to: ${redirectUrl}`);
 
-    // Redirect the browser to the appropriate EJS page
     res.redirect(redirectUrl);
 };
 

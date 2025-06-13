@@ -39,7 +39,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     async function fetchCars() {
         try {
-            const res = await fetch("/addcars/all"); // Your existing route to fetch all cars
+            const res = await fetch("/admin/all"); // Your existing route to fetch all cars
             if (!res.ok) throw new Error(`Status: ${res.status}`);
 
             const data = await res.json();
