@@ -26,7 +26,6 @@ const consentRoutes = require('./routes/consentRoutes');
 const userManagementRoutes = require('./routes/userManagementRoutes');
 const viewRoutes = require('./routes/viewRoutes');
 const contactRoutes = require('./routes/contactRoutes'); 
-
 // Import the ADMIN ROUTES (assuming this file contains all car management logic now)
 const adminRoutes = require('./routes/adminroute'); // <--- ADD THIS LINE
 
@@ -105,7 +104,7 @@ app.use('/api/bookingsales', bookingsalesroute); // This contains /api/bookingsa
 app.use('/api/cart', cartRoutes);
 app.use('/api/contact', contactRoutes); 
 app.use('/api/consent', consentRoutes);
-
+app.use('/api/cars', carRoutes);
 // Mount the ADMIN routes (this is the new part)
 app.use('/admin', adminRoutes); // <--- ADD THIS LINE: All admin-specific routes will now be under /admin/
 
