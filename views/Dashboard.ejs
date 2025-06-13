@@ -50,11 +50,17 @@
                 <% if (user && user.sessionInfo) { %>
                     <hr style="margin: 10px 0; border-color: #555;">
                     <p style="font-size: 0.8em; color: #ccc; margin-bottom: 5px;">**Session Details**</p>
-                    <% if (user.sessionInfo.createdAt) { %>
+                    <% if (user.sessionInfo.createdAt instanceof Date) { %>
                         <p style="font-size: 0.8em; color: #ccc;">Created: <%= user.sessionInfo.createdAt.toLocaleString() %></p>
+                    <% } else { %>
+                        <p style="font-size: 0.8em; color: #ccc;">Created: N/A</p>
                     <% } %>
-                    <p style="font-size: 0.8em; color: #ccc;">Expires: <%= user.sessionInfo.expiresAt.toLocaleString() %></p>
-                    <p style="font-size: 0.8em; color: #ccc;">Remaining: <%= user.sessionInfo.remainingMinutes %> minutes</p>
+                    <% if (user.sessionInfo.expiresAt instanceof Date) { %>
+                        <p style="font-size: 0.8em; color: #ccc;">Expires: <%= user.sessionInfo.expiresAt.toLocaleString() %></p>
+                    <% } else { %>
+                        <p style="font-size: 0.8em; color: #ccc;">Expires: N/A</p>
+                    <% } %>
+                    <p style="font-size: 0.8em; color: #ccc;">Remaining: <%= user.sessionInfo.remainingMinutes || 'N/A' %> minutes</p>
                 <% } %>
             </div>
             <nav class="nav-menu">
