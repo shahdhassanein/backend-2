@@ -183,14 +183,20 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    // The checkoutCartOnBackend function should now be handled by the checkout.js
-    // file on the actual checkout page, where payment details are collected.
-    // I am commenting it out here as it's no longer triggered by the cart page's button.
-    /*
     async function checkoutCartOnBackend() {
-        // Placeholder for payment info - replace with actual form data
-        const paymentInfo = { // ... your payment details ... };
-
+    const paymentInfo = {
+        cardType: 'Visa',       // <--- Make sure this is here and has a value
+        cardholderName: 'John Doe', // <--- Make sure this is here and has a value
+        last4Digits: '1234',      // <--- Make sure this is here and has a value
+        expiryDate: '12/26',      // <--- Make sure this is here and has a value
+        // billingAddress (optional, if your schema doesn't use it, it won't be saved)
+        billingAddress: {
+            street: '123 Test St',
+            city: 'Testville',
+            zip: '98765',
+            country: 'USA'
+        }
+    };
         try {
             const token = localStorage.getItem('token');
             const headers = { 'Content-Type': 'application/json' };
@@ -223,7 +229,7 @@ document.addEventListener('DOMContentLoaded', function() {
             showNotification(`Checkout failed: ${error.message}`);
         }
     }
-    */
+    
 
 
     // --- Utility Functions ---

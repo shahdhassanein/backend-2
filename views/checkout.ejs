@@ -5,13 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Checkout</title>
     <link rel="stylesheet" href="/css/checkout.css">
+    <link rel="stylesheet" href="/css/main.css">
 </head>
 <body>
 
     <nav>
         <div class="navbar">
             <div class="logo">
-                <h2 style="margin-left: 16px;">Car Showroom</h2> 
+                <h2 style="margin-left: 16px;">Car Showroom</h2>
             </div>
             <ul>
                 <li><a href="/">Home</a></li>
@@ -21,63 +22,38 @@
                 <li><a href="/login">Sign Up/Login</a></li>
                 <li><a href="/api/bookingsales/view-my-purchases">My Purchases</a></li>
                 <li><a href="/cart">Cart <span id="cart-count">0</span></a></li>
-                <li><a href="/mypurchases">My Purchases</a></li>
-              </ul>
-  <!-- <li><a href="/mypurchases">My Purchases</a></li> -->
-           <!--</ul>-->
-            
+                </ul>
         </div>
     </nav>
-    
+
     <a href="/cart" class="back-button">⬅ Back</a>
-    
-    <div class="container">
-        <h1>Checkout</h1>
-        <form>
+
+    <div class="container checkout-page"> <h1>Checkout</h1>
+        <form id="checkout-form"> <div class="form-group">
+                <label for="fullName">Full Name</label> <input type="text" id="fullName" name="fullName" placeholder="Your name" required> </div>
             <div class="form-group">
-                <label>Full Name</label>
-                <input type="text" placeholder="Your name" required>
-            </div>
+                <label for="address">Address</label> <input type="text" id="address" name="address" placeholder="Your address" required> </div>
             <div class="form-group">
-                <label>Address</label>
-                <input type="text" placeholder="Your address" required>
-            </div>
+                <label for="phone">Phone</label> <input type="tel" id="phone" name="phone" placeholder="Your phone" required> </div>
             <div class="form-group">
-                <label>Phone</label>
-                <input type="text" placeholder="Your phone" required>
-            </div>
-            <div class="form-group">
-                <label>Payment Method</label>
-                <select id="payment-method" required>
-                    <option value="">Select</option>
-                    <option value="visa">Visa</option>
-                    <option value="credit-card">Credit Card</option>
-                </select>
-            </div>
-            
-            <div id="card-fields" class="container">
-                <div class="form-group">
-                    <label>Card Holder</label>
-                    <input type="text" placeholder="Name on card" required>
-                </div>
-                <div class="form-group">
-                    <label>Card Number</label>
-                    <input type="text" placeholder="Card number" required>
-                </div>
-                <div class="form-group">
-                    <label>Expiry Date</label>
-                    <input type="text" placeholder="MM/YY" required>
-                </div>
-                <div class="form-group">
-                    <label>CVV</label>
-                    <input type="text" placeholder="CVV" required>
-                </div>
+                <label for="paymentMethod">Payment Method</label> <select id="paymentMethod" name="paymentMethod" required> <option value="">Select</option>
+                    <option value="credit-card">Credit Card</option> <option value="cash-on-delivery">Cash on Delivery</option> </select>
             </div>
 
-            <button type="submit" class="btn">Pay</button>
-        </form>
+            <div id="credit-card-details" class="form-group-card" style="display: none;">
+                <div class="form-group">
+                    <label for="cardHolder">Card Holder</label> <input type="text" id="cardHolder" name="cardHolder" placeholder="Name on card"> </div>
+                <div class="form-group">
+                    <label for="cardNumber">Card Number</label> <input type="text" id="cardNumber" name="cardNumber" placeholder="Card number" maxlength="19"> </div>
+                <div class="form-group">
+                    <label for="expiryDate">Expiry Date</label> <input type="text" id="expiryDate" name="expiryDate" placeholder="MM/YY" maxlength="5"> </div>
+                <div class="form-group">
+                    <label for="cvv">CVV</label> <input type="text" id="cvv" name="cvv" placeholder="CVV" maxlength="4"> </div>
+            </div>
+
+            <button type="submit" class="pay-button">Pay</button> </form>
     </div>
 
-    <script src="checkout.js"></script>
-</body>
+    <script src="/js/checkout.js"></script>
+    </body>
 </html>

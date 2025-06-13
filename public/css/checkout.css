@@ -43,53 +43,119 @@ body {
 }
 
 .navbar a:hover {
-    background: rgb(170, 0, 0);
+    background: rgb(176, 11, 11);
     border-radius: 5px;
 }
-
-.cart-container {
-    margin-left: auto;
-    display: flex;
-    align-items: center;
-}
-
-.cart-button {
-    background: none;
-    border: none;
-    cursor: pointer;
-    font-size: 18px;
-    color: white;
-    margin-right: 10px;
-}
-
-.cart-text-button {
-    background: darkred;
+.pay-button {
+    display: block; /* Makes the button take full width of its container */
+    width: 100%; /* Adjust as needed */
+    padding: 12px 20px;
+    margin-top: 20px; /* Space above the button */
+    background-color: #952222; /* A nice blue color for primary action */
     color: white;
     border: none;
-    padding: 8px 15px;
     border-radius: 5px;
-    cursor: pointer;
+    font-size: 1.1em;
     font-weight: bold;
-    transition: background 0.3s ease;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
 }
 
-.cart-text-button:hover {
-    background: rgb(170, 0, 0);
+.pay-button:hover {
+    background-color: #b30000; /* Darker blue on hover */
+    transform: translateY(-2px); /* Slight lift effect */
 }
 
-.container {
-    max-width: 600px;
+.pay-button:active {
+    background-color: #850000; /* Even darker on click */
+    transform: translateY(0); /* Press down effect */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+/* Style for when the button is disabled (e.g., during submission) */
+.pay-button:disabled {
+    background-color: #cccccc; /* Greyed out */
+    cursor: not-allowed;
+    transform: none; /* No lift */
+    box-shadow: none;
+    opacity: 0.7;
+}
+
+/* Basic styling for the form container, if not already present */
+.container.checkout-page {
+    max-width: 500px;
     margin: 50px auto;
     padding: 30px;
-    background: rgba(0, 0, 0, 0.6);
-    border-radius: 10px;
-    text-align: center;
-    backdrop-filter: blur(10px);
+    background-color: #fff; /* White background for the form */
+    border-radius: 8px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
 }
 
-.container h1 {
-    color: crimson;
+/* Adjustments for form groups for better spacing */
+.form-group {
+    margin-bottom: 15px;
 }
+
+.form-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #333;
+}
+
+.form-group input[type="text"],
+.form-group input[type="tel"],
+.form-group select {
+    width: calc(100% - 20px); /* Adjust for padding */
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 1em;
+    box-sizing: border-box; /* Include padding and border in the element's total width and height */
+}
+
+.form-group input[type="text"]:focus,
+.form-group input[type="tel"]:focus,
+.form-group select:focus {
+    border-color: #6e0d0d;
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.25);
+}
+
+/* Specific styling for the card fields container */
+#credit-card-details {
+    border-top: 1px solid #eee;
+    padding-top: 20px;
+    margin-top: 20px;
+}
+
+/* Optional: Adjustments for the back button */
+.back-button {
+    display: inline-block;
+    margin: 20px;
+    padding: 10px 15px;
+    background-color: #6c757d; /* Grey */
+    color: white;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.back-button:hover {
+    background-color: #5a6268;
+}
+
+/* Style for the main h1 "Checkout" */
+.container h1 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 25px;
+    font-size: 2em;
+}
+
+
 
 .form-group {
     text-align: left;
