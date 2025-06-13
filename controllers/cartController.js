@@ -1,3 +1,4 @@
+
 // controllers/cartController.js
 
 const Cart = require('../models/cartschema'); // Adjust path if your cart schema is named differently
@@ -16,7 +17,8 @@ exports.addToCart = async (req, res) => {
         if (!carId) {
             return res.status(400).json({ success: false, message: 'Car ID is required.' });
         }
-        if (typeof quantity !== 'number' || quantity < 1 || quantity > 4) { // Max quantity 4 as per your frontend
+        // Harmonized quantity limit to 4 (matching frontend and updateCartItemQuantity)
+        if (typeof quantity !== 'number' || quantity < 1 || quantity > 4) {
             return res.status(400).json({ success: false, message: 'Quantity must be a number between 1 and 4.' });
         }
 
@@ -39,12 +41,13 @@ exports.addToCart = async (req, res) => {
         if (itemIndex > -1) {
             // Car exists in cart, update quantity
             const newQuantity = cart.items[itemIndex].quantity + quantity;
-            if (newQuantity > 10) {
-                return res.status(400).json({ success: false, message: 'Adding this quantity would exceed the maximum (10) for this item in your cart.' });
+            // Harmonized quantity limit to 4
+            if (newQuantity > 4) {
+                return res.status(400).json({ success: false, message: 'Adding this quantity would exceed the maximum (4) for this item in your cart.' });
             } else {
-                return res.status(200).json ({success:true, message: "item added successfully!"});
+                // IMPORTANT FIX: Actually update the quantity before saving and sending response
+                cart.items[itemIndex].quantity = newQuantity;
             }
-            cart.items[itemIndex].quantity = newQuantity;
         } else {
             // Car not in cart, add new item
             cart.items.push({
@@ -171,11 +174,27 @@ exports.checkoutCart = async (req, res) => {
         // For a real app, this would integrate with a payment gateway (Stripe, PayPal)
         const { paymentInfo } = req.body;
 
-        if (!paymentInfo) { // Basic check, expand with detailed validation for actual payment
-             return res.status(400).json({ success: false, message: 'Payment information is required.' });
+        // Added console logs for debugging
+        console.log('--- Checkout Request Start ---');
+        console.log('User ID from auth:', userId);
+        console.log('Received paymentInfo:', paymentInfo); // Will likely be {} from current frontend
+
+        // IMPORTANT DEBUGGING STEP: Temporarily adjust this validation.
+        // If your Purchase schema expects specific fields within paymentInfo,
+        // and you're sending an empty object, this could cause validation errors down the line.
+        // For now, let's assume an empty object is acceptable if you're not doing real payment integration.
+        // If paymentInfo MUST NOT be empty or must have certain keys, you'll need to modify frontend or add mock data.
+        if (!paymentInfo || Object.keys(paymentInfo).length === 0) { // Check if it's an empty object
+             console.warn('Payment information is empty. Proceeding without specific payment details.');
+             // You can choose to return an error here if payment info is strictly required
+             // return res.status(400).json({ success: false, message: 'Payment information is required and cannot be empty.' });
         }
 
+
         const cart = await Cart.findOne({ userId }).populate('items.carId');
+
+        console.log('Cart found:', !!cart);
+        console.log('Number of items in cart:', cart ? cart.items.length : 0);
 
         if (!cart || cart.items.length === 0) {
             return res.status(400).json({ success: false, message: 'Cannot checkout an empty cart.' });
@@ -203,19 +222,21 @@ exports.checkoutCart = async (req, res) => {
                 totalPrice: itemTotalPrice,
                 // Store payment info relevant to this specific purchase,
                 // or just reference the overall transaction if payment is handled once.
-                paymentInfo: { /* store relevant secure payment info here */ },
+                paymentInfo: paymentInfo, // Use the received paymentInfo (which is currently {})
                 purchaseDate: new Date(),
                 status: 'Completed'
             });
 
+            console.log('Attempting to save new purchase:', newPurchase);
             await newPurchase.save();
             purchasedItems.push(newPurchase);
-
-            
+            console.log('Purchase saved for carId:', car._id);
         }
 
         // After successful checkout, clear the user's cart
+        console.log('Attempting to delete cart for userId:', userId);
         await Cart.deleteOne({ userId });
+        console.log('Cart deleted successfully.');
 
         res.status(201).json({
             success: true,
@@ -223,9 +244,12 @@ exports.checkoutCart = async (req, res) => {
             purchases: purchasedItems,
             totalOrderValue: totalOrderValue
         });
+        console.log('--- Checkout Request End (Success) ---');
 
     } catch (error) {
+        console.error('--- Checkout Request Error ---');
         console.error('Error during checkout:', error);
         res.status(500).json({ success: false, message: 'Failed to complete checkout.', error: error.message });
+        console.error('--- Checkout Request End (Error) ---');
     }
 };
