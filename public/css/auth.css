@@ -1,54 +1,84 @@
-/* for both register, login bc they are the same */
-
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: Arial, sans-serif; /* Consistent font */
-}
+/* public/css/Auth.css - Red & Grey Theme with Background Image */
 
 body {
-    height: 100vh;
+    margin: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #1a1a1a;
+    color: #e0e0e0;
+    line-height: 1.6;
+    overflow-x: hidden;
     display: flex;
     justify-content: center;
     align-items: center;
-    /* Background image and overlay removed */
+    min-height: 100vh;
     position: relative;
-    color: #fff; /* Ensuring text is visible on dark background */
+    z-index: 1;
+    /* Add background image */
+    background-image: url('../img/tobeadded2.jpg'); /* Replace with your image path */
+    background-size: cover; /* Cover the entire background */
+    background-position: center; /* Center the image */
+    background-repeat: no-repeat; /* Prevent image from repeating */
 }
 
-/* Overlay from home page body::before - Removed */
+.background-video {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: -2;
+    filter: brightness(0.4);
+}
 
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.6);
+    z-index: -1;
+}
 
+/* AUTH CONTAINER - The main box for login/register form */
 .auth-container {
-    width: 400px;
+    background-color: rgba(195, 194, 194, 0.9); /* Your preferred light grey transparent box */
     padding: 40px;
-    background: rgba(0, 0, 0, 0.7); /* Dark, semi-transparent background for card effect */
-    border-radius: 12px; /* Slightly more rounded from home page cards */
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5); /* Stronger shadow from home page cards */
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.7);
     text-align: center;
-    color: #fff; /* Ensure text inside container is white */
+    max-width: 400px;
+    width: 100%;
+    box-sizing: border-box;
+    position: relative;
+    z-index: 2;
 }
 
 .auth-container h1 {
-    font-size: 28px;
-    margin-bottom: 20px;
-    color: #fff; /* White for prominent headings */
-    text-shadow: 4px 4px 10px red, 0px 0px 15px red; /* Adopted from home page h3 */
+    color: #b51b1b; /* Your primary red accent */
+    margin-bottom: 25px;
+    font-size: 2.5em;
+    font-weight: 600;
 }
 
+/* ERROR MESSAGE STYLING */
 .error-message {
-    background-color: #dc3545; /* Red background for errors */
-    color: white; /* White text for contrast */
-    padding: 10px;
+    background-color: #dc3545; /* Red for error */
+    color: white;
+    padding: 10px 15px;
     border-radius: 5px;
-    margin-bottom: 15px;
-    font-size: 14px;
+    margin-bottom: 20px;
+    font-size: 0.95em;
     text-align: left;
     display: none; /* Hidden by default */
-    box-shadow: 0 2px 5px rgba(220, 53, 69, 0.3); /* Subtle shadow */
 }
 
+.error-message.show {
+    display: block; /* Class to explicitly show */
+}
+
+/* FORM GROUP (for label + input pairing) */
 .form-group {
     margin-bottom: 20px;
     text-align: left;
@@ -57,86 +87,125 @@ body {
 .form-group label {
     display: block;
     margin-bottom: 8px;
-    font-size: 14px;
-    color: #e0e0e0; /* Lighter grey for labels */
+    color: #000000; /* Black label text */
+    font-size: 1em;
+    font-weight: 500;
 }
 
-.form-group input {
+/* INPUTS */
+.form-group input[type="text"],
+.form-group input[type="email"],
+.form-group input[type="tel"],
+.form-group input[type="password"] {
     width: 100%;
     padding: 12px;
-    border: 1px solid #444; /* Darker border */
-    border-radius: 5px;
-    background: #3a3a3a; /* Darker input background */
-    color: #e0e0e0; /* Light text color for input */
-    font-size: 16px;
-    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.2); /* Inner shadow for depth */
+    border: 1px solid #555;
+    border-radius: 8px;
+    background-color: #ffffff; /* Changed to WHITE for filled effect */
+    color: #000000; /* Black text inside inputs for readability */
+    font-size: 1.1em;
+    box-sizing: border-box;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
-.form-group input:focus {
-    border-color: darkred; /* Focus color */
+.form-group input[type="email"]:focus,
+.form-group input[type="text"]:focus,
+.form-group input[type="tel"]:focus,
+.form-group input[type="password"]:focus { /* Added password to focus as well */
+    border-color: #730505; /* Your red accent on focus */
+    box-shadow: 0 0 8px rgba(131, 10, 10, 0.5); /* Red glow on focus */
     outline: none;
-    box-shadow: 0 0 0 3px rgba(255, 0, 0, 0.3); /* Red glow on focus */
 }
 
+/* PASSWORD CONTAINER for eye icon */
 .password-container {
     position: relative;
+    width: 100%;
 }
 
 .password-container input {
-    padding-right: 40px;
+    padding-right: 40px; /* Space for eye icon */
 }
 
 .password-toggle {
     position: absolute;
-    right: 10px;
+    right: 15px;
     top: 50%;
     transform: translateY(-50%);
+    color: #000000; /* Black icon color */
     cursor: pointer;
-    color: #e0e0e0; /* Lighter color for toggle icon */
+    font-size: 1.1em;
+    transition: color 0.2s ease;
 }
 
-.form-options {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 30px;
-    font-size: 14px;
-    color: #e0e0e0; /* Lighter color for options text */
+.password-toggle:hover {
+    color: #e0e0e0; /* Lighter grey on hover (assuming background video is dark) */
 }
 
+/* SUBMIT BUTTON */
 .auth-btn {
-    width: 100%;
-    padding: 14px;
-    background: darkred; /* Adopted from home page buttons */
-    color: white;
+    background-color: #901616; /* Your primary red button color */
+    color: rgb(213, 204, 204); /* Your light grey text color */
     border: none;
-    border-radius: 5px;
-    font-size: 16px;
-    font-weight: bold;
+    padding: 15px 25px;
+    border-radius: 8px;
     cursor: pointer;
-    margin-bottom: 20px;
-    transition: background-color 0.3s ease, transform 0.2s ease; /* Adopted transitions */
-    box-shadow: 0 4px 10px rgba(255, 0, 0, 0.4); /* Adopted shadow */
+    font-size: 1.2em;
+    font-weight: 600;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    width: 100%;
+    margin-top: 10px;
 }
 
 .auth-btn:hover {
-    background: red; /* Adopted hover color */
-    transform: translateY(-2px); /* Adopted hover effect */
+    background-color: #c60808; /* Your darker red on hover */
+    transform: translateY(-2px);
 }
 
+/* PROMPT (e.g., "Already have an account?") */
 .prompt {
-    font-size: 14px;
-    color: #e0e0e0; /* Lighter color for prompt text */
+    margin-top: 25px;
+    font-size: 1em;
+    color: #000000; /* Black prompt text */
 }
 
 .prompt a {
-    color: darkred; /* Adopted accent color for links */
+    color: #720000; /* Your red accent link */
     text-decoration: none;
-    font-weight: bold;
-    transition: color 0.3s ease, text-decoration 0.3s ease; /* Smooth transition for links */
+    transition: color 0.3s ease;
 }
 
 .prompt a:hover {
-    color: red; /* Adopted hover color */
-    text-decoration: underline; /* Keep underline on hover for clarity */
+    color: #ff0a0a; /* Your lighter red on hover */
+    text-decoration: underline;
+}
+
+/* RESPONSIVE ADJUSTMENTS */
+@media (max-width: 768px) {
+    .auth-container {
+        padding: 30px;
+        max-width: 90%;
+    }
+
+    .auth-container h1 {
+        font-size: 2em;
+    }
+
+    .form-group input,
+    .auth-btn {
+        padding: 10px;
+        font-size: 1em;
+    }
+}
+
+@media (max-width: 480px) {
+    .auth-container {
+        padding: 20px;
+    }
+    .auth-container h1 {
+        font-size: 1.8em;
+    }
+    .prompt {
+        font-size: 0.9em;
+    }
 }

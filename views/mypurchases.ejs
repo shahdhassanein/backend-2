@@ -4,11 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Purchases</title>
+    <!-- IMPORTANT: Link to your external booking.css file for all custom styling. -->
     <link rel="stylesheet" href="/css/booking.css">
-    
-   
-
+</head>
 <body>
+    <!-- Navbar (styled by booking.css, links to correct Express routes) -->
     <nav class="w-full flex justify-center">
         <div class="navbar">
             <div class="logo">
@@ -31,12 +31,14 @@
         </div>
     </nav>
 
+    <!-- This is the CORRECT location for your standalone Back Button. -->
     <a href="javascript:history.back()" class="back-button">⬅ Back</a>
 
     <div class="container">
         <h1>My Purchase History</h1>
 
         <div id="message" class="message info" style="display: none;">
+            <!-- Message will be displayed here if no purchases -->
         </div>
 
         <% if (purchases && purchases.length > 0) { %>
