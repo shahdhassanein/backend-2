@@ -2,6 +2,10 @@
 const User = require('../models/usersschema');
 const jwt = require('jsonwebtoken');
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
+=======
+const bcrypt = require('bcryptjs'); // Import bcryptjs
+>>>>>>> Stashed changes
 =======
 const bcrypt = require('bcryptjs'); // Import bcryptjs
 >>>>>>> Stashed changes
