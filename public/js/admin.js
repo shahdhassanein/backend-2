@@ -1,231 +1,204 @@
-// ==== Access logged-in user data ====
-const currentUser = window.currentUser;
-console.log('Logged-in admin:', currentUser);
 
-// Display admin name if available
-if (currentUser && currentUser.name) {
-  const adminNameElement = document.getElementById('admin-name');
-  if (adminNameElement) {
-    adminNameElement.textContent = `Welcome, ${currentUser.name}`;
-  }
-}
-
-// ==== Logout functionality ====
-document.getElementById('logout').addEventListener('click', async function() {
-  try {
-    const response = await fetch('/api/auth/logout', {
-      method: 'GET',
-      credentials: 'include'
-    });
-
-    if (response.ok) {
-      window.location.href = '/login';
+    const currentUser = window.currentUser;
+    if (currentUser && currentUser.name) {
+      const adminNameElement = document.getElementById('admin-name');
+      adminNameElement.textContent = `Welcome, ${currentUser.name}`;
     }
-  } catch (error) {
-    console.error('Logout error:', error);
-  }
-});
 
-// ==== Fetch Cars Function ====
-async function fetchCars() {
-  try {
-    const response = await fetch('/addcars/all'); // Ensure this matches your route
-    const cars = await response.json();
-
-    const carsGrid = document.getElementById('cars-grid');
-    carsGrid.innerHTML = ''; // Clear grid before adding
-
-    cars.forEach(car => {
-      const carCard = document.createElement('div');
-      carCard.classList.add('car-card');
-      carCard.innerHTML = `
-        <img src="${car.image || 'default.jpg'}" alt="${car.name}">
-        <h3>${car.name}</h3>
-        <p>Model: ${car.model}</p>
-        <p>Price: $${car.price}</p>
-        <p>Engine: ${car.engine}</p>
-        <p>Color: ${car.color}</p>
-        <p style="font-size: 0.8em; color: #666;">ID: ${car._id}</p>
-      `;
-      carsGrid.appendChild(carCard);
+    document.getElementById('logout').addEventListener('click', async () => {
+      try {
+        const res = await fetch('/api/auth/logout', {
+          method: 'GET',
+          credentials: 'include'
+        });
+        if (res.ok) window.location.href = '/login';
+      } catch (err) {
+        console.error('Logout failed:', err);
+      }
     });
-  } catch (err) {
-    console.error('Failed to load cars:', err);
-  }
-}
 
-document.addEventListener('DOMContentLoaded', () => {
-  // Load cars on page load
-  fetchCars();
+    async function fetchCars() {
+      try {
+        const res = await fetch('/addcars/all');
+        const cars = await res.json();
+        const grid = document.getElementById('cars-grid');
+        grid.innerHTML = '';
+        cars.forEach(car => {
+          const div = document.createElement('div');
+          div.classList.add('car-card');
+          div.innerHTML = `
+            <img src="${car.image || 'default.jpg'}" alt="${car.name}">
+            <h3>${car.name}</h3>
+            <p>Model: ${car.model}</p>
+            <p>Price: $${car.price}</p>
+            <p>Engine: ${car.engine}</p>
+            <p>Color: ${car.color}</p>
+            <p style="font-size: 0.8em;">ID: ${car._id}</p>
+          `;
+          grid.appendChild(div);
+        });
+      } catch (err) {
+        console.error('Fetch cars failed:', err);
+      }
+    }
 
-  // ==== ADD CAR ====
-  const addPopup = document.getElementById('addPopup');
-  const addBtn = document.getElementById('add-car-btn');
-  const closeAdd = document.querySelector('.close-add');
-  const addForm = document.getElementById('add-car-form');
-  const addMessage = document.getElementById('add-message');
+    document.addEventListener('DOMContentLoaded', () => {
+      fetchCars();
 
-  addBtn.onclick = () => {
-    addPopup.style.display = 'block';
-  };
+      // ==== ADD CAR ====
+      const addPopup = document.getElementById('addPopup');
+      const addBtn = document.getElementById('add-car-btn');
+      const closeAdd = document.querySelector('.close-add');
+      const addForm = document.getElementById('add-car-form');
+      const addMessage = document.getElementById('add-message');
 
-  closeAdd.onclick = () => {
-    addPopup.style.display = 'none';
-    addForm.reset();
-    addMessage.textContent = '';
-  };
-
-  addForm.addEventListener('submit', async (e) => {
-    e.preventDefault();
-
-    const newCar = {
-      name: document.getElementById('addName').value,
-      model: document.getElementById('addModel').value,
-      price: document.getElementById('addPrice').value,
-      engine: document.getElementById('addEngine').value,
-      color: document.getElementById('addColor').value,
-      image: document.getElementById('addImage').value
-    };
-
-    try {
-      const res = await fetch('/addcars/addcars', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        credentials: 'include', // Include cookies for auth
-        body: JSON.stringify(newCar)
-      });
-
-      const data = await res.json();
-
-      if (res.ok) {
-        addMessage.textContent = 'Car added successfully!';
-        addMessage.style.color = 'green';
+      addBtn.onclick = () => addPopup.style.display = 'block';
+      closeAdd.onclick = () => {
+        addPopup.style.display = 'none';
         addForm.reset();
-        fetchCars(); // Refresh car list
-        setTimeout(() => {
-          addPopup.style.display = 'none';
-          addMessage.textContent = '';
-        }, 2000);
-      } else {
-        addMessage.textContent = data.error || 'Failed to add car.';
-        addMessage.style.color = 'red';
-      }
-    } catch (err) {
-      addMessage.textContent = 'Server error.';
-      addMessage.style.color = 'red';
-    }
-  });
+        addMessage.textContent = '';
+      };
 
-  // ==== REMOVE CAR ====
-  const removeBtn = document.getElementById("remove-car-btn");
-  const removePopup = document.getElementById("removePopup");
-  const closeRemove = document.querySelector(".close");
-
-  removeBtn.addEventListener("click", () => {
-    removePopup.style.display = "block";
-  });
-
-  closeRemove.addEventListener("click", () => {
-    removePopup.style.display = "none";
-  });
-
-  document.getElementById("remove-car-form").addEventListener("submit", async (e) => {
-    e.preventDefault();
-
-    const carId = document.getElementById("carId").value;
-    const messageEl = document.getElementById("remove-message");
-
-    try {
-      const response = await fetch("/addcars/deletecar", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        credentials: 'include', // Include cookies for auth
-        body: JSON.stringify({ id: carId })
+      addForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const car = {
+          name: addForm.addName.value,
+          model: addForm.addModel.value,
+          price: addForm.addPrice.value,
+          engine: addForm.addEngine.value,
+          color: addForm.addColor.value,
+          image: addForm.addImage.value
+        };
+        try {
+          const res = await fetch('/addcars/addcars', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            credentials: 'include',
+            body: JSON.stringify(car)
+          });
+          const data = await res.json();
+          if (res.ok) {
+            addMessage.textContent = '✅ Car added!';
+            addMessage.style.color = 'green';
+            fetchCars();
+            setTimeout(() => {
+              addPopup.style.display = 'none';
+              addForm.reset();
+              addMessage.textContent = '';
+            }, 1500);
+          } else {
+            addMessage.textContent = data.error || 'Error';
+            addMessage.style.color = 'red';
+          }
+        } catch (err) {
+          addMessage.textContent = '❌ Server error';
+          addMessage.style.color = 'red';
+        }
       });
 
-      if (!response.ok) {
-        const error = await response.text();
-        throw new Error(error);
-      }
+      // ==== REMOVE CAR ====
+      const removePopup = document.getElementById('removePopup');
+      document.getElementById('remove-car-btn').onclick = () => removePopup.style.display = 'block';
+      document.querySelector('.close').onclick = () => removePopup.style.display = 'none';
 
-      messageEl.textContent = "✅ Car removed successfully!";
-      messageEl.style.color = "green";
-      document.getElementById("carId").value = '';
-      fetchCars();
-      setTimeout(() => {
-        removePopup.style.display = "none";
-        messageEl.textContent = '';
-      }, 2000);
-    } catch (err) {
-      messageEl.textContent = "❌ Error: " + err.message;
-      messageEl.style.color = "red";
-    }
-  });
-
-  // ==== UPDATE CAR ====
-  const updateBtn = document.getElementById("update-car-btn");
-  const updatePopup = document.getElementById("updatePopup");
-  const closeUpdate = document.querySelector(".close-update");
-
-  updateBtn.addEventListener("click", () => {
-    updatePopup.style.display = "block";
-  });
-
-  closeUpdate.addEventListener("click", () => {
-    updatePopup.style.display = "none";
-  });
-
-  document.getElementById("update-car-form").addEventListener("submit", async (e) => {
-    e.preventDefault();
-
-    const updatedCar = {
-      id: document.getElementById("updateCarId").value,
-      name: document.getElementById("updateName").value,
-      model: document.getElementById("updateModel").value,
-      price: document.getElementById("updatePrice").value,
-      engine: document.getElementById("updateEngine").value,
-      color: document.getElementById("updateColor").value,
-      image: document.getElementById("updateImage").value,
-    };
-
-    const messageEl = document.getElementById("update-message");
-
-    try {
-      const res = await fetch("/addcars/updatecar", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        credentials: 'include', // Include cookies for auth
-        body: JSON.stringify(updatedCar),
+      document.getElementById('remove-car-form').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const carId = document.getElementById('carId').value;
+        const msg = document.getElementById('remove-message');
+        try {
+          const res = await fetch('/addcars/deletecar', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            credentials: 'include',
+            body: JSON.stringify({ id: carId })
+          });
+          if (!res.ok) throw new Error(await res.text());
+          msg.textContent = '✅ Removed!';
+          msg.style.color = 'green';
+          fetchCars();
+          setTimeout(() => {
+            removePopup.style.display = 'none';
+            msg.textContent = '';
+          }, 1500);
+        } catch (err) {
+          msg.textContent = '❌ ' + err.message;
+          msg.style.color = 'red';
+        }
       });
 
-      if (!res.ok) throw new Error(await res.text());
+      // ==== UPDATE CAR ====
+      const updatePopup = document.getElementById('updatePopup');
+      document.getElementById('update-car-btn').onclick = () => updatePopup.style.display = 'block';
+      document.querySelector('.close-update').onclick = () => updatePopup.style.display = 'none';
 
-      messageEl.textContent = "✅ Car updated successfully!";
-      messageEl.style.color = "green";
-      document.getElementById("update-car-form").reset();
-      fetchCars();
-      setTimeout(() => {
-        updatePopup.style.display = "none";
-        messageEl.textContent = '';
-      }, 2000);
-    } catch (err) {
-      messageEl.textContent = "❌ Error: " + err.message;
-      messageEl.style.color = "red";
-    }
-  });
+      document.getElementById('update-car-form').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const form = e.target;
+        const updatedCar = {
+          id: form.updateCarId.value,
+          name: form.updateName.value,
+          model: form.updateModel.value,
+          price: form.updatePrice.value,
+          engine: form.updateEngine.value,
+          color: form.updateColor.value,
+          image: form.updateImage.value
+        };
+        const msg = document.getElementById('update-message');
+        try {
+          const res = await fetch('/addcars/updatecar', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            credentials: 'include',
+            body: JSON.stringify(updatedCar)
+          });
+          if (!res.ok) throw new Error(await res.text());
+          msg.textContent = '✅ Car updated!';
+          msg.style.color = 'green';
+          fetchCars();
+          setTimeout(() => {
+            updatePopup.style.display = 'none';
+            msg.textContent = '';
+          }, 1500);
+        } catch (err) {
+          msg.textContent = '❌ ' + err.message;
+          msg.style.color = 'red';
+        }
+      });
 
-  // ==== Global Modal Close on Outside Click ====
-  window.addEventListener("click", (e) => {
-    if (e.target === removePopup) {
-      removePopup.style.display = "none";
-    }
-    if (e.target === updatePopup) {
-      updatePopup.style.display = "none";
-    }
-    if (e.target === addPopup) {
-      addPopup.style.display = "none";
-      addForm.reset();
-      addMessage.textContent = '';
-    }
-  });
-});
+      // ==== SEARCH CAR BY ID ====
+      document.getElementById('search-btn').addEventListener('click', async () => {
+        const id = document.getElementById('search-car-id').value.trim();
+        const grid = document.getElementById('cars-grid');
+        if (!id) return;
+        try {
+          const res = await fetch(`/addcars/search/${id}`);
+          if (!res.ok) throw new Error('Car not found');
+          const car = await res.json();
+          grid.innerHTML = `
+            <div class="car-card">
+              <img src="${car.image || 'default.jpg'}" alt="${car.name}">
+              <h3>${car.name}</h3>
+              <p>Model: ${car.model}</p>
+              <p>Price: $${car.price}</p>
+              <p>Engine: ${car.engine}</p>
+              <p>Color: ${car.color}</p>
+              <p style="font-size: 0.8em;">ID: ${car._id}</p>
+            </div>
+          `;
+        } catch (err) {
+          grid.innerHTML = `<p style="color:red;">❌ Car not found or error occurred.</p>`;
+        }
+      });
+
+      document.getElementById('clear-search-btn').addEventListener('click', () => {
+        document.getElementById('search-car-id').value = '';
+        fetchCars();
+      });
+
+      // ==== Global Click to Close Modals ====
+      window.onclick = function (e) {
+        if (e.target === addPopup) addPopup.style.display = 'none';
+        if (e.target === removePopup) removePopup.style.display = 'none';
+        if (e.target === updatePopup) updatePopup.style.display = 'none';
+      };
+    });

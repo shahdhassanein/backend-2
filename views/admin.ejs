@@ -29,59 +29,68 @@
 
       <section id="cars" class="tab-content active">
         <div class="section-header">
-         <button class="add-btn" id="add-car-btn">Add New Car</button>
-        <button class="remove-car-btn" id="remove-car-btn">Remove Car</button>
-          <button class="update-btn" id="update-car-btn">Update Car</a>
+          <button class="add-btn" id="add-car-btn">Add New Car</button>
+          <button class="remove-car-btn" id="remove-car-btn">Remove Car</button>
+          <button class="update-btn" id="update-car-btn">Update Car</button>
         </div>
+
+        <!-- 🔍 Car Search Bar -->
+        <div class="search-bar" style="margin: 20px 0;">
+          <input type="text" id="search-car-id" placeholder="Search by Car ID" />
+          <button id="search-btn">Search</button>
+          <button id="clear-search-btn">Clear</button>
+        </div>
+
         <!-- Add Car Modal -->
-<div id="addPopup" class="modal">
-  <div class="modal-content">
-    <span class="close-add">&times;</span>
-    <h3>Add New Car</h3>
-    <form id="add-car-form">
-      <input type="text" id="addName" placeholder="Name" required />
-      <input type="text" id="addModel" placeholder="Model" required />
-      <input type="number" id="addPrice" placeholder="Price" required />
-      <input type="text" id="addEngine" placeholder="Engine" required />
-      <input type="text" id="addColor" placeholder="Color" required />
-      <input type="text" id="addImage" placeholder="Image URL" required />
-      <button type="submit" class="add-btn">Add Car</button>
-    </form>
-    <p id="add-message" class="message"></p>
-  </div>
-</div>
+        <div id="addPopup" class="modal">
+          <div class="modal-content">
+            <span class="close-add">&times;</span>
+            <h3>Add New Car</h3>
+            <form id="add-car-form">
+              <input type="text" id="addName" placeholder="Name" required />
+              <input type="text" id="addModel" placeholder="Model" required />
+              <input type="number" id="addPrice" placeholder="Price" required />
+              <input type="text" id="addEngine" placeholder="Engine" required />
+              <input type="text" id="addColor" placeholder="Color" required />
+              <input type="text" id="addImage" placeholder="Image URL" required />
+              <button type="submit" class="add-btn">Add Car</button>
+            </form>
+            <p id="add-message" class="message"></p>
+          </div>
+        </div>
 
         <!-- Update Car Modal -->
-<div id="updatePopup" class="modal">
-  <div class="modal-content">
-    <span class="close-update">&times;</span>
-    <h3>Update Car</h3>
-    <form id="update-car-form">
-      <input type="text" id="updateCarId" placeholder="Car ID" required />
-      <input type="text" id="updateName" placeholder="New Name" />
-      <input type="text" id="updateModel" placeholder="New Model" />
-      <input type="number" id="updatePrice" placeholder="New Price" />
-      <input type="text" id="updateEngine" placeholder="New Engine" />
-      <input type="text" id="updateColor" placeholder="New Color" />
-      <input type="text" id="updateImage" placeholder="New Image URL" />
-      <button type="submit" class="update-btn">Update</button>
-    </form>
-    <p id="update-message" class="message"></p>
-  </div>
-</div>
+        <div id="updatePopup" class="modal">
+          <div class="modal-content">
+            <span class="close-update">&times;</span>
+            <h3>Update Car</h3>
+            <form id="update-car-form">
+              <input type="text" id="updateCarId" placeholder="Car ID" required />
+              <input type="text" id="updateName" placeholder="New Name" />
+              <input type="text" id="updateModel" placeholder="New Model" />
+              <input type="number" id="updatePrice" placeholder="New Price" />
+              <input type="text" id="updateEngine" placeholder="New Engine" />
+              <input type="text" id="updateColor" placeholder="New Color" />
+              <input type="text" id="updateImage" placeholder="New Image URL" />
+              <button type="submit" class="update-btn">Update</button>
+            </form>
+            <p id="update-message" class="message"></p>
+          </div>
+        </div>
 
+        <!-- Remove Car Modal -->
         <div id="removePopup" class="modal">
-  <div class="modal-content">
-    <span class="close">&times;</span>
-    <h3>Remove Car</h3>
-    <form id="remove-car-form">
-      <label for="carId">Enter Car ID:</label>
-      <input type="text" id="carId" name="id" required />
-      <button type="submit">Remove</button>
-    </form>
-    <p id="remove-message" class="message"></p>
-  </div>
-</div>
+          <div class="modal-content">
+            <span class="close">&times;</span>
+            <h3>Remove Car</h3>
+            <form id="remove-car-form">
+              <label for="carId">Enter Car ID:</label>
+              <input type="text" id="carId" name="id" required />
+              <button type="submit">Remove</button>
+            </form>
+            <p id="remove-message" class="message"></p>
+          </div>
+        </div>
 
         <!-- Cars Inventory Grid -->
         <div class="cars-grid" id="cars-grid">
