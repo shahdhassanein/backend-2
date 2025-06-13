@@ -268,26 +268,154 @@ footer {
 .footer-content a:hover {
     text-decoration: underline;
 }
-
 .cookie-banner {
     position: fixed;
     bottom: 0;
     width: 100%;
     background: #333;
-    color: white;
+    color: rgb(224, 12, 12);
     text-align: center;
     padding: 10px;
     z-index: 1000;
 }
 
 .cookie-banner a {
-    color: #f4a261;
+    color: #920200;
 }
 
 .cookie-banner button {
-    background: #f4a261;
+    background: #920200;
     border: none;
-    color: white;
+    color: rgb(224, 12, 12);
     padding: 5px 10px;
     cursor: pointer;
+}
+/* --- START OF NEW LINES TO ADD TO THE END OF homepage.css --- */
+
+/* Styling for the overall container of the featured sections (like 'featured' with 'main-content-area') */
+.main-content-area {
+    display: flex; /* Use flexbox for layout */
+    flex-wrap: wrap; /* Allow cards to wrap to next line on smaller screens */
+    justify-content: center; /* Center cards horizontally */
+    align-items: flex-start; /* Align cards to the top */
+    gap: 20px; /* Space between flex items */
+    max-width: 1200px; /* Max width for the content area */
+    margin: 40px auto; /* Center the entire block with vertical spacing */
+    width: 95%; /* Responsive width */
+    position: relative; /* Ensure these sections are above background pseudo-elements */
+    z-index: 10; /* Bring content above the background overlays */
+}
+
+/* Styling for individual content cards (like 'featured-item' with 'content-section-card') */
+.content-section-card {
+    background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent dark background for cards */
+    backdrop-filter: blur(10px); /* <<< THE FROSTED GLASS EFFECT: Blurs content *behind* this element */
+    -webkit-backdrop-filter: blur(10px); /* Safari support */
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4); /* Stronger shadow for depth */
+    color: #e0e0e0; /* Light text color for readability */
+    text-align: center;
+    flex: 1; /* Allows cards to grow within flex container */
+    min-width: 280px; /* Minimum width before wrapping */
+    max-width: 350px; /* Max width to control size */
+    border: 1px solid rgba(255, 255, 255, 0.1); /* Subtle border for frosted look */
+    transition: all 0.3s ease; /* Keep transition for hover effects */
+}
+
+/* Adjust headings within these cards if needed */
+.content-section-card h2 {
+    color: crimson; /* Retain crimson color */
+    margin-top: 0; 
+    margin-bottom: 15px;
+    font-size: 1.8em;
+}
+
+.content-section-card p {
+    font-size: 1.1em;
+    line-height: 1.6;
+}
+
+/* New Cookie Consent Banner Styling */
+.cookie-consent-banner {
+    position: fixed; /* <<< CRITICAL: This makes it stay on scroll */
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.9); /* Darker, more opaque background */
+    color: #fff;
+    padding: 15px 25px;
+    display: flex; /* Use flexbox for layout */
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.5); /* Stronger shadow at the top */
+    z-index: 1000; /* Ensure it's on top of almost everything else */
+    flex-wrap: wrap; /* Allow wrapping on smaller screens */
+    gap: 15px; /* Space between text and button container */
+    backdrop-filter: blur(5px); /* Add a subtle blur to the banner itself */
+    -webkit-backdrop-filter: blur(5px); /* Safari support */
+}
+
+.cookie-consent-banner p {
+    margin: 0;
+    flex-grow: 1; /* Allows text to take available horizontal space */
+    font-size: 0.95em;
+    line-height: 1.4;
+}
+
+.cookie-consent-banner p a {
+    color: #87CEEB; /* Lighter blue for the link */
+    text-decoration: underline;
+}
+
+.cookie-consent-banner .cookie-buttons {
+    display: flex;
+    gap: 10px; /* Space between the 'Accept' and 'Deny' buttons */
+}
+
+.cookie-consent-banner button {
+    background-color: #b909094e; /* Green "Accept" button */
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1em;
+    transition: background-color 0.3s ease, transform 0.2s ease; /* Smooth transitions */
+}
+
+.cookie-consent-banner button:hover {
+    background-color: #b909094e; 
+    transform: translateY(-2px); 
+}
+
+.cookie-consent-banner .deny-button {
+    background-color: #f44336; /* Red "Deny" button */
+}
+
+.cookie-consent-banner .deny-button:hover {
+    background-color: #da190b; /* Darker red on hover */
+}
+
+@media (max-width: 768px) {
+    .main-content-area {
+        flex-direction: column; 
+        align-items: center; 
+    }
+    .content-section-card {
+        width: 90%; 
+        max-width: 400px; 
+    }
+
+    .cookie-consent-banner {
+        flex-direction: column;
+        text-align: center;
+    }
+    .cookie-consent-banner .cookie-buttons {
+        flex-direction: column;
+        width: 100%;
+    }
+    .cookie-consent-banner button {
+        width: 100%; 
+    }
 }

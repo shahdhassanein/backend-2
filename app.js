@@ -16,6 +16,7 @@ const cookieParser = require('cookie-parser'); // For parsing HTTP-only cookies 
 const cors = require('cors'); // For enabling Cross-Origin Resource Sharing
 const session = require('express-session'); // Import express-session
 const MongoStore = require('connect-mongo'); // Import connect-mongo
+const consentRoutes = require('./routes/consentRoutes'); 
 
 // Import your route files (define them once)
 const carRoutes = require('./routes/carRoutes');
@@ -77,6 +78,7 @@ const sessionAuth = require('./middleware/sessionAuth');
 
 // --- MOUNT API ROUTES (Define routes once) ---
 // This tells Express to use your route files for any URL starting with the specified prefix.
+<<<<<<< Updated upstream
 app.use('/api/auth', authRoutes);
 app.use('/addcars', carRoutes);
 app.use('/api/bookingsales', bookingsalesroute);
@@ -85,6 +87,24 @@ app.use('/api/contact', contactRoutes); // Only if contactRoutes.js exists
 
 // Uncomment this if you have adminRoutes.js and define adminRoutes variable above
 // app.use('/admin', adminRoutes);
+=======
+// The order here also matters for specificity.
+app.use('/api/auth', authRoutes); // Auth routes (e.g., /api/auth/login, /api/auth/logout)
+app.use('/addcars', carRoutes); // For adding cars
+app.use('/api/bookingsales', bookingsalesroute); // For bookings and sales (includes /api/bookingsales/view-my-purchases)
+app.use('/api/cart', cartRoutes); // For cart functionality
+// app.use('/admin', require('./routes/adminRoutes')); // If you have admin routes, ensure this is correct
+// --- USE API ROUTES ---
+app.use('/api/auth', require('./routes/authRoutes')); 
+app.use('/api/cart', require('./routes/cart'));
+app.use('/addcars', require('./routes/carRoutes')); 
+app.use('/api/bookingsales', require('./routes/bookingsalesroute')); 
+app.use('/api/cart', require('./routes/cart')); // Directly require here
+app.use('/api/contact', require('./routes/contactRoutes')); 
+
+app.use('/api/consent', consentRoutes);
+//app.use('/admin', require('./routes/adminRoutes')); // Ensure this route is handled by adminRoutes for /admin/xyz
+>>>>>>> Stashed changes
 
 
 // --- RENDER FRONTEND VIEWS (EJS Pages for direct browser navigation) ---

@@ -1,6 +1,10 @@
 // controllers/authcontroller.js
 const User = require('../models/usersschema');
 const jwt = require('jsonwebtoken');
+<<<<<<< Updated upstream
+=======
+const bcrypt = require('bcryptjs'); // Import bcryptjs
+>>>>>>> Stashed changes
 
 // Helper function to handle response for EJS views
 // Sets session, optional JWT cookie, and redirects
@@ -29,6 +33,7 @@ const sendAuthResponse = async (user, statusCode, req, res, isRegistration = fal
     res.cookie('token', token, options); // Set the JWT in the cookie
     console.log(`[Auth Controller] JWT Cookie set for user: ${user.email}`);
 
+<<<<<<< Updated upstream
     // --- MODIFICATION STARTS HERE ---
     // Determine where to redirect after successful login/registration based on user role
     let redirectUrl;
@@ -39,6 +44,13 @@ const sendAuthResponse = async (user, statusCode, req, res, isRegistration = fal
     }
     res.clearCookie('redirectAfterLogin'); // Clear the redirect cookie after use
     console.log(`[Auth Controller] Redirecting user with role '${user.role}' to: ${redirectUrl}`);
+=======
+    // Determine where to redirect after successful login/registration
+    // >>> MODIFIED LINE HERE: Changed default redirect from /Dashboard to /homepage <<<
+    const redirectAfterLogin = req.cookies.redirectAfterLogin || '/homepage';
+    res.clearCookie('redirectAfterLogin'); // Clear the redirect cookie after using it
+    console.log(`[Auth Controller] Redirecting to: ${redirectAfterLogin}`);
+>>>>>>> Stashed changes
 
     // Redirect the browser to the appropriate EJS page
     res.redirect(redirectUrl);
@@ -133,8 +145,14 @@ exports.login = async (req, res, next) => {
         await sendAuthResponse(user, 200, req, res);
 
     } catch (error) {
+<<<<<<< Updated upstream
         console.error('[Auth Controller] Login error:', error);
         res.render('login', { title: 'Login', error: 'Login failed. Please try again.' });
+=======
+        console.error('[Auth Controller] Login error (Caught exception):', error);
+        const errorMessage = process.env.NODE_ENV === 'development' ? error.message : 'Login failed. Please try again.';
+        res.render('login', { title: 'Login', error: errorMessage });
+>>>>>>> Stashed changes
     }
 };
 

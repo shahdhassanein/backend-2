@@ -26,6 +26,11 @@ const userSchema = new mongoose.Schema({
     type: String,
     enum: ['user', 'admin'],
     default: 'user',
+    
+  },
+  consentAccepted: {
+    type: Boolean,
+    default: false
   },
   
   sessionInfo: {

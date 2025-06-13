@@ -5,17 +5,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Car Showroom - Home</title>
     <link rel="stylesheet" href="/css/homepage.css"> 
-    
+    <!-- REMOVED: <link rel="stylesheet" href="/css/booking.css"> as per your request -->
 </head>
 
 <body>
 
-    
     <nav>
         <div class="navbar"> 
             <div class="logo">
                 <h2 style="margin-left: 16px;">Car Showroom</h2> 
-
             </div>
             <ul>
                 <li><a href="/homepage" class="active" onclick="playSound('porsche-105500')">Home</a></li>
@@ -23,8 +21,12 @@
                 <li><a href="/Dashboard">Dashboard</a></li>
                 <li><a href="/Contact." >Contact</a></li>
                 <li><a href="/login">Sign Up/Login</a></li>
-                 
-
+                <!-- OPTIONAL: Add "Welcome, User!" here if you want it on homepage too -->
+                <!-- Example: 
+                <% if (typeof user !== 'undefined' && user && user.name) { %>
+                    <li class="welcome-nav-item">Welcome, <%= user.name %>!</li> 
+                <% } %>
+                -->
             </ul>
             <div class="cart-container">
                 <li><a href="/cart" >Cart</a></li>
@@ -32,11 +34,9 @@
         </div>
     </nav>
 
-    
     <section class="hero">
         <video autoplay muted loop id="hero-video">
             <source src="/img/lambodriving.mp4" type="video/mp4">
-           
         </video>
         
         <div class="hero-content">
@@ -45,28 +45,27 @@
         </div>
     </section>
 
-  
-    <section class="featured">
-     
-        <div class="featured-item">
+    <!-- >>>>> MODIFIED SECTION: Added 'main-content-area' and 'content-section-card' classes <<<<< -->
+    <section class="featured main-content-area"> 
+        <div class="featured-item content-section-card"> 
             <img src="/img/newrealease.jpg" alt="New Releases">
             <h2>New Releases</h2>
             <p>Discover the latest models.</p>
         </div>
 
+        <div class="featured-item content-section-card"> 
+            <img id="best-seller-image" src="/img/car12.png" alt="Best Sellers" onclick="changeBestSellerImage()">
+            <h2>Best Sellers</h2>
+            <p>Find out our top-selling cars.</p>
+        </div>
 
-<div class="featured-item">
-    <img id="best-seller-image" src="/img/car12.png" alt="Best Sellers" onclick="changeBestSellerImage()">
-    <h2>Best Sellers</h2>
-    <p>Find out our top-selling cars.</p>
-</div>
-
-        <div class="featured-item">
+        <div class="featured-item content-section-card"> 
             <img src="/img/brandnew.jpg" alt="Brand News">
             <h2>Brand News</h2>
             <p>Stay updated with our latest announcements.</p>
         </div>
     </section>
+    <!-- >>>>> END MODIFIED SECTION <<<<< -->
 
     <footer>
         <div class="footer-content">
@@ -75,19 +74,24 @@
                 <a href="Term.html" target="_blank">Terms of Service</a> | 
                 <a href="Privacy.html" target="_blank">Privacy Policy</a>
             </p>
-            
             <p>Email: <a href="mailto:support@carshowroom.com">support@carshowroom.com</a></p>
             <p>Phone: <a href="tel:+1234567890">+123 456 7890</a></p>
             <p>Address: 123 Street, London, England</p>
         </div>
     </footer>
     
-    <script src="/js/homepage.js"></script>
+    <!-- This links your main homepage JavaScript file -->
+    <script src="/js/homepage.js"></script> 
 
-<div class="cookie-banner">
-    <p>This website uses cookies. <a href="Privacy.html">Learn more</a></p>
-    <button onclick="this.parentElement.style.display='none'">Accept</button>
-</div>
+    <!-- >>>>> NEW COOKIE BANNER HTML (JS IS IN homepage.js) <<<<< -->
+    <div id="cookieConsentBanner" class="cookie-consent-banner">
+        <p>This website uses cookies to ensure you get the best experience. By clicking "Accept" or "Deny", you agree or decline our use of cookies. <a href="/privacy-policy" target="_blank">Learn more</a></p>
+        <div class="cookie-buttons">
+            <button id="acceptCookiesBtn">Accept</button>
+            <button id="denyCookiesBtn" class="deny-button">Deny</button>
+        </div>
+    </div>
+    <!-- >>>>> END NEW COOKIE BANNER HTML <<<<< -->
 
 </body>
 </html>
