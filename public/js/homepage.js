@@ -1,14 +1,9 @@
 const videoElement= document.getElementById('hero-video');
-const videos=["/img/videoonespeed.mp4", "/img/lambodriving.mp4"];
+const videos=["/img/lambodriving.mp4"];
 let currentVideoIndex=0;
 
-if(videoElement){
-    videoElement.addEventListener("ended",()=>{
-        currentVideoIndex=(currentVideoIndex+1) % videos.length;
-        videoElement.src =videos[currentVideoIndex];
-        videoElement.play();
-    });
-} else {
+if(!videoElement){
+    
     console.error("Hero video element not found");
 }
 
