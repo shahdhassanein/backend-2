@@ -1,3 +1,5 @@
+/* public/css/Auth.css - Red & Grey Theme with Background Image */
+
 body {
     margin: 0;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -11,6 +13,11 @@ body {
     min-height: 100vh;
     position: relative;
     z-index: 1;
+    /* Add background image */
+    background-image: url('../img/tobeadded2.jpg'); /* Replace with your image path */
+    background-size: cover; /* Cover the entire background */
+    background-position: center; /* Center the image */
+    background-repeat: no-repeat; /* Prevent image from repeating */
 }
 
 .background-video {
@@ -34,9 +41,9 @@ body {
     z-index: -1;
 }
 
-
+/* AUTH CONTAINER - The main box for login/register form */
 .auth-container {
-    background-color: rgba(195, 194, 194, 0.9); 
+    background-color: rgba(195, 194, 194, 0.9); /* Your preferred light grey transparent box */
     padding: 40px;
     border-radius: 10px;
     box-shadow: 0 0 20px rgba(0, 0, 0, 0.7);
@@ -49,28 +56,29 @@ body {
 }
 
 .auth-container h1 {
-    color: #b51b1b; 
+    color: #b51b1b; /* Your primary red accent */
     margin-bottom: 25px;
     font-size: 2.5em;
     font-weight: 600;
 }
 
+/* ERROR MESSAGE STYLING */
 .error-message {
-    background-color: #dc3545; 
+    background-color: #dc3545; /* Red for error */
     color: white;
     padding: 10px 15px;
     border-radius: 5px;
     margin-bottom: 20px;
     font-size: 0.95em;
     text-align: left;
-    display: none;
+    display: none; /* Hidden by default */
 }
 
 .error-message.show {
-    display: block; 
+    display: block; /* Class to explicitly show */
 }
 
-
+/* FORM GROUP (for label + input pairing) */
 .form-group {
     margin-bottom: 20px;
     text-align: left;
@@ -79,13 +87,13 @@ body {
 .form-group label {
     display: block;
     margin-bottom: 8px;
-    color: #000000; 
+    color: #000000; /* Black label text */
     font-size: 1em;
     font-weight: 500;
 }
 
-
-.form-group input[type="text"], 
+/* INPUTS */
+.form-group input[type="text"],
 .form-group input[type="email"],
 .form-group input[type="tel"],
 .form-group input[type="password"] {
@@ -93,30 +101,30 @@ body {
     padding: 12px;
     border: 1px solid #555;
     border-radius: 8px;
-    background-color: #ffffff; 
-    color: #000000; 
+    background-color: #ffffff; /* Changed to WHITE for filled effect */
+    color: #000000; /* Black text inside inputs for readability */
     font-size: 1.1em;
     box-sizing: border-box;
     transition: border-color 0.3s ease, box-shadow 0.3s ease;
 }
 
 .form-group input[type="email"]:focus,
-.form-group input[type="text"]:focus, 
+.form-group input[type="text"]:focus,
 .form-group input[type="tel"]:focus,
-.form-group input[type="password"]:focus {
-    border-color: #730505; 
-    box-shadow: 0 0 8px rgba(131, 10, 10, 0.5); 
+.form-group input[type="password"]:focus { /* Added password to focus as well */
+    border-color: #730505; /* Your red accent on focus */
+    box-shadow: 0 0 8px rgba(131, 10, 10, 0.5); /* Red glow on focus */
     outline: none;
 }
 
-
+/* PASSWORD CONTAINER for eye icon */
 .password-container {
     position: relative;
     width: 100%;
 }
 
 .password-container input {
-    padding-right: 40px; 
+    padding-right: 40px; /* Space for eye icon */
 }
 
 .password-toggle {
@@ -124,20 +132,20 @@ body {
     right: 15px;
     top: 50%;
     transform: translateY(-50%);
-    color: #000000; 
+    color: #000000; /* Black icon color */
     cursor: pointer;
     font-size: 1.1em;
     transition: color 0.2s ease;
 }
 
 .password-toggle:hover {
-    color: #e0e0e0; 
+    color: #e0e0e0; /* Lighter grey on hover (assuming background video is dark) */
 }
 
-
+/* SUBMIT BUTTON */
 .auth-btn {
-    background-color: #901616;
-    color: rgb(213, 204, 204); 
+    background-color: #901616; /* Your primary red button color */
+    color: rgb(213, 204, 204); /* Your light grey text color */
     border: none;
     padding: 15px 25px;
     border-radius: 8px;
@@ -150,29 +158,29 @@ body {
 }
 
 .auth-btn:hover {
-    background-color: #c60808;
+    background-color: #c60808; /* Your darker red on hover */
     transform: translateY(-2px);
 }
 
-
+/* PROMPT (e.g., "Already have an account?") */
 .prompt {
     margin-top: 25px;
     font-size: 1em;
-    color: #000000; 
+    color: #000000; /* Black prompt text */
 }
 
 .prompt a {
-    color: #720000; 
+    color: #720000; /* Your red accent link */
     text-decoration: none;
     transition: color 0.3s ease;
 }
 
 .prompt a:hover {
-    color: #ff0a0a;
+    color: #ff0a0a; /* Your lighter red on hover */
     text-decoration: underline;
 }
 
-
+/* RESPONSIVE ADJUSTMENTS */
 @media (max-width: 768px) {
     .auth-container {
         padding: 30px;
