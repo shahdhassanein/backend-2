@@ -4,13 +4,12 @@ const jwt = require('jsonwebtoken');
 
 // Helper function to handle response for EJS views
 // Sets session, optional JWT cookie, and redirects
-const sendAuthResponse = async (user, statusCode, req, res, isRegistration = false) => { // Added req
+const sendAuthResponse = async (user, statusCode, req, res, isRegistration = false) => {
     // Set user ID in the session (CRITICAL for Dashboard.ejs dynamic data)
     req.session.userId = user._id;
     console.log(`[Auth Controller] Session userId set to: ${req.session.userId}`);
 
     // Update last login details on the user document
-    // Ensure this matches the sessionInfo schema in your User model
     user.sessionInfo = {
         lastLogin: new Date(),
         ipAddress: req.ip, // req.ip gets client's IP address
@@ -18,7 +17,6 @@ const sendAuthResponse = async (user, statusCode, req, res, isRegistration = fal
     };
     await user.save(); // Save the updated session info to the database
     console.log(`[Auth Controller] User sessionInfo updated and saved to DB.`);
-
 
     // Optional: Also set a JWT cookie if your app uses JWTs for other API calls
     const token = user.getSignedJwtToken(); // Get JWT token from User model method
@@ -31,13 +29,20 @@ const sendAuthResponse = async (user, statusCode, req, res, isRegistration = fal
     res.cookie('token', token, options); // Set the JWT in the cookie
     console.log(`[Auth Controller] JWT Cookie set for user: ${user.email}`);
 
-    // Determine where to redirect after successful login/registration
-    const redirectAfterLogin = req.cookies.redirectAfterLogin || '/Dashboard';
+    // --- MODIFICATION STARTS HERE ---
+    // Determine where to redirect after successful login/registration based on user role
+    let redirectUrl;
+    if (user.role === 'admin') {
+        redirectUrl = '/admin'; // Redirect admin users to /admin page
+    } else {
+        redirectUrl = req.cookies.redirectAfterLogin || '/Dashboard'; // Default for 'user' role or if no redirect was set
+    }
     res.clearCookie('redirectAfterLogin'); // Clear the redirect cookie after use
-    console.log(`[Auth Controller] Redirecting to: ${redirectAfterLogin}`);
+    console.log(`[Auth Controller] Redirecting user with role '${user.role}' to: ${redirectUrl}`);
 
     // Redirect the browser to the appropriate EJS page
-    res.redirect(redirectAfterLogin);
+    res.redirect(redirectUrl);
+    // --- MODIFICATION ENDS HERE ---
 };
 
 /**
@@ -70,13 +75,12 @@ exports.register = async (req, res, next) => {
             email,
             password, // Plain text password passed here, schema hook will hash it
             phone,
-            role: 'user' // Default role
+            role: 'user' // Default role for new registrations
         });
         console.log(`[Auth Controller] User registered successfully with ID: ${user._id}`);
 
         // Use the new helper to set session/cookie and redirect
-        // Pass req as an argument
-        await sendAuthResponse(user, 201, req, res, true); // Added 'req' and 'await'
+        await sendAuthResponse(user, 201, req, res, true);
 
     } catch (error) {
         console.error('[Auth Controller] Registration error:', error);
@@ -117,7 +121,7 @@ exports.login = async (req, res, next) => {
 
         // Check if password matches
         console.log(`[Auth Controller] Login: Comparing entered password with stored hash for user: ${user.email}`);
-        const isMatch = await user.matchPassword(password); // Call method on user instance
+        const isMatch = await user.matchPassword(password);
         console.log(`[Auth Controller] Login: Password comparison result (isMatch): ${isMatch}`);
 
         if (!isMatch) {
@@ -126,8 +130,7 @@ exports.login = async (req, res, next) => {
         }
 
         // Use the new helper to set session/cookie and redirect
-        // Pass req as an argument
-        await sendAuthResponse(user, 200, req, res); // Added 'req' and 'await'
+        await sendAuthResponse(user, 200, req, res);
 
     } catch (error) {
         console.error('[Auth Controller] Login error:', error);
@@ -142,7 +145,6 @@ exports.login = async (req, res, next) => {
  */
 exports.getMe = async (req, res, next) => {
     try {
-        // req.user is populated by either 'protect' (for JWTs) or 'sessionAuth' middleware
         if (!req.user) {
             return res.status(401).json({ success: false, message: 'Not authenticated' });
         }
@@ -169,7 +171,6 @@ exports.logout = (req, res, next) => {
     req.session.destroy(err => {
         if (err) {
             console.error('[Auth Controller] Error destroying session:', err);
-            // Even if session destroy fails, we still try to clear the cookie and redirect
         }
         // Clear the JWT cookie if it exists
         res.clearCookie('token');

@@ -17,16 +17,16 @@ const cors = require('cors'); // For enabling Cross-Origin Resource Sharing
 const session = require('express-session'); // Import express-session
 const MongoStore = require('connect-mongo'); // Import connect-mongo
 
-// Import your route files
+// Import your route files (define them once)
 const carRoutes = require('./routes/carRoutes');
 const bookingsalesroute = require('./routes/bookingsalesroute');
 const authRoutes = require('./routes/authRoutes');
 const cartRoutes = require('./routes/cart');
 // Uncomment the following line ONLY if you have an 'adminRoutes.js' file
-// const adminRoutes = require('./routes/adminRoutes');
+// const adminRoutes = require('./routes/adminRoutes'); // Assuming you define this here if used
 
-// Commented out to fix "Cannot find module" error
-// const contactRoutes = require('./routes/contactRoutes');
+// If you have 'contactRoutes.js' and intend to use it:
+const contactRoutes = require('./routes/contactRoutes'); // Assuming this file exists
 
 
 // --- INITIALIZATION ---
@@ -56,7 +56,7 @@ app.use(express.static('./public'));
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname,'views'));
 
-// 6. express-session middleware with MongoStore - This must come BEFORE your custom sessionAuth middleware
+// 6. express-session middleware with MongoStore
 app.use(session({
     secret: process.env.SESSION_SECRET, // A strong secret from your .env file
     resave: false, // Don't save session if unmodified
@@ -76,26 +76,20 @@ app.use(session({
     }
 }));
 
-// NEW: Import your sessionAuth middleware. We will apply it selectively below.
+// Import your sessionAuth middleware. We apply it selectively below.
 const sessionAuth = require('./middleware/sessionAuth');
 
 
-// --- MOUNT API ROUTES ---
+// --- MOUNT API ROUTES (Define routes once) ---
 // This tells Express to use your route files for any URL starting with the specified prefix.
-// The order here also matters for specificity.
-app.use('/api/auth', authRoutes); // Auth routes (e.g., /api/auth/login, /api/auth/logout)
-app.use('/addcars', carRoutes); // For adding cars
-app.use('/api/bookingsales', bookingsalesroute); // For bookings and sales (includes /api/bookingsales/view-my-purchases)
-app.use('/api/cart', cartRoutes); // For cart functionality
-// app.use('/admin', require('./routes/adminRoutes')); // If you have admin routes, ensure this is correct
-// --- USE API ROUTES ---
-app.use('/api/auth', require('./routes/authRoutes')); 
-app.use('/api/cart', require('./routes/cart'));
-app.use('/addcars', require('./routes/carRoutes')); 
-app.use('/api/bookingsales', require('./routes/bookingsalesroute')); 
-app.use('/api/cart', require('./routes/cart')); // Directly require here
-app.use('/api/contact', require('./routes/contactRoutes')); 
-//app.use('/admin', require('./routes/adminRoutes')); // Ensure this route is handled by adminRoutes for /admin/xyz
+app.use('/api/auth', authRoutes);
+app.use('/addcars', carRoutes);
+app.use('/api/bookingsales', bookingsalesroute);
+app.use('/api/cart', cartRoutes);
+app.use('/api/contact', contactRoutes); // Only if contactRoutes.js exists
+
+// Uncomment this if you have adminRoutes.js and define adminRoutes variable above
+// app.use('/admin', adminRoutes);
 
 
 // --- RENDER FRONTEND VIEWS (EJS Pages for direct browser navigation) ---
@@ -112,31 +106,32 @@ app.get ('/carllisting', (req, res)=> {res.render ('carllisting', {title:'Car Li
 
 // Protected routes (APPLY sessionAuth middleware here)
 // These routes will ONLY be accessible if sessionAuth successfully authenticates the user.
-app.get('/Dashboard', sessionAuth, (req, res) => { // <-- sessionAuth applied here
+app.get('/Dashboard', sessionAuth, (req, res) => {
     res.render('Dashboard', { title: 'Dashboard', user: req.user || null });
 });
-app.get('/usersmangment', sessionAuth, (req, res) => { // <-- sessionAuth applied here
+app.get('/usersmangment', sessionAuth, (req, res) => {
     res.render('usersmangment', { title: 'usersmangment', user: req.user || null });
 });
-app.get('/admin', sessionAuth, (req, res) => { // <-- sessionAuth applied here
-    res.render('admin', { title: 'admin page', user: req.user || null });
+// This is the admin page route. It's already protected with sessionAuth.
+app.get('/admin', sessionAuth, (req, res) => {
+    res.render('admin', { title: 'Admin Page', user: req.user || null }); // Ensure title is 'Admin Page' or similar
 });
-app.get('/admin-orders', sessionAuth, (req, res) => { // <-- sessionAuth applied here
+app.get('/admin-orders', sessionAuth, (req, res) => {
     res.render('admin-orders', { title: 'Admin Orders', user: req.user || null });
 });
-app.get('/checkout', sessionAuth, (req, res) => { // <-- sessionAuth applied here
+app.get('/checkout', sessionAuth, (req, res) => {
     res.render('checkout', { title: 'Checkout', user: req.user || null });
 });
-app.get('/cart', sessionAuth, (req, res) => { // <-- sessionAuth applied here
+app.get('/cart', sessionAuth, (req, res) => {
     res.render('cart', { title: 'Cart', user: req.user || null });
 });
-app.get('/inventory', sessionAuth, (req, res) => { // <-- sessionAuth applied here
+app.get('/inventory', sessionAuth, (req, res) => {
     res.render('inventory', { title: 'Inventory', user: req.user || null });
 });
-app.get ('/addcar', sessionAuth, (req,res)=> { // <-- sessionAuth applied here
+app.get ('/addcar', sessionAuth, (req,res)=> {
     res.render ('addcar',{title:'form for addcar ', user: req.user || null});
 });
-app.get('/mypurchases', sessionAuth, (req, res) => { // Added if this was a protected route
+app.get('/mypurchases', sessionAuth, (req, res) => {
     res.render('mypurchases', { title: 'My Purchases', user: req.user || null });
 });
 
