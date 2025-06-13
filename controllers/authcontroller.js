@@ -1,18 +1,7 @@
 // controllers/authcontroller.js
 const User = require('../models/usersschema');
 const jwt = require('jsonwebtoken');
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-=======
-const bcrypt = require('bcryptjs'); // Import bcryptjs
->>>>>>> Stashed changes
-=======
-const bcrypt = require('bcryptjs'); // Import bcryptjs
->>>>>>> Stashed changes
-=======
-const bcrypt = require('bcryptjs'); // Import bcryptjs
->>>>>>> Stashed changes
+const bcrypt = require('bcryptjs'); // <<< ADDED: Import bcryptjs
 
 // Helper function to handle response for EJS views
 // Sets session, optional JWT cookie, and redirects
