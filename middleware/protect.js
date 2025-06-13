@@ -1,27 +1,42 @@
 // middleware/protect.js
 
 const jwt = require('jsonwebtoken');
-const User = require('../models/usersschema'); // adjust if needed
+const User = require('../models/usersschema'); // adjust path as needed
 
 const protect = async (req, res, next) => {
   let token;
 
-  // Check if token exists in headers
+  // 1. Get token from headers
   if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
-    try {
-      token = req.headers.authorization.split(" ")[1];
-
-      const decoded = jwt.verify(token, process.env.JWT_SECRET);
-      req.user = await User.findById(decoded.id).select("-password");
-
-      next(); // move to next middleware/handler
-    } catch (error) {
-      return res.status(401).json({ message: "Not authorized, token failed" });
-    }
+    token = req.headers.authorization.split(' ')[1];
   }
 
+  // 2. If no token, respond with error
   if (!token) {
-    return res.status(401).json({ message: "Not authorized, no token" });
+    return res.status(401).json({ message: 'Not authorized, no token' });
+  }
+
+  try {
+    // 3. Verify token
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+
+    // 4. Find user from decoded token
+    const user = await User.findById(decoded.id).select('-password');
+
+    // 5. If user not found, token is stale or user deleted
+    if (!user) {
+      res.clearCookie('token');
+      return res.status(401).json({ message: 'Not authorized, user no longer exists' });
+    }
+
+    // 6. Attach user to request
+    req.user = user;
+
+    next(); // Proceed
+  } catch (error) {
+    console.error('Token verification error:', error);
+    res.clearCookie('token');
+    return res.status(401).json({ message: 'Not authorized, token failed or expired' });
   }
 };
 
