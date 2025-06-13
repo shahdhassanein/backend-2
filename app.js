@@ -17,25 +17,17 @@ const cors = require('cors'); // For enabling Cross-Origin Resource Sharing
 const session = require('express-session'); // Import express-session
 const MongoStore = require('connect-mongo'); // Import connect-mongo
 
-// Import all your route files once and clearly
-const authRoutes = require('./routes/authRoutes');
+// Import your route files (define them once)
 const carRoutes = require('./routes/carRoutes');
 const bookingsalesroute = require('./routes/bookingsalesroute');
+const authRoutes = require('./routes/authRoutes');
 const cartRoutes = require('./routes/cart');
-<<<<<<< HEAD
-const contactRoutes = require('./routes/contactRoutes'); // Assuming this file exists
-const userManagementRoutes = require('./routes/userManagementRoutes'); // NEW: Import user management routes
-
-// If you have adminRoutes.js and intend to use it, uncomment and import here:
-// const adminRoutes = require('./routes/adminRoutes');
-=======
-const consentRoutes = require('./routes/consentRoutes'); // Correctly imported
+const consentRoutes = require('./routes/consentRoutes'); // <<< CRITICAL: Re-added this import
 // Uncomment the following line ONLY if you have an 'adminRoutes.js' file
-// const adminRoutes = require('./routes/adminRoutes'); 
+// const adminRoutes = require('./routes/adminRoutes');
 
 // If you have 'contactRoutes.js' and intend to use it:
 const contactRoutes = require('./routes/contactRoutes');
->>>>>>> bbe9b010b24927714abb37678aa629b7beceb316
 
 
 // --- INITIALIZATION ---
@@ -43,11 +35,6 @@ const app = express();
 
 // Connect to Database
 connectDB();
-
-// --- MIDDLEWARE ---
-// Order of middleware matters here:
-
-// 1. CORS Middleware (should be one of the first to handle cross-origin requests)
 app.use(cors());
 
 // 2. Body parsers (for JSON and URL-encoded data from forms)
@@ -91,22 +78,14 @@ const sessionAuth = require('./middleware/sessionAuth');
 
 // --- MOUNT API ROUTES ---
 // This tells Express to use your route files for any URL starting with the specified prefix.
-<<<<<<< HEAD
-// Each route module should be mounted only ONCE.
-=======
->>>>>>> bbe9b010b24927714abb37678aa629b7beceb316
 app.use('/api/auth', authRoutes);
-app.use('/addcars', carRoutes); // For adding cars (assuming this is an API route)
+app.use('/addcars', carRoutes);
 app.use('/api/bookingsales', bookingsalesroute);
 app.use('/api/cart', cartRoutes);
 app.use('/api/contact', contactRoutes); // Only if contactRoutes.js exists
-<<<<<<< HEAD
-app.use('/api/users', userManagementRoutes); // NEW: Mount user management routes here
-=======
-app.use('/api/consent', consentRoutes); // <<< CRITICAL: MOUNT THE CONSENT ROUTES HERE
->>>>>>> bbe9b010b24927714abb37678aa629b7beceb316
+app.use('/api/consent', consentRoutes); // <<< CRITICAL: Re-added this line to mount consent routes
 
-// If you have adminRoutes.js, uncomment this line:
+// Uncomment this if you have adminRoutes.js and define adminRoutes variable above
 // app.use('/admin', adminRoutes);
 
 
@@ -128,10 +107,11 @@ app.get('/Dashboard', sessionAuth, (req, res) => {
     res.render('Dashboard', { title: 'Dashboard', user: req.user || null });
 });
 app.get('/usersmangment', sessionAuth, (req, res) => {
-    res.render('usersmangment', { title: 'User Management', user: req.user || null });
+    res.render('usersmangment', { title: 'usersmangment', user: req.user || null });
 });
+// This is the admin page route. It's already protected with sessionAuth.
 app.get('/admin', sessionAuth, (req, res) => {
-    res.render('admin', { title: 'Admin Page', user: req.user || null });
+    res.render('admin', { title: 'Admin Page', user: req.user || null }); // Ensure title is 'Admin Page' or similar
 });
 app.get('/admin-orders', sessionAuth, (req, res) => {
     res.render('admin-orders', { title: 'Admin Orders', user: req.user || null });
@@ -157,5 +137,5 @@ const PORT = process.env.PORT || 3000;
 
 // Start the Express server
 app.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`); // Corrected console.log syntax
+    console.log(`Server running on port ${PORT}`); // <<< CRITICAL: Corrected console.log syntax here
 });
