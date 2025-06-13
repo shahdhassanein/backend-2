@@ -2,10 +2,10 @@ const mongoose = require('mongoose');
 
 const paymentSchema = new mongoose.Schema({
     cardType: {
-        type: String,
-        enum: ['Visa', 'Mastercard'], // Ensure these match what your frontend sends
-        required: true
-    },
+    type: String,
+    enum: ['Visa', 'Mastercard', 'Credit Card'],
+    required: true
+},
     cardholderName: {
         type: String,
         required: true,
