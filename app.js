@@ -140,19 +140,7 @@ app.get('/mypurchases', sessionAuth, (req, res) => { // Added if this was a prot
     res.render('mypurchases', { title: 'My Purchases', user: req.user || null });
 });
 
-app.post('/api/contact', (req,res)=>{
-    const {name, email, phone, address, message}=req.body;
 
-    console.log('contact form submitted');
-    console.log('Name: ', name);
-    console.log('Email: ', email);
-    console.log('Phone: ', phone);
-    console.log('Address: ', address);
-    console.log('Message: ', message);
-
-    res.json ({success:true, message:'Message sent successfully!'});
-
-})
 const PORT = process.env.PORT || 3000;
 
 // Start the Express server
