@@ -298,3 +298,69 @@ button,
     background-color: #5a6268;
     transform: translateY(-2px);
 }
+
+/* --- Users Management Table Styling (ADD THESE RULES) --- */
+
+/* Basic table container for responsiveness */
+.users-table-container {
+    overflow-x: auto; /* Allows horizontal scrolling on small screens */
+    margin-top: 20px;
+    background-color: var(--card-bg); /* Use your card background color variable */
+    border-radius: var(--button-radius); /* Use your general button radius */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    padding: 15px; /* Add some padding inside the container */
+}
+
+.users-table {
+    width: 100%;
+    border-collapse: collapse; /* Merges cell borders */
+    margin: 0; /* Remove default table margins */
+    color: var(--text-color); /* Use your defined text color */
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 0.95em;
+    table-layout: fixed; /* Ensures columns are equal width */
+}
+
+/* Table Header */
+.users-table thead {
+    background-color: var(--accent-color); /* Use your accent color for the header */
+    color: var(--text-color); /* White text for header */
+}
+
+.users-table th {
+    padding: 15px 10px;
+    text-align: left;
+    border-bottom: 2px solid var(--accent-hover); /* Darker accent for border */
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Table Body Cells */
+.users-table td {
+    padding: 12px 10px;
+    border-bottom: 1px solid #4a4a4a; /* A slightly lighter shade of your secondary or card background for internal borders */
+    word-wrap: break-word; /* Prevents long text (like IDs) from breaking layout */
+}
+
+/* Alternating Row Colors (Stripe effect) */
+.users-table tbody tr:nth-child(even) {
+    background-color: var(--secondary-color); /* Darker stripe */
+}
+
+.users-table tbody tr:nth-child(odd) {
+    background-color: var(--card-bg); /* Lighter stripe, similar to card background */
+}
+
+/* Hover Effect on Rows */
+.users-table tbody tr:hover {
+    background-color: #444444; /* A neutral dark grey for hover */
+    cursor: pointer;
+}
+
+/* Styling for "No users found" row */
+.users-table tbody tr:last-child td {
+    border-bottom: none; /* No border for the last row */
+}
+
+/* --- End Users Management Table Styling --- */
