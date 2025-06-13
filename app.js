@@ -22,7 +22,9 @@ const carRoutes = require('./routes/carRoutes');
 const bookingsalesroute = require('./routes/bookingsalesroute');
 const authRoutes = require('./routes/authRoutes');
 const cartRoutes = require('./routes/cart');
-const consentRoutes = require('./routes/consentRoutes'); // <<< CRITICAL: Re-added this import
+const consentRoutes = require('./routes/consentRoutes');
+const userManagementRoutes = require('./routes/userManagementRoutes');
+
 // Uncomment the following line ONLY if you have an 'adminRoutes.js' file
 // const adminRoutes = require('./routes/adminRoutes');
 
@@ -80,18 +82,12 @@ const sessionAuth = require('./middleware/sessionAuth');
 // This tells Express to use your route files for any URL starting with the specified prefix.
 app.use('/api/auth', authRoutes);
 app.use('/addcars', carRoutes);
+app.use('/api/users', userManagementRoutes); // NEW: Mount user management routes here
 app.use('/api/bookingsales', bookingsalesroute);
 app.use('/api/cart', cartRoutes);
 app.use('/api/contact', contactRoutes); // Only if contactRoutes.js exists
-app.use('/api/consent', consentRoutes); // <<< CRITICAL: Re-added this line to mount consent routes
 
-// Uncomment this if you have adminRoutes.js and define adminRoutes variable above
-// app.use('/admin', adminRoutes);
-
-
-// --- RENDER FRONTEND VIEWS (EJS Pages for direct browser navigation) ---
-
-// Public routes (NO sessionAuth middleware applied here)
+app.use('/api/consent', consentRoutes); // <<< CRITICAL: MOUNT THE CONSENT ROUTES HERE
 app.get('/', (req, res) => { res.render('homepage', { title: 'Home Page', user: req.user || null }) });
 app.get('/Contact', (req, res) => { res.render('Contact', { title: 'Contact', user: req.user || null }) });
 app.get('/login', (req, res) => { res.render('login', { title: 'Login', user: req.user || null }) });
@@ -99,10 +95,6 @@ app.get('/Privacy', (req, res) => { res.render('Privacy', { title: 'Privacy', us
 app.get('/Term', (req, res) => { res.render('Term', { title: 'Term', user: req.user || null }) });
 app.get('/register', (req, res) => {res.render('register', { title: 'Register', user: req.user || null }) });
 app.get ('/carllisting', (req, res)=> {res.render ('carllisting', {title:'Car Listing', user: req.user || null})});
-
-
-// Protected routes (APPLY sessionAuth middleware here)
-// These routes will ONLY be accessible if sessionAuth successfully authenticates the user.
 app.get('/Dashboard', sessionAuth, (req, res) => {
     res.render('Dashboard', { title: 'Dashboard', user: req.user || null });
 });

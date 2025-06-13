@@ -14,7 +14,7 @@
       <nav>
         <ul>
           <li class="active" data-tab="cars"><i class="fas fa-car"></i> Cars Management</li>
-          <li data-tab="users"><i class="fas fa-users"></i> Users Management</li> 
+          <li data-tab="users"><i class="fas fa-users"></i> Users Management</li>
           <li data-tab="orders"><i class="fas fa-box"></i> Orders Management</li>
           <li id="logout"><i class="fas fa-sign-out-alt"></i> Logout</li>
         </ul>
@@ -84,11 +84,10 @@
         <!-- Remove Car Modal -->
         <div id="removePopup" class="modal">
           <div class="modal-content">
-<<<<<<< HEAD
-            <span class="close-remove">&times;</span>
-=======
+
             <span class="close">&times;</span>
->>>>>>> bbe9b010b24927714abb37678aa629b7beceb316
+            <span class="close-remove">&times;</span>
+
             <h3>Remove Car</h3>
             <form id="remove-car-form">
               <label for="carId">Enter Car ID:</label>
@@ -105,12 +104,11 @@
         </div>
       </section>
 
-      <!-- Users Management Section -->
+
       <section id="users" class="tab-content">
         <div class="section-header">
           <button class="add-btn" id="add-user-btn">Add New User</button>
           <button class="remove-user-btn" id="remove-user-btn">Remove User</button>
-          <!-- REMOVED: <button class="update-btn" id="update-user-btn">Update User</button> -->
         </div>
 
         <!-- Add User Modal -->
@@ -156,7 +154,6 @@
           </div>
         </div>
         -->
-
         <!-- Remove User Modal -->
         <div id="removeUserPopup" class="modal">
           <div class="modal-content">
@@ -171,7 +168,9 @@
           </div>
         </div>
 
+
         <!-- Users List Grid/Table -->
+        <!-- Users Table -->
         <div class="users-list-container">
           <table class="users-table">
             <thead>
@@ -192,13 +191,16 @@
         </div>
       </section>
 
+
       <!-- Orders Management Section -->
+     
       <section id="orders" class="tab-content">
         <h2>Orders Management</h2>
         <div class="orders-list" id="orders-list">
             <p>Order management functionality will go here.</p>
         </div>
       </section>
+
     </main>
   </div>
 
