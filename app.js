@@ -66,6 +66,7 @@ app.use('/api/cart', cartRoutes); // For cart functionality
 // app.use('/admin', require('./routes/adminRoutes')); // If you have admin routes, ensure this is correct
 // --- USE API ROUTES ---
 app.use('/api/auth', require('./routes/authRoutes')); 
+app.use('/api/cart', require('./routes/cart'));
 app.use('/addcars', require('./routes/carRoutes')); 
 app.use('/api/bookingsales', require('./routes/bookingsalesroute')); 
 app.use('/api/cart', require('./routes/cart')); // Directly require here

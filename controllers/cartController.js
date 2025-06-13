@@ -1,16 +1,12 @@
 // controllers/cartController.js
-
+/*
 // Import necessary Mongoose models
 const Cart = require('../models/ordersschema'); // Import the Cart model (defined in ordersschema.js)
 const Car = require('../models/carsschema');     // Import the Car model
 const Purchase = require('../models/purchaseschema'); // Import the Purchase model
 const User = require('../models/usersschema');   // Import the User model
 
-/**
- * @desc    Add item to cart or increment its quantity if it already exists in the cart.
- * @route   POST /api/cart/add
- * @access  Private (User must be authenticated)
- */
+
 exports.addToCart = async (req, res) => {
     try {
         // Get userId from the authenticated request (set by the 'protect' middleware)
@@ -58,11 +54,7 @@ exports.addToCart = async (req, res) => {
     }
 };
 
-/**
- * @desc    Get all items in the authenticated user's cart.
- * @route   GET /api/cart
- * @access  Private (User must be authenticated)
- */
+
 exports.getCartItems = async (req, res) => {
     try {
         // Get userId from the authenticated request
@@ -86,11 +78,6 @@ exports.getCartItems = async (req, res) => {
     }
 };
 
-/**
- * @desc    Remove an item from the user's cart.
- * @route   DELETE /api/cart/remove/:carId
- * @access  Private (User must be authenticated)
- */
 exports.removeFromCart = async (req, res) => {
     try {
         // Get userId from the authenticated request
@@ -126,11 +113,6 @@ exports.removeFromCart = async (req, res) => {
     }
 };
 
-/**
- * @desc    Process checkout: Transfer items from the user's cart to purchase records.
- * @route   POST /api/cart/checkout
- * @access  Private (User must be authenticated)
- */
 exports.checkoutCart = async (req, res) => {
     try {
         // Get userId from the authenticated request
@@ -206,4 +188,43 @@ exports.checkoutCart = async (req, res) => {
         console.error('Error during checkout:', error);
         res.status(500).json({ success: false, message: 'Failed to complete checkout.', error: error.message });
     }
+};
+*/
+const Cart = require('../models/carsschema');
+
+exports.addToCart = async (req, res) => {
+  try {
+    const { name, model, price, engine, color, image } = req.body;
+
+    if (!name || !model || !price) {
+      return res.status(400).json({ message: 'Missing car data' });
+    }
+
+    const newCartItem = new Cart({
+      userId: req.userId,
+      name,
+      model,
+      price,
+      engine,
+      color,
+      image: image || '/images/default-car.jpg',
+    });
+
+    await newCartItem.save();
+
+    res.status(201).json({ message: 'Car added to cart successfully' });
+  } catch (error) {
+    console.error('Error adding to cart:', error);
+    res.status(500).json({ message: 'Server error adding to cart' });
+  }
+};
+
+exports.getCartItems = async (req, res) => {
+  try {
+    const cartItems = await Cart.find({ userId: req.userId });
+    res.status(200).json(cartItems);
+  } catch (error) {
+    console.error('Error fetching cart items:', error);
+    res.status(500).json({ message: 'Server error' });
+  }
 };
