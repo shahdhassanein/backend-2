@@ -229,7 +229,6 @@ document.addEventListener('DOMContentLoaded', function() {
 
             return `
                 <div class="cart-item" data-id="${item.id}">
-                    <img src="${item.image || '/images/default-car.jpg'}" alt="${item.name}" class="cart-item-image">
                     <div class="cart-item-details">
                         <h3>${item.name} (${item.model})</h3>
                         <p class="item-price">Price: $${price.toLocaleString()}</p>
