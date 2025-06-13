@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Admin Dashboard - Car Showroom</title>
   <link rel="stylesheet" href="/css/admin.css" />
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
   <div class="admin-container">
@@ -13,7 +14,8 @@
       <nav>
         <ul>
           <li class="active" data-tab="cars"><i class="fas fa-car"></i> Cars Management</li>
-          <li><a href="/usersmangment"><i class="fas fa-users"></i> Users Management</a></li>
+          <li data-tab="users"><i class="fas fa-users"></i> Users Management</li> 
+          <li data-tab="orders"><i class="fas fa-box"></i> Orders Management</li>
           <li id="logout"><i class="fas fa-sign-out-alt"></i> Logout</li>
         </ul>
       </nav>
@@ -21,67 +23,81 @@
 
     <main class="main-content">
       <header>
-        <h2>Cars Management</h2>
+        <h2 id="current-section-title">Cars Management</h2>
         <div class="admin-info">
           <span id="admin-name"></span>
         </div>
       </header>
 
+      <!-- Cars Management Section -->
       <section id="cars" class="tab-content active">
         <div class="section-header">
-         <button class="add-btn" id="add-car-btn">Add New Car</button>
-        <button class="remove-car-btn" id="remove-car-btn">Remove Car</button>
-          <button class="update-btn" id="update-car-btn">Update Car</a>
+          <button class="add-btn" id="add-car-btn">Add New Car</button>
+          <button class="remove-car-btn" id="remove-car-btn">Remove Car</button>
+          <button class="update-btn" id="update-car-btn">Update Car</button>
         </div>
+
+        <!-- 🔍 Car Search Bar -->
+        <div class="search-bar" style="margin: 20px 0;">
+          <input type="text" id="search-car-id" placeholder="Search by Car ID" />
+          <button id="search-btn">Search</button>
+          <button id="clear-search-btn">Clear</button>
+        </div>
+
         <!-- Add Car Modal -->
-<div id="addPopup" class="modal">
-  <div class="modal-content">
-    <span class="close-add">&times;</span>
-    <h3>Add New Car</h3>
-    <form id="add-car-form">
-      <input type="text" id="addName" placeholder="Name" required />
-      <input type="text" id="addModel" placeholder="Model" required />
-      <input type="number" id="addPrice" placeholder="Price" required />
-      <input type="text" id="addEngine" placeholder="Engine" required />
-      <input type="text" id="addColor" placeholder="Color" required />
-      <input type="text" id="addImage" placeholder="Image URL" required />
-      <button type="submit" class="add-btn">Add Car</button>
-    </form>
-    <p id="add-message" class="message"></p>
-  </div>
-</div>
+        <div id="addPopup" class="modal">
+          <div class="modal-content">
+            <span class="close-add">&times;</span>
+            <h3>Add New Car</h3>
+            <form id="add-car-form">
+              <input type="text" id="addName" placeholder="Name" required />
+              <input type="text" id="addModel" placeholder="Model" required />
+              <input type="number" id="addPrice" placeholder="Price" required />
+              <input type="text" id="addEngine" placeholder="Engine" required />
+              <input type="text" id="addColor" placeholder="Color" required />
+              <input type="text" id="addImage" placeholder="Image URL" required />
+              <button type="submit" class="add-btn">Add Car</button>
+            </form>
+            <p id="add-message" class="message"></p>
+          </div>
+        </div>
 
         <!-- Update Car Modal -->
-<div id="updatePopup" class="modal">
-  <div class="modal-content">
-    <span class="close-update">&times;</span>
-    <h3>Update Car</h3>
-    <form id="update-car-form">
-      <input type="text" id="updateCarId" placeholder="Car ID" required />
-      <input type="text" id="updateName" placeholder="New Name" />
-      <input type="text" id="updateModel" placeholder="New Model" />
-      <input type="number" id="updatePrice" placeholder="New Price" />
-      <input type="text" id="updateEngine" placeholder="New Engine" />
-      <input type="text" id="updateColor" placeholder="New Color" />
-      <input type="text" id="updateImage" placeholder="New Image URL" />
-      <button type="submit" class="update-btn">Update</button>
-    </form>
-    <p id="update-message" class="message"></p>
-  </div>
-</div>
+        <div id="updatePopup" class="modal">
+          <div class="modal-content">
+            <span class="close-update">&times;</span>
+            <h3>Update Car</h3>
+            <form id="update-car-form">
+              <input type="text" id="updateCarId" placeholder="Car ID" required />
+              <input type="text" id="updateName" placeholder="New Name" />
+              <input type="text" id="updateModel" placeholder="New Model" />
+              <input type="number" id="updatePrice" placeholder="New Price" />
+              <input type="text" id="updateEngine" placeholder="New Engine" />
+              <input type="text" id="updateColor" placeholder="New Color" />
+              <input type="text" id="updateImage" placeholder="New Image URL" />
+              <button type="submit" class="update-btn">Update</button>
+            </form>
+            <p id="update-message" class="message"></p>
+          </div>
+        </div>
 
+        <!-- Remove Car Modal -->
         <div id="removePopup" class="modal">
-  <div class="modal-content">
-    <span class="close">&times;</span>
-    <h3>Remove Car</h3>
-    <form id="remove-car-form">
-      <label for="carId">Enter Car ID:</label>
-      <input type="text" id="carId" name="id" required />
-      <button type="submit">Remove</button>
-    </form>
-    <p id="remove-message" class="message"></p>
-  </div>
-</div>
+          <div class="modal-content">
+<<<<<<< HEAD
+            <span class="close-remove">&times;</span>
+=======
+            <span class="close">&times;</span>
+>>>>>>> bbe9b010b24927714abb37678aa629b7beceb316
+            <h3>Remove Car</h3>
+            <form id="remove-car-form">
+              <label for="carId">Enter Car ID:</label>
+              <input type="text" id="carId" name="id" required />
+              <button type="submit">Remove</button>
+            </form>
+            <p id="remove-message" class="message"></p>
+          </div>
+        </div>
 
         <!-- Cars Inventory Grid -->
         <div class="cars-grid" id="cars-grid">
@@ -89,19 +105,103 @@
         </div>
       </section>
 
+      <!-- Users Management Section -->
       <section id="users" class="tab-content">
-        <h2>Users Management</h2>
-        <div class="users-list" id="users-list"></div>
+        <div class="section-header">
+          <button class="add-btn" id="add-user-btn">Add New User</button>
+          <button class="remove-user-btn" id="remove-user-btn">Remove User</button>
+          <!-- REMOVED: <button class="update-btn" id="update-user-btn">Update User</button> -->
+        </div>
+
+        <!-- Add User Modal -->
+        <div id="addUserPopup" class="modal">
+          <div class="modal-content">
+            <span class="close-add-user">&times;</span>
+            <h3>Add New User</h3>
+            <form id="add-user-form">
+              <input type="text" id="addUserName" placeholder="Full Name" required />
+              <input type="email" id="addUserEmail" placeholder="Email" required />
+              <input type="tel" id="addUserPhone" placeholder="Phone Number" required />
+              <input type="password" id="addUserPassword" placeholder="Password (min 6 chars)" required minlength="6" />
+              <select id="addUserRole" required>
+                <option value="user">User</option>
+                <option value="admin">Admin</option>
+              </select>
+              <button type="submit" class="add-btn">Add User</button>
+            </form>
+            <p id="add-user-message" class="message"></p>
+          </div>
+        </div>
+
+        <!-- REMOVED: Update User Modal -->
+        <!--
+        <div id="updateUserPopup" class="modal">
+          <div class="modal-content">
+            <span class="close-update-user">&times;</span>
+            <h3>Update User</h3>
+            <form id="update-user-form">
+              <input type="text" id="updateUserId" placeholder="User ID" required />
+              <input type="text" id="updateUserName" placeholder="New Full Name" />
+              <input type="email" id="updateUserEmail" placeholder="New Email" />
+              <input type="tel" id="updateUserPhone" placeholder="New Phone Number" />
+              <input type="password" id="updateUserPassword" placeholder="New Password (optional)" minlength="6" />
+              <select id="updateUserRole">
+                <option value="">Select New Role (optional)</option>
+                <option value="user">User</option>
+                <option value="admin">Admin</option>
+              </select>
+              <button type="submit" class="update-btn">Update User</button>
+            </form>
+            <p id="update-user-message" class="message"></p>
+          </div>
+        </div>
+        -->
+
+        <!-- Remove User Modal -->
+        <div id="removeUserPopup" class="modal">
+          <div class="modal-content">
+            <span class="close-remove-user">&times;</span>
+            <h3>Remove User</h3>
+            <form id="remove-user-form">
+              <label for="removeUserId">Enter User ID:</label>
+              <input type="text" id="removeUserId" name="id" placeholder="User ID" required />
+              <button type="submit">Remove</button>
+            </form>
+            <p id="remove-user-message" class="message"></p>
+          </div>
+        </div>
+
+        <!-- Users List Grid/Table -->
+        <div class="users-list-container">
+          <table class="users-table">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>Role</th>
+                <th>Created At</th>
+              </tr>
+            </thead>
+            <tbody id="users-table-body">
+              <!-- User rows will be rendered here dynamically by JS -->
+            </tbody>
+          </table>
+          <p id="users-list-message" class="message"></p>
+        </div>
       </section>
 
+      <!-- Orders Management Section -->
       <section id="orders" class="tab-content">
         <h2>Orders Management</h2>
-        <div class="orders-list" id="orders-list"></div>
+        <div class="orders-list" id="orders-list">
+            <p>Order management functionality will go here.</p>
+        </div>
       </section>
     </main>
   </div>
 
-  <!-- External JavaScript -->
   <script src="/js/admin.js"></script>
 </body>
 </html>

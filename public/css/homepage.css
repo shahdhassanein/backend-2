@@ -1,21 +1,25 @@
+/* Universal box-sizing */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
 }
 
+/* ORIGINAL BODY STYLES (AS PER YOUR REQUEST - LOCAL PATH WILL STILL NOT LOAD IN BROWSER) */
 body {
     font-family: Arial, sans-serif;
     line-height: 1.6;
     color: #333;
-    background: url('C:/Users/express/OneDrive/Documents/car-showroom-projj1/assests/image/backg.jpg') no-repeat center center fixed;
+    background: url('C:/Users/express/OneDrive/Documents/car-showroom-projj1/assests/image/backg.jpg') no-repeat center center fixed; /* ORIGINAL PATH */
     background-size: cover;
     position: relative;
+    /* Keeping original body styles; no blur filter applied here for consistency with your request */
 }
 
+/* ORIGINAL BODY::BEFORE STYLES */
 body::before {
     content: "";
-    position: absolute;
+    position: absolute; /* ORIGINAL: absolute */
     top: 0;
     left: 0;
     width: 100%;
@@ -24,6 +28,7 @@ body::before {
     z-index: -1;
 }
 
+/* Navbar Styling */
 .navbar {
     display: flex;
     align-items: center;
@@ -52,7 +57,6 @@ body::before {
 
 .navbar a.active {
     background: darkred;
- 
     border-radius: 5px;
 }
 
@@ -96,6 +100,7 @@ body::before {
     background-color: red;
 }
 
+/* Hero Section Styling */
 .hero {
     position: relative;
     height: 100vh;
@@ -105,6 +110,8 @@ body::before {
     text-align: center;
     color: white;
     overflow: hidden;
+    /* z-index adjusted to work with body::before and cookie banner */
+    z-index: 1; 
 }
 
 #hero-video {
@@ -146,44 +153,35 @@ body::before {
     background-color: #d32f2f;
 }
 
+/* Original .featured section styling, overridden by .main-content-area below for layout */
 .featured {
+    /* Keeping this block as is from your original, but its display/justify-content
+       will be overridden by .main-content-area for layout */
     display: flex;
     justify-content: space-around;
     padding: 50px 20px;
-    background: rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.2); /* This background will be overridden by .main-content-area */
 }
 
+/* Original .featured-item, overridden by .content-section-card below */
 .featured-item {
     text-align: center;
     width: 30%;
     position: relative;
     padding-top: 20px;
-}
-
-.featured-item img {
-    width: 100%;
-    height: auto;
-    border-radius: 10px;
-    transition: transform 0.3s ease, margin-top 0.3s ease;
-}
-
-.featured-item {
     background-color: #f9f9f9; 
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     padding: 20px; 
-    text-align: center;
     overflow: hidden;
-    position: relative;
     transition: all 0.3s ease; 
     box-sizing: border-box; 
-  
 }
-
 
 .featured-item img {
     max-width: 100%; 
     height: auto; 
+    border-radius: 10px; 
     display: block; 
     margin: 0 auto;
     transition: transform 0.3s ease; 
@@ -191,12 +189,9 @@ body::before {
     position: relative; 
 }
 
-
 .featured-item img:hover {
     transform: scale(1.1); 
-   
 }
-
 
 .featured-item h2 {
     margin-top: 15px; 
@@ -212,15 +207,12 @@ body::before {
 }
 
 .featured-item:hover {
-
     padding-top: 25px;
     padding-bottom: 25px;
-    
     transform: translateY(-5px);
     box-shadow: 0 10px 20px rgba(0,0,0,0.2);
 }
 
- 
 .featured-item:hover h2 {
     margin-top: 25px; 
 }
@@ -229,8 +221,7 @@ body::before {
     margin-top: 10px; 
 }
 
-
-.featured-item h3 {
+.featured-item h3 { /* This h3 rule seems unused in your HTML, keeping for completeness */
     color: white;
     font-weight: bold;
     text-shadow: 4px 4px 10px red, 0px 0px 15px red;
@@ -240,20 +231,26 @@ body::before {
     border-radius: 5px;
 }
 
+/* Original .featured-item p styling for white text and text-shadow */
+/* This will be specific for .featured-item when it's not a .content-section-card */
 .featured-item p {
-    color: white;
+    color: white; /* ORIGINAL: For these specific text-shadow rules */
     font-size: 1.2em;
     text-shadow: 3px 3px 8px red, 0px 0px 12px red;
     font-weight: bold;
     margin-top: 5px;
 }
 
+
+/* Footer Styling */
 footer {
     background: #333;
     color: white;
     padding: 20px;
     text-align: center;
     font-size: 1em;
+    position: relative; /* Ensure footer is above other elements/blurs if needed */
+    z-index: 20; /* Higher than normal content */
 }
 
 .footer-content p {
@@ -269,25 +266,140 @@ footer {
     text-decoration: underline;
 }
 
-.cookie-banner {
-    position: fixed;
-    bottom: 0;
-    width: 100%;
-    background: #333;
-    color: white;
+/* >>> IMPORTANT: OLD .cookie-banner RULES REMOVED HERE TO AVOID CONFLICTS <<< */
+/* The rules below for .cookie-consent-banner will replace this functionality. */
+
+
+/* --- START OF NEW/MODIFIED STYLES (Keep from here onwards) --- */
+
+/* Styling for the overall container of the featured sections (like 'featured' with 'main-content-area') */
+.main-content-area {
+    display: flex; /* Use flexbox for layout */
+    flex-wrap: wrap; /* Allow cards to wrap to next line on smaller screens */
+    justify-content: center; /* Center cards horizontally */
+    align-items: flex-start; /* Align cards to the top */
+    gap: 20px; /* Space between flex items */
+    max-width: 1200px; /* Max width for the content area */
+    margin: 40px auto; /* Center the entire block with vertical spacing */
+    width: 95%; /* Responsive width */
+    position: relative; /* Ensure these sections are above background pseudo-elements */
+    z-index: 10; /* Bring content above the background overlays */
+}
+
+/* Styling for individual content cards (like 'featured-item' with 'content-section-card') */
+.content-section-card {
+    background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent dark background for cards */
+    backdrop-filter: blur(10px); /* <<< THE FROSTED GLASS EFFECT: Blurs content *behind* this element */
+    -webkit-backdrop-filter: blur(10px); /* Safari support */
+    padding: 25px;
+    border-radius: 12px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4); /* Stronger shadow for depth */
+    color: #e0e0e0; /* Light text color for readability */
     text-align: center;
-    padding: 10px;
-    z-index: 1000;
+    flex: 1; /* Allows cards to grow within flex container */
+    min-width: 280px; /* Minimum width before wrapping */
+    max-width: 350px; /* Max width to control size */
+    border: 1px solid rgba(255, 255, 255, 0.1); /* Subtle border for frosted look */
+    transition: all 0.3s ease; /* Keep transition for hover effects */
 }
 
-.cookie-banner a {
-    color: #f4a261;
+/* Adjust headings within these cards if needed */
+.content-section-card h2 {
+    color: crimson; /* Retain crimson color */
+    margin-top: 0; 
+    margin-bottom: 15px;
+    font-size: 1.8em;
 }
 
-.cookie-banner button {
-    background: #f4a261;
-    border: none;
+.content-section-card p {
+    font-size: 1.1em;
+    line-height: 1.6;
+    /* If you want text-shadow on these, ensure your original rule applies or add here */
+    /* text-shadow: 3px 3px 8px red, 0px 0px 12px red; */
+}
+
+/* New Cookie Consent Banner Styling */
+.cookie-consent-banner {
+    position: fixed; /* <<< CRITICAL: This makes it stay on scroll */
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.9); /* Darker, more opaque background */
+    color: #fff;
+    padding: 15px 25px;
+    display: flex; /* Use flexbox for layout */
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.5); /* Stronger shadow at the top */
+    z-index: 1000; /* Ensure it's on top of almost everything else */
+    flex-wrap: wrap; /* Allow wrapping on smaller screens */
+    gap: 15px; /* Space between text and button container */
+    backdrop-filter: blur(5px); /* Add a subtle blur to the banner itself */
+    -webkit-backdrop-filter: blur(5px); /* Safari support */
+}
+
+.cookie-consent-banner p {
+    margin: 0;
+    flex-grow: 1; /* Allows text to take available horizontal space */
+    font-size: 0.95em;
+    line-height: 1.4;
+}
+
+.cookie-consent-banner p a {
+    color: #87CEEB; /* Lighter blue for the link */
+    text-decoration: underline;
+}
+
+.cookie-consent-banner .cookie-buttons {
+    display: flex;
+    gap: 10px; /* Space between the 'Accept' and 'Deny' buttons */
+}
+
+.cookie-consent-banner button {
+    background-color: #b909094e; /* Your preferred button color from last provided CSS */
     color: white;
-    padding: 5px 10px;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
     cursor: pointer;
+    font-size: 1em;
+    transition: background-color 0.3s ease, transform 0.2s ease; /* Smooth transitions */
 }
+
+.cookie-consent-banner button:hover {
+    background-color: #b909094e; /* Keeping hover color consistent with your preferred base */
+    transform: translateY(-2px); 
+}
+
+.cookie-consent-banner .deny-button {
+    background-color: #f44336; /* Your preferred Deny button color */
+}
+
+.cookie-consent-banner .deny-button:hover {
+    background-color: #da190b; /* Darker red on hover */
+}
+
+/* Responsive adjustments for homepage elements */
+@media (max-width: 768px) {
+    .main-content-area {
+        flex-direction: column; 
+        align-items: center; 
+    }
+    .content-section-card {
+        width: 90%; 
+        max-width: 400px; 
+    }
+
+    .cookie-consent-banner {
+        flex-direction: column;
+        text-align: center;
+    }
+    .cookie-consent-banner .cookie-buttons {
+        flex-direction: column;
+        width: 100%;
+    }
+    .cookie-consent-banner button {
+        width: 100%; 
+    }
+}
+/* --- END OF NEW/MODIFIED STYLES --- */

@@ -1,17 +1,13 @@
 document.addEventListener('DOMContentLoaded', function () {
-    // ====== GLOBAL VARIABLES ======
     let cart = JSON.parse(localStorage.getItem('cart')) || [];
 
-    // ====== DOM ELEMENTS ======
     const cartContainer = document.getElementById('cart-items-container');
     const subtotalElement = document.querySelector('.subtotal-amount');
     const totalElement = document.querySelector('.total-amount');
 
-    // ====== INITIAL SETUP ======
     renderCart();
     updateCartCount();
 
-    // ====== EVENT HANDLERS ======
     if (cartContainer) {
         cartContainer.addEventListener('click', function (e) {
             const clicked = e.target;
@@ -31,7 +27,6 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    // ====== CART FUNCTIONS ======
     function removeItem(id) {
         cart = cart.filter(item => item.id !== id);
         saveCart();
@@ -111,7 +106,7 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 
-    // Make addToCart available globally
+    // ============ ADD TO CART ============= //
     window.addToCart = function (product) {
         if (!product.id) {
             console.error('Product must have an ID to be added to cart.');
@@ -138,10 +133,34 @@ document.addEventListener('DOMContentLoaded', function () {
 
         saveCart();
         renderCart();
+
+        // Send to MongoDB
+     // يمكنك استبداله بمتغير ديناميكي لو عندك userId محفوظ
+        fetch('/cart', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+             
+                name: product.name,
+                model: product.model,
+                price: product.price,
+                engine: product.engine,
+                color: product.color,
+                image: product.image || '/images/default-car.jpg'
+            })
+        })
+        .then(res => res.json())
+        .then(data => {
+            console.log('✅ Saved to backend:', data);
+        })
+        .catch(err => {
+            console.error('❌ Failed to save to backend:', err);
+        });
     };
 });
 
-// ====== NOTIFICATION FUNCTION ======
 function showNotification(message) {
     const notification = document.createElement('div');
     notification.className = 'notification';

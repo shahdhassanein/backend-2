@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const { addCar,deleteCar, updateCar } = require('../controllers/carController');
-const {   getAllCars } = require('../controllers/adminController');
+const {   getAllCars, getCarById } = require('../controllers/adminController');
 // List cars (JSON)
 router.get('/all', getAllCars);
 
@@ -15,4 +15,6 @@ router.post('/deletecar', deleteCar);
 // Update a car
 router.post('/updatecar', updateCar);
 
+// search 
+router.get('/search/:id', getCarById);
 module.exports = router;
