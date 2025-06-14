@@ -19,7 +19,7 @@ document.getElementById('logout').addEventListener('click', async () => {
 
 async function fetchCars() {
   try {
-    const res = await fetch('/admin/all');
+    const res = await fetch('/addcars/all');
     const cars = await res.json();
     const grid = document.getElementById('cars-grid');
     grid.innerHTML = '';
@@ -70,7 +70,7 @@ document.addEventListener('DOMContentLoaded', () => {
       image: addForm.addImage.value
     };
     try {
-      const res = await fetch('/admin/addcars', {
+      const res = await fetch('/addcars/addcars', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'include',
@@ -106,7 +106,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const carId = document.getElementById('carId').value;
     const msg = document.getElementById('remove-message');
     try {
-      const res = await fetch('/admin/deletecar', {
+      const res = await fetch('/addcars/deletecar', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'include',
@@ -145,7 +145,7 @@ document.addEventListener('DOMContentLoaded', () => {
     };
     const msg = document.getElementById('update-message');
     try {
-      const res = await fetch('/admin/updatecar', {
+      const res = await fetch('/addcars/updatecar', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         credentials: 'include',
@@ -171,7 +171,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const grid = document.getElementById('cars-grid');
     if (!id) return;
     try {
-      const res = await fetch(`/admin/search/${id}`);
+      const res = await fetch(`/addcars/search/${id}`);
       if (!res.ok) throw new Error('Car not found');
       const car = await res.json();
       grid.innerHTML = `

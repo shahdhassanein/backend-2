@@ -9,7 +9,7 @@
 </head>
 <body>
     <div class="container">
-        <!-- Header Section -->
+      
         <div class="header">
             <div class="header-content">
                 <div class="header-left">
@@ -27,7 +27,6 @@
             </div>
         </div>
 
-        <!-- Stats Section -->
         <div class="stats-grid">
             <div class="stat-card">
                 <div class="stat-header">
@@ -75,7 +74,7 @@
             </div>
         </div>
 
-        <!-- Controls Section -->
+       
         <div class="controls-section">
             <div class="search-filters">
                 <div class="search-box">
@@ -108,8 +107,6 @@
                 <button class="view-btn" data-view="table"><i class="fas fa-list"></i></button>
             </div>
         </div>
-
-        <!-- Inventory Grid View -->
         <div class="inventory-grid" id="inventoryGrid">
             <% cars.forEach(car => { %>
                 <div class="car-card">
@@ -124,10 +121,6 @@
                 </div>
             <% }) %>
         </div>
-
-        
-
-        <!-- Inventory Table View -->
         <div class="inventory-table" id="inventoryTable" style="display: none;">
             <table>
                 <thead>
@@ -163,8 +156,6 @@
                 </tbody>
             </table>
         </div>
-
-        <!-- Pagination -->
         <div class="pagination" id="pagination">
             <button class="page-btn" id="prevBtn"><i class="fas fa-chevron-left"></i></button>
             <div class="page-numbers" id="pageNumbers"></div>
@@ -172,7 +163,6 @@
         </div>
     </div>
 
-    <!-- Include modals here if needed (Add/Edit, Delete) -->
     <% include ./partials/modals %>
 
     <script src="/scripts/inventory.js"></script>

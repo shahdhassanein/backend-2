@@ -1,39 +1,45 @@
-console.log("Carlisting.js: Script loaded.");
+// public/js/carllisting.js
 
-document.addEventListener('DOMContentLoaded', async () => {
-    console.log("Carlisting.js: DOMContentLoaded event fired.");
-
+document.addEventListener("DOMContentLoaded", () => {
     const carsContainer = document.getElementById("cars-container");
 
     const loadingMessage = document.createElement("div");
     loadingMessage.textContent = "Loading cars...";
+    loadingMessage.style.textAlign = "center";
+    loadingMessage.style.padding = "20px";
     carsContainer.before(loadingMessage);
 
     const errorMessage = document.createElement("div");
     errorMessage.style.display = "none";
     errorMessage.style.color = "red";
+    errorMessage.style.textAlign = "center";
+    errorMessage.style.padding = "20px";
     carsContainer.before(errorMessage);
+
+    const successMessage = document.createElement("div"); // For car listing specific success messages
+    successMessage.style.display = "none";
+    successMessage.style.color = "green";
+    successMessage.style.textAlign = "center";
+    successMessage.style.padding = "20px";
+    carsContainer.before(successMessage);
 
     const noCarsMessage = document.createElement("div");
     noCarsMessage.style.display = "none";
+    noCarsMessage.style.textAlign = "center";
+    noCarsMessage.style.padding = "20px";
     carsContainer.before(noCarsMessage);
 
-    const successMessage = document.createElement("div"); // For success message in carlisting.js itself
-    successMessage.style.display = "none";
-    successMessage.style.color = "green";
-    carsContainer.before(successMessage);
-
+    // Ensure these filter elements exist in your HTML (carllisting.ejs)
     const categoryFilter = document.getElementById("category-filter");
     const priceFilter = document.getElementById("price-filter");
     const brandFilter = document.getElementById("brand-filter");
     const resetButton = document.getElementById("reset-filters");
 
-    let allCars = [];
+    let allCars = []; // Stores all fetched cars
 
     async function fetchCars() {
-        console.log("Carlisting.js: fetchCars function called.");
         try {
-            const res = await fetch("api/cars/all");
+            const res = await fetch("/addcars/all"); // Your existing route to fetch all cars
             if (!res.ok) throw new Error(`Status: ${res.status}`);
 
             const data = await res.json();
@@ -45,9 +51,9 @@ document.addEventListener('DOMContentLoaded', async () => {
                 return;
             }
 
-            allCars = data;
+            allCars = data; // Store all cars for filtering
             populateFilters(allCars);
-            renderCars(allCars);
+            renderCars(allCars); // Render all cars initially
         } catch (err) {
             loadingMessage.style.display = "none";
             errorMessage.textContent = "❌ Failed to load cars.";
@@ -56,8 +62,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 
     function renderCars(carList) {
-        console.log("Carlisting.js: renderCars function called with", carList.length, "cars.");
-        carsContainer.innerHTML = "";
+        carsContainer.innerHTML = ""; // Clear existing content
 
         if (!carList || carList.length === 0) {
             noCarsMessage.textContent = "No matching cars found.";
@@ -65,7 +70,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             return;
         }
 
-        noCarsMessage.style.display = "none";
+        noCarsMessage.style.display = "none"; // Hide if cars are found
 
         carList.forEach((car) => {
             const card = document.createElement("div");
@@ -83,51 +88,48 @@ document.addEventListener('DOMContentLoaded', async () => {
             `;
 
             const button = card.querySelector(".add-to-cart-btn");
-            if (button) {
-                console.log(`Carlisting.js: Found add-to-cart-btn for car ${car._id}`);
-                button.addEventListener("click", async () => {
-                    console.log(`Carlisting.js: Add to cart button clicked for car ${car._id}`);
-
-                    // Use the globally exposed window.addToCart function from cart.js
-                    // This function already handles the backend call, notifications,
-                    // and updating the cart count display.
-                    const selectedCar = carList.find(c => c._id === car._id);
-                    if (selectedCar) {
-                        // The window.addToCart function already has its own success/error notifications.
-                        // You can remove the successMessage/errorMessage display logic here if you prefer
-                        // cart.js to handle all notifications related to cart actions.
-                        await window.addToCart({
-                            id: selectedCar._id,
-                            name: selectedCar.name,
-                            model: selectedCar.model,
-                            price: selectedCar.price,
-                            engine: selectedCar.engine,
-                            color: selectedCar.color,
-                            image: selectedCar.image
-                        });
-                        // If you want the local successMessage to still show:
-                        // successMessage.textContent = "✅ Car added to cart!";
-                        // successMessage.style.display = "block";
-                        // setTimeout(() => (successMessage.style.display = "none"), 3000);
-
-                    } else {
-                        console.error("Carlisting.js: Car not found in current list for adding to cart.");
-                        // Use the global showNotification if you removed the successMessage/errorMessage
-                        // showNotification('Error: Could not find car details.');
-                        errorMessage.textContent = 'Error: Could not find car details.';
-                        errorMessage.style.display = 'block';
-                        setTimeout(() => (errorMessage.style.display = 'none'), 3000);
-                    }
-                });
-            } else {
-                console.warn(`Carlisting.js: No add-to-cart-btn found for car ${car._id}`);
-            }
+            button.addEventListener("click", async () => {
+                // Check if window.addToCart is available (meaning cart.js has loaded)
+                if (typeof window.addToCart === 'function') {
+                    // Call the global addToCart function from public/js/cart.js
+                    // Pass the complete product object including its MongoDB _id
+                    await window.addToCart({
+                        id: car._id, // This is the carId your backend expects
+                        name: car.name,
+                        model: car.model,
+                        price: car.price,
+                        engine: car.engine,
+                        color: car.color,
+                        image: car.image || "/images/default-car.jpg",
+                        quantity: 1 // Always add 1 for new items via this button
+                    });
+                    // The success/error messages for adding to cart are now handled by cart.js's showNotification
+                } else {
+                    console.error("window.addToCart is not defined. Ensure cart.js is loaded BEFORE carllisting.js in your HTML.");
+                    errorMessage.textContent = "Cart functionality not available. Please refresh.";
+                    errorMessage.style.display = "block";
+                    setTimeout(() => (errorMessage.style.display = "none"), 3000);
+                }
+            });
 
             carsContainer.appendChild(card);
         });
     }
 
     function populateFilters(cars) {
+        // Clear previous options
+        brandFilter.innerHTML = '<option value="">All Brands</option>';
+        categoryFilter.innerHTML = '<option value="">All Categories</option>';
+        priceFilter.innerHTML = `
+            <option value="">All Prices</option>
+            <option value="0-25000">$0 - $25,000</option>
+            <option value="25001-50000">$25,001 - $50,000</option>
+            <option value="50001-75000">$50,001 - $75,000</option>
+            <option value="75001-100000">$75,001 - $100,000</option>
+            <option value="100000+">$100,000+</option>
+        `;
+
+
         const brands = [...new Set(cars.map((c) => c.name))];
         const categories = [...new Set(cars.map((c) => c.model))];
 
@@ -172,16 +174,17 @@ document.addEventListener('DOMContentLoaded', async () => {
         renderCars(filtered);
     }
 
-    brandFilter.addEventListener("change", applyFilters);
-    categoryFilter.addEventListener("change", applyFilters);
-    priceFilter.addEventListener("change", applyFilters);
-    resetButton.addEventListener("click", () => {
+    // Event listeners for filters
+    if (brandFilter) brandFilter.addEventListener("change", applyFilters);
+    if (categoryFilter) categoryFilter.addEventListener("change", applyFilters);
+    if (priceFilter) priceFilter.addEventListener("change", applyFilters);
+    if (resetButton) resetButton.addEventListener("click", () => {
         brandFilter.value = "";
         categoryFilter.value = "";
         priceFilter.value = "";
-        renderCars(allCars);
+        renderCars(allCars); // Re-render all cars after reset
     });
 
-    // This call starts the whole process of fetching and rendering cars
+    // Initial fetch of cars when the page loads
     fetchCars();
 });

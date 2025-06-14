@@ -12,9 +12,7 @@
         <div class="form-card">
             <h2><i class="fas fa-edit"></i> Update Car Details</h2>
 
-            <!-- Form will be submitted via JavaScript (AJAX) -->
             <form id="updateCarForm" method="POST">
-                <!-- Use _id if MongoDB is being used -->
                 <input type="hidden" id="carId" name="carId" value="<%= car._id %>">
 
                 <div class="form-group">
@@ -50,8 +48,6 @@
                 <button type="submit" class="btn-submit">Update Car</button>
                 <a href="/api/cars" class="btn-cancel">Cancel</a>
             </form>
-
-            <!-- Message container for success or error messages -->
             <div id="message" class="message"></div>
         </div>
     </div>

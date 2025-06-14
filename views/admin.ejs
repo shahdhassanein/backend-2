@@ -15,7 +15,7 @@
         <ul>
           <li class="active" data-tab="cars"><i class="fas fa-car"></i> Cars Management</li>
           <li data-tab="users"><i class="fas fa-users"></i> Users Management</li>
-          <!-- <li data-tab="orders"><i class="fas fa-box"></i> Orders Management</li> -->
+          
           <li id="logout"><i class="fas fa-sign-out-alt"></i> Logout</li>
         </ul>
       </nav>
@@ -29,7 +29,6 @@
         </div>
       </header>
 
-      <!-- Cars Management Section -->
       <section id="cars" class="tab-content active">
         <div class="section-header">
           <button class="add-btn" id="add-car-btn">Add New Car</button>
@@ -37,19 +36,18 @@
           <button class="update-btn" id="update-car-btn">Update Car</button>
         </div>
 
-        <!-- 🔍 Car Search Bar -->
+      
         <div class="search-bar" style="margin: 20px 0;">
           <input type="text" id="search-car-id" placeholder="Search by Car ID" />
           <button id="search-btn">Search</button>
           <button id="clear-search-btn">Clear</button>
         </div>
 
-        <!-- Add Car Modal -->
         <div id="addPopup" class="modal">
           <div class="modal-content">
             <span class="close-add">&times;</span>
             <h3>Add New Car</h3>
-            <form id="add-car-form">
+            <form id="add-car-form" method="POST">
               <input type="text" id="addName" placeholder="Name" required />
               <input type="text" id="addModel" placeholder="Model" required />
               <input type="number" id="addPrice" placeholder="Price" required />
@@ -61,13 +59,11 @@
             <p id="add-message" class="message"></p>
           </div>
         </div>
-
-        <!-- Update Car Modal -->
         <div id="updatePopup" class="modal">
           <div class="modal-content">
             <span class="close-update">&times;</span>
             <h3>Update Car</h3>
-            <form id="update-car-form">
+            <form id="update-car-form" method="post">
               <input type="text" id="updateCarId" placeholder="Car ID" required />
               <input type="text" id="updateName" placeholder="New Name" />
               <input type="text" id="updateModel" placeholder="New Model" />
@@ -81,7 +77,7 @@
           </div>
         </div>
 
-        <!-- Remove Car Modal -->
+       
         <div id="removePopup" class="modal">
           <div class="modal-content">
 
@@ -98,9 +94,9 @@
           </div>
         </div>
 
-        <!-- Cars Inventory Grid -->
+       
         <div class="cars-grid" id="cars-grid">
-          <!-- Car cards will be rendered here dynamically by JS -->
+         
         </div>
       </section>
 
@@ -111,7 +107,6 @@
           <button class="remove-user-btn" id="remove-user-btn">Remove User</button>
         </div>
 
-        <!-- Add User Modal -->
         <div id="addUserPopup" class="modal">
           <div class="modal-content">
             <span class="close-add-user">&times;</span>
@@ -131,30 +126,6 @@
           </div>
         </div>
 
-        <!-- REMOVED: Update User Modal -->
-        <!--
-        <div id="updateUserPopup" class="modal">
-          <div class="modal-content">
-            <span class="close-update-user">&times;</span>
-            <h3>Update User</h3>
-            <form id="update-user-form">
-              <input type="text" id="updateUserId" placeholder="User ID" required />
-              <input type="text" id="updateUserName" placeholder="New Full Name" />
-              <input type="email" id="updateUserEmail" placeholder="New Email" />
-              <input type="tel" id="updateUserPhone" placeholder="New Phone Number" />
-              <input type="password" id="updateUserPassword" placeholder="New Password (optional)" minlength="6" />
-              <select id="updateUserRole">
-                <option value="">Select New Role (optional)</option>
-                <option value="user">User</option>
-                <option value="admin">Admin</option>
-              </select>
-              <button type="submit" class="update-btn">Update User</button>
-            </form>
-            <p id="update-user-message" class="message"></p>
-          </div>
-        </div>
-        -->
-        <!-- Remove User Modal -->
         <div id="removeUserPopup" class="modal">
           <div class="modal-content">
             <span class="close-remove-user">&times;</span>
@@ -167,10 +138,6 @@
             <p id="remove-user-message" class="message"></p>
           </div>
         </div>
-
-
-        <!-- Users List Grid/Table -->
-        <!-- Users Table -->
         <div class="users-list-container">
           <table class="users-table">
             <thead>
@@ -192,17 +159,6 @@
       </section>
 
 
-      <!-- Orders Management Section 
-     
-      <section id="orders" class="tab-content">
-        <h2>Orders Management</h2>
-        <div class="orders-list" id="orders-list">
-            <p>Order management functionality will go here.</p>
-        </div>
-      </section>
-
-    </main>
-  </div> -->
 
   <script src="/js/admin.js"></script>
 </body>

@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title><%= title %></title>
-    <link rel="stylesheet" href="/css/admin.css" /> <!-- Use admin.css for styling -->
+    <link rel="stylesheet" href="/css/admin.css" /> 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
@@ -16,7 +16,7 @@
             <ul>
                 <li><a href="/">Home</a></li>
                 <% if (user && user.role === 'admin') { %>
-                    <li><a href="/admin" class="active">Admin Dashboard</a></li> <!-- Link back to full admin dashboard -->
+                    <li><a href="/admin" class="active">Admin Dashboard</a></li> 
                 <% } %>
                 <li><a href="/usersmangment">Users Management</a></li>
                 <% if (user) { %>
@@ -29,26 +29,21 @@
     </nav>
 
     <div class="admin-container">
-        <!-- Optional: A simplified sidebar if you want one, or just remove it -->
-        <!-- For simplicity, I'm removing the sidebar to make it a direct content page -->
 
-        <main class="main-content" style="margin-left: 0; padding-top: 20px;"> <!-- Adjust styling if no sidebar -->
+        <main class="main-content" style="margin-left: 0; padding-top: 20px;"> 
             <header>
                 <h2>Users Management</h2>
                 <div class="admin-info">
-                    <span id="admin-name"></span> <!-- Can still display admin name here -->
+                    <span id="admin-name"></span> 
                 </div>
             </header>
 
-            <!-- Users Management Section - Copied from admin.ejs tab -->
-            <section id="users" class="tab-content active"> <!-- Always active as it's the only section -->
+            <section id="users" class="tab-content active"> 
                 <div class="section-header">
                     <button class="add-btn" id="add-user-btn">Add New User</button>
                     <button class="remove-user-btn" id="remove-user-btn">Remove User</button>
-                    <!-- Update User button is intentionally excluded as per previous request -->
                 </div>
 
-                <!-- Add User Modal -->
                 <div id="addUserPopup" class="modal">
                     <div class="modal-content">
                         <span class="close-add-user">&times;</span>
@@ -67,8 +62,6 @@
                         <p id="add-user-message" class="message"></p>
                     </div>
                 </div>
-
-                <!-- Remove User Modal -->
                 <div id="removeUserPopup" class="modal">
                     <div class="modal-content">
                         <span class="close-remove-user">&times;</span>
@@ -81,8 +74,6 @@
                         <p id="remove-user-message" class="message"></p>
                     </div>
                 </div>
-
-                <!-- Users List Grid/Table -->
                 <div class="users-list-container">
                     <table class="users-table">
                         <thead>
@@ -96,7 +87,7 @@
                             </tr>
                         </thead>
                         <tbody id="users-table-body">
-                            <!-- User rows will be rendered here dynamically by JS -->
+                    
                         </tbody>
                     </table>
                     <p id="users-list-message" class="message"></p>
@@ -104,13 +95,11 @@
             </section>
         </main>
     </div>
-
-    <!-- External JavaScript for admin functionality (needed for user management logic) -->
     <script src="/js/admin.js"></script>
     <script>
-        // Ensure fetchUsers is called when this page loads
+        
         document.addEventListener('DOMContentLoaded', () => {
-            // Check if fetchUsers function exists (from admin.js)
+          
             if (typeof fetchUsers === 'function') {
                 fetchUsers();
             } else {
